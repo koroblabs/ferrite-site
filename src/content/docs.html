@@ -90,10 +90,38 @@
                 <div class="note">
                     <strong>Device profiles &amp; default-deny</strong>
                     <p>
-                        Give a device its own subset of block/allow lists — or
-                        block <em>everything</em> except an allowlist (kid /
-                        IoT mode). Local names (PTR, <code>.lan</code>,
-                        <code>.local</code>) keep resolving.
+                        Give chosen devices their own rules — a subset of the
+                        lists, their own block and allow entries, blocked
+                        services, SafeSearch — or block <em>everything</em>
+                        except what is allowed (kid / IoT mode). Local names
+                        (PTR, <code>.lan</code>, <code>.local</code>) keep
+                        resolving.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>Blocked services</strong>
+                    <p>
+                        Block TikTok, Roblox, YouTube, Discord and 39 more by
+                        name — network-wide or per profile. Each service is a
+                        maintained set of its own domains, and a tunnel rule
+                        can route one just as easily.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>Schedules</strong>
+                    <p>
+                        A profile can apply only in weekly windows — school
+                        nights, bedtime — in the box's local time, across
+                        midnight if need be. Outside them the device follows
+                        the network-wide rules.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>SafeSearch &amp; YouTube Restricted Mode</strong>
+                    <p>
+                        Force SafeSearch on Google, Bing and DuckDuckGo, and
+                        YouTube's moderate or strict Restricted Mode — for the
+                        whole network or one profile.
                     </p>
                 </div>
                 <div class="note">
@@ -270,7 +298,9 @@
                     <strong>Live stats &amp; query log</strong>
                     <p>
                         In-memory summary safe to poll, 24h timeseries, top
-                        domains/clients, and a filterable live log.
+                        domains and devices, and a filterable live log — and a
+                        side panel for any device or domain: what it did, what
+                        was blocked and why, the services behind it.
                     </p>
                 </div>
                 <div class="note">
@@ -286,7 +316,7 @@
                 <div class="note">
                     <strong>Debug logging</strong>
                     <p>
-                        A verbose-logging toggle (on by default) for diagnosing
+                        A verbose-logging toggle (off by default) for diagnosing
                         issues — flip it from Settings, no restart.
                     </p>
                 </div>
@@ -305,7 +335,24 @@
                         Settings, lists, records, rules, egresses, and history
                         are all managed through the
                         <a href="api.html">API</a> without restarting the
-                        resolver.
+                        resolver. Prometheus metrics live at
+                        <code>/api/metrics</code>.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>Notifications</strong>
+                    <p>
+                        A tunnel down past a minute, or a device the box has
+                        never seen, reaches you on ntfy, Telegram, Discord,
+                        Slack, Gotify or a JSON webhook — with a test button.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>AI assistants (MCP)</strong>
+                    <p>
+                        Off by default: an MCP endpoint lets an assistant such
+                        as Claude ask why a site is blocked or what a device
+                        looked up — and, if you allow it, block or pause.
                     </p>
                 </div>
             </div>

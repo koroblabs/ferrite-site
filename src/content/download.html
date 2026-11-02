@@ -129,7 +129,38 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
             </div>
             <div class="notes">
                 <div class="note">
-                    <strong>v0.1.10 — current</strong>
+                    <strong>v0.2.0 — current</strong>
+                    <p>
+                        Rules for each device, not just the network. Profiles
+                        can block services from a built-in catalog of 43 —
+                        TikTok, Roblox, YouTube, Discord and more, one click
+                        each — apply on a weekly schedule such as school
+                        nights, and force SafeSearch and YouTube Restricted
+                        Mode; the same services and SafeSearch work for the
+                        whole network, and a tunnel rule can route a whole
+                        service. Profiles have a page of their own, and any
+                        device or domain opens in a side panel: its profile and
+                        whether it applies right now, a day of activity, the
+                        services behind it, what it asked for and what was
+                        blocked and why — from the query log, the dashboard,
+                        the device list or ⌘K. Notifications reach ntfy,
+                        Telegram, Discord, Slack or Gotify as readable messages
+                        when a tunnel stays down or a device the box has never
+                        seen joins. Panel sign-ins now last seven days since
+                        last use and survive restarts and updates, and Settings
+                        lists every signed-in browser with a way to sign it
+                        out. An MCP endpoint, off by default, lets an AI
+                        assistant ask why a site is blocked — or, if you allow
+                        it, block one. Upgrading: the database moves to schema
+                        v12 on first start, so an older ferrite can't open it
+                        afterwards — copy <code>ferrite.db</code> first if you
+                        may roll back; <code>[proxy] alert_webhook</code> moves
+                        to <code>[notifications]</code> by itself; and the panel
+                        asks for the password once more.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>v0.1.10</strong>
                     <p>
                         A security release for the TLS and QUIC stack under
                         every encrypted upstream. rustls 0.23.46 closes four

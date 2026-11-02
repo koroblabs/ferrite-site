@@ -4,7 +4,7 @@
             <div class="hero-copy">
                 <p class="hero-kicker">
                     <span class="pulse" aria-hidden="true"></span>
-                    DNS filtering + per-device tunneling · forged in Rust
+                    DNS filtering · per-device rules · tunnels · forged in Rust
                 </p>
                 <h1 id="hero-title" class="display">
                     Burn the ads.<br />Tunnel the<br /><span class="ember"
@@ -12,11 +12,12 @@
                     >
                 </h1>
                 <p class="hero-sub">
-                    Ferrite blocks ads and trackers like a sinkhole — then goes
-                    further: route chosen domains, or whole devices, through
-                    <strong>WireGuard, SOCKS5, or Tor</strong> with DPI evasion
-                    and encrypted upstreams. Filtering and a privacy tunnel in
-                    one no-root binary.
+                    Ferrite blocks ads, trackers and malware for every device on
+                    your network, gives the ones that need it their own rules —
+                    blocked services, schedules, SafeSearch — and routes chosen
+                    domains, services or whole devices through
+                    <strong>WireGuard, SOCKS5, or Tor</strong>. One binary, no
+                    root.
                 </p>
                 <div class="hero-actions">
                     <a class="button button-primary" href="#install">
@@ -63,7 +64,7 @@
                     </a>
                 </div>
                 <div class="hero-meta" aria-label="Ferrite highlights">
-                    <span class="meta-chip">per-device routing</span>
+                    <span class="meta-chip">per-device rules &amp; routing</span>
                     <span class="meta-chip">WireGuard · SOCKS5 · Tor</span>
                     <span class="meta-chip">DPI evasion</span>
                     <span class="meta-chip">no root · single binary</span>
@@ -172,12 +173,12 @@
         <div class="wrap">
             <div class="section-head">
                 <p class="eyebrow">Network control</p>
-                <h2 class="display">Fast under real household traffic</h2>
+                <h2 class="display">One network, each device its own rules</h2>
                 <p class="lead">
-                    Ferrite keeps the hot path small: cached decisions, compiled
-                    blocklists, direct custom records, and per-device routing
-                    through a tunnel when a request should leave your network
-                    privately.
+                    Ferrite filters everything that asks it, holds the devices
+                    that need it to stricter rules, and sends what should leave
+                    privately through a tunnel — on a hot path small enough
+                    for a Raspberry Pi.
                 </p>
             </div>
             <div class="feature-grid">
@@ -196,15 +197,17 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                         >
-                            <path d="M4 12a8 8 0 0 1 16 0"></path>
-                            <path d="M12 4v8l4 2"></path>
-                            <path d="M5 19h14"></path>
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                         </svg>
                     </div>
-                    <h3>Fast DNS cache</h3>
+                    <h3>Rules per device</h3>
                     <p>
-                        TTL-clamped LRU caching returns repeat lookups
-                        immediately and restores warm state after restart.
+                        Profiles for the devices that need them: block TikTok or Roblox in one
+                        click, run on a weekly schedule, force SafeSearch and
+                        YouTube Restricted Mode, or allow only what you list.
                     </p>
                 </article>
                 <article
@@ -230,9 +233,9 @@
                     </div>
                     <h3>Smart blocklists</h3>
                     <p>
-                        Hosts, Adblock, and plain lists — block and allow feeds
-                        alike — merge into one fast lookup layer, with
-                        per-device profiles up to default-deny.
+                        Hosts, Adblock and plain lists — block and allow feeds
+                        alike — merge into one fast lookup, and every verdict
+                        names the list, rule or service behind it.
                     </p>
                 </article>
                 <article
@@ -305,15 +308,17 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                         >
-                            <path d="M3 3v18h18"></path>
-                            <path d="m19 9-5 5-4-4-3 3"></path>
+                            <path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path>
+                            <path d="M10 19v-3.96 3.15"></path>
+                            <path d="M7 19h5"></path>
+                            <rect width="6" height="10" x="16" y="12" rx="2"></rect>
                         </svg>
                     </div>
-                    <h3>Live stats</h3>
+                    <h3>See every device</h3>
                     <p>
-                        The dashboard summary is served from memory, safe to
-                        poll frequently, and includes counters, recent activity,
-                        and timeseries data.
+                        What each device asked for, what was blocked and why, the services
+                        behind it and the profile in charge — one click from
+                        the live query log.
                     </p>
                 </article>
                 <article
@@ -331,18 +336,15 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                         >
-                            <path d="M4 7h16"></path>
-                            <path d="M4 12h16"></path>
-                            <path d="M4 17h16"></path>
-                            <path d="M7 7v10"></path>
-                            <path d="M17 7v10"></path>
+                            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
                         </svg>
                     </div>
-                    <h3>REST-managed runtime</h3>
+                    <h3>Alerts &amp; automation</h3>
                     <p>
-                        Settings, lists, custom records, auth, client aliases,
-                        updates, and query history are managed through the API
-                        without restarting the resolver.
+                        A tunnel down or a new device on the network reaches you on ntfy,
+                        Telegram or Discord. Everything else is a REST API,
+                        Prometheus metrics and an MCP endpoint.
                     </p>
                 </article>
                 <article
@@ -441,10 +443,11 @@
                 <p class="eyebrow">Resolver pipeline</p>
                 <h2 class="display">The shortest useful path</h2>
                 <p class="lead">
-                    Ferrite resolves local records first, routes the domains you
-                    choose through a tunnel, blocks known bad traffic, serves
-                    from cache, and only then forwards to encrypted upstreams.
-                    That keeps the network calm and the UI honest.
+                    Ferrite answers local records first, decides for the asking
+                    device whether a name may resolve, routes the ones you chose
+                    through a tunnel, serves from cache, and only then forwards
+                    to encrypted upstreams. That keeps the network calm and the
+                    UI honest.
                 </p>
                 <div
                     class="protocol-grid"
@@ -479,10 +482,10 @@
                 <div class="flow-step">
                     <span class="num">02</span>
                     <div>
-                        <strong>Cache and local records answer first</strong>
+                        <strong>Local records answer first</strong>
                         <span
-                            >Hot domains and custom internal names resolve
-                            before anything leaves the LAN.</span
+                            >Custom internal names resolve before anything
+                            leaves the LAN.</span
                         >
                     </div>
                     <code>&lt;1ms</code>
@@ -490,10 +493,11 @@
                 <div class="flow-step">
                     <span class="num">03</span>
                     <div>
-                        <strong>Blocklist policy decides</strong>
+                        <strong>Per-device policy decides</strong>
                         <span
-                            >Compiled lists, wildcard rules, whitelist, and
-                            blacklist decide allowed vs blocked.</span
+                            >The device's profile — services, schedule, its own
+                            entries — then the network-wide lists decide;
+                            allowed hot names come straight from cache.</span
                         >
                     </div>
                     <code>FST</code>
@@ -520,8 +524,8 @@
                 <h2 class="display">Built for repeated use, not novelty</h2>
                 <p class="lead">
                     The UI mirrors the resolver: dense, readable, and live.
-                    Watch query volume, blocked traffic, client activity, custom
-                    DNS, blocklists, and settings from the same place.
+                    Watch the network, open any device or domain to see what it
+                    did and why, and change its rules from the same place.
                 </p>
             </div>
             <div
@@ -540,6 +544,7 @@
                         <div class="side-item">Query Log</div>
                         <div class="side-item">Clients</div>
                         <div class="side-item">Blocklist</div>
+                        <div class="side-item">Profiles</div>
                         <div class="side-item">Tunnels</div>
                         <div class="side-item">Custom DNS</div>
                         <div class="side-item">Tools</div>

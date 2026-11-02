@@ -129,7 +129,24 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
             </div>
             <div class="notes">
                 <div class="note">
-                    <strong>v0.1.9 — current</strong>
+                    <strong>v0.1.10 — current</strong>
+                    <p>
+                        A security release for the TLS and QUIC stack under
+                        every encrypted upstream. rustls 0.23.46 closes four
+                        advisories, among them an unauthenticated ServerHello
+                        that could downgrade later connections to classical key
+                        exchange, and up to 1 GiB allocated decompressing a
+                        certificate before it is verified. quinn-proto 0.11.19
+                        fixes five ways a DoQ peer could crash ferrite or grow
+                        its memory without bound, and certificate checks no
+                        longer trust the distrusted emSign intermediates. Under
+                        the hood blocklists and allowlists now share one
+                        implementation instead of two mirrored copies — config,
+                        API routes and blocking decisions are unchanged.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>v0.1.9</strong>
                     <p>
                         A lighter hot path: queries are read and patched on the
                         wire instead of decoded and rebuilt, and on Linux UDP

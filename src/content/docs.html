@@ -73,10 +73,11 @@
                     </p>
                 </div>
                 <div class="note">
-                    <strong>Whitelist / blacklist / wildcards</strong>
+                    <strong>Whitelist / blacklist / patterns</strong>
                     <p>
-                        Exact and <code>*.wildcard</code> rules, with a manual
-                        allow/deny that wins over lists.
+                        Exact names, <code>*.wildcard</code> rules and
+                        <code>/regex/</code> ones, with a manual allow/deny
+                        that wins over lists.
                     </p>
                 </div>
                 <div class="note">
@@ -136,6 +137,14 @@
                     <p>
                         Type a domain and see <em>which</em> list or rule
                         matched, and the whitelist entry that exempts it.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>The answer for a blocked name</strong>
+                    <p>
+                        NXDOMAIN by default — or an empty answer,
+                        <code>0.0.0.0</code> / <code>::</code>, an address of
+                        your own for a block page, or REFUSED.
                     </p>
                 </div>
             </div>
@@ -266,6 +275,22 @@
                     <p>
                         Send a suffix (e.g. your <code>.lan</code> or reverse
                         zones) to a specific local resolver.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>Optimistic cache</strong>
+                    <p>
+                        Off by default: answer from an expired entry at once
+                        and refresh it in the background, so names keep
+                        resolving through an upstream outage.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>Who may ask</strong>
+                    <p>
+                        Answer only your own ranges, never some others, and
+                        slow a device that floods the resolver with a
+                        per-device rate limit.
                     </p>
                 </div>
             </div>

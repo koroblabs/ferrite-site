@@ -151,7 +151,14 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
                         lists every signed-in browser with a way to sign it
                         out. An MCP endpoint, off by default, lets an AI
                         assistant ask why a site is blocked — or, if you allow
-                        it, block one. Upgrading: the database moves to schema
+                        it, block one. The resolver itself grew too: a blocked
+                        name can be answered NXDOMAIN, empty, with
+                        <code>0.0.0.0</code> or with a block page of your own;
+                        an optimistic cache keeps names resolving through an
+                        upstream outage; a per-device rate limit and allowed or
+                        denied ranges keep it to your network; and manual
+                        rules take regular expressions. Upgrading: the database
+                        moves to schema
                         v12 on first start, so an older ferrite can't open it
                         afterwards — copy <code>ferrite.db</code> first if you
                         may roll back; <code>[proxy] alert_webhook</code> moves

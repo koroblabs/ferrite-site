@@ -157,7 +157,15 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
                         an optimistic cache keeps names resolving through an
                         upstream outage; a per-device rate limit and allowed or
                         denied ranges keep it to your network; and manual
-                        rules take regular expressions. Upgrading: the database
+                        rules take regular expressions. Coming from Pi-hole or
+                        AdGuard Home, Settings reads a Teleporter export or an
+                        <code>AdGuardHome.yaml</code> and shows what comes over
+                        — lists, rules, records, groups, blocked services — and
+                        what can't, before anything changes. And a second
+                        ferrite can now follow the first, taking its filtering,
+                        records and DNS settings every few minutes, so two
+                        resolvers answer alike and you edit in one place.
+                        Upgrading: the database
                         moves to schema
                         v12 on first start, so an older ferrite can't open it
                         afterwards — copy <code>ferrite.db</code> first if you

@@ -3,3 +3,6 @@ dist/
 .astro/
 *.log
 .DS_Store
+
+# built from ../web by scripts/build-demo.mjs
+public/demo/

@@ -1,403 +1,896 @@
-<main id="top">
-    <section class="band" id="quick-start">
-        <div class="wrap">
-            <div class="section-head">
+<main id="top" class="docs-page">
+    <div class="docs">
+        <aside class="docs-nav">
+            <details>
+                <summary>On this page</summary>
+                <nav aria-label="Documentation">
+                    <p>Getting started</p>
+                    <a href="#install">Install</a>
+                    <a href="#network">Point your network at it</a>
+                    <a href="#first-run">Open the panel</a>
+                    <a href="#names">Device names</a>
+                    <p>Filtering</p>
+                    <a href="#lists">Blocklists and allowlists</a>
+                    <a href="#entries">Your own entries</a>
+                    <a href="#services">Services and SafeSearch</a>
+                    <a href="#block-response">What a blocked name gets</a>
+                    <a href="#why">Why was it blocked?</a>
+                    <a href="#pause">Pausing and bypass</a>
+                    <p>Devices</p>
+                    <a href="#profiles">Profiles</a>
+                    <a href="#schedules">Schedules</a>
+                    <a href="#allowed-only">Allowed only</a>
+                    <p>Tunnels</p>
+                    <a href="#routing">How routing works</a>
+                    <a href="#egresses">Egresses</a>
+                    <a href="#wireguard">WireGuard</a>
+                    <a href="#route-rules">Rules</a>
+                    <p>DNS</p>
+                    <a href="#upstreams">Upstreams</a>
+                    <a href="#zones">Local zones</a>
+                    <a href="#records">Local records</a>
+                    <a href="#cache">Cache</a>
+                    <p>Running it</p>
+                    <a href="#access">Password and access</a>
+                    <a href="#privacy">Privacy and storage</a>
+                    <a href="#updates">Updates</a>
+                    <a href="#backup">Backup and restore</a>
+                    <a href="#second-box">A second box</a>
+                    <a href="#import">From Pi-hole or AdGuard Home</a>
+                    <a href="#notifications">Notifications</a>
+                    <a href="#metrics">Metrics</a>
+                    <a href="#mcp">AI assistants</a>
+                    <p>Reference</p>
+                    <a href="#config">Config file</a>
+                    <a href="#ports">Ports and paths</a>
+                    <a href="#docker-env">Docker variables</a>
+                    <a href="#troubleshooting">Troubleshooting</a>
+                </nav>
+            </details>
+        </aside>
+
+        <article class="doc">
+            <header class="doc-head">
                 <p class="eyebrow">Documentation</p>
-                <h1 class="display">Everything to run Ferrite</h1>
+                <h1 class="display">Running ferrite</h1>
                 <p class="lead">
-                    One binary is the whole server: DNS, filtering, tunnels,
-                    REST API, and web UI. Install it, point your network at it,
-                    and manage the rest from the panel.
+                    From the first install to a second box. The panel does
+                    almost everything here; the config snippets show what it
+                    writes, for when you'd rather edit the file.
                 </p>
-            </div>
+            </header>
 
-            <div class="flow" aria-label="Quick start">
-                <div class="flow-step">
-                    <span class="num">01</span>
-                    <div>
-                        <strong>Install</strong>
-                        <span
-                            >One script for Linux/macOS, or a Docker image from
-                            GHCR.</span
-                        >
-                    </div>
-                    <code>install.sh</code>
-                </div>
-                <div class="flow-step">
-                    <span class="num">02</span>
-                    <div>
-                        <strong>Point your network at it</strong>
-                        <span
-                            >Set Ferrite as the DNS server on your router (DHCP)
-                            or per device.</span
-                        >
-                    </div>
-                    <code>53/udp</code>
-                </div>
-                <div class="flow-step">
-                    <span class="num">03</span>
-                    <div>
-                        <strong>Open the panel</strong>
-                        <span
-                            >Browse to <code>http://fe.te</code> on the LAN —
-                            set a password and go.</span
-                        >
-                    </div>
-                    <code>fe.te</code>
-                </div>
-            </div>
-            <p class="lead" style="margin-top: 1.5rem">
-                Full install commands (script, Docker, source) are on the
-                <a href="download.html">Download</a> page.
+            <h2 id="install">Install</h2>
+            <p>
+                Ferrite is one binary plus the panel's static files. Pick
+                whichever way of running it suits the box.
             </p>
-        </div>
-    </section>
+            <h3>Install script (Linux)</h3>
+            <p>
+                Downloads the latest server and panel, checks their checksums,
+                installs them under <code>/var/lib/ferrite</code>
+                and registers a systemd or OpenRC service. On Debian and Ubuntu
+                it also turns off the systemd-resolved stub listener, which
+                otherwise holds port 53. Read it first if you like:
+            </p>
+            <pre><code>curl -fsSLO https://raw.githubusercontent.com/syntlyx/ferrite-server/main/install.sh
+less install.sh
+sudo sh install.sh</code></pre>
+            <p>
+                The service runs as its own <code>ferrite</code> user with the
+                capabilities to bind port 53 and to run kernel WireGuard, not as
+                root. Running the script again updates an install.
+            </p>
+            <h3>Docker</h3>
+            <p>
+                The image is on GitHub Container Registry. Use the host network:
+                profiles and routing rules match each device by its address, and
+                behind a Docker bridge every query arrives from the gateway.
+            </p>
+            <pre><code>services:
+  ferrite:
+    image: ghcr.io/syntlyx/ferrite-server:latest
+    container_name: ferrite
+    restart: unless-stopped
+    network_mode: host
+    cap_add: [NET_BIND_SERVICE]
+    volumes:
+      - ferrite-data:/var/lib/ferrite
+volumes:
+  ferrite-data:</code></pre>
+            <p>
+                Mount <code>/var/lib/ferrite</code> so the config, history and
+                updates survive the container. Add <code>NET_ADMIN</code> to
+                <code>cap_add</code> if you want the kernel WireGuard backend;
+                the <code>wireguard</code> module must then be loaded on the
+                host. If you must use a bridge, set
+                <code>FERRITE_PANEL_IP</code> to the host's LAN address so
+                <code>fe.te</code> resolves, and publish <code>443/tcp</code> as
+                well if you route through tunnels.
+            </p>
+            <h3>Static binary</h3>
+            <p>
+                Every release has musl builds for <code>x86_64</code> and
+                <code>aarch64</code>, each with a <code>.sha256</code> next to
+                it:
+            </p>
+            <pre><code>VER=v0.2.0; ARCH=$(uname -m)-unknown-linux-musl
+BASE=https://github.com/syntlyx/ferrite-server/releases/download/$VER
+curl -fsSLO $BASE/ferrite-$VER-$ARCH.tar.gz
+curl -fsSL  $BASE/ferrite-$VER-$ARCH.tar.gz.sha256 | sha256sum -c -
+tar -xzf ferrite-$VER-$ARCH.tar.gz &amp;&amp; sudo install -m755 ferrite /usr/local/bin/ferrite</code></pre>
+            <h3>From source</h3>
+            <pre><code>cargo build --release
+sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
+            <p>
+                On Unraid, use the template from Community Apps. It runs the
+                same image.
+            </p>
 
-    <section class="band alt" id="filtering">
-        <div class="wrap">
-            <div class="section-head">
-                <p class="eyebrow">Filtering</p>
-                <h2 class="display">Block ads, trackers, and worse</h2>
-                <p class="lead">
-                    Subscribe to any public list (StevenBlack, OISD, AdGuard,
-                    Hagezi…) by URL — they all merge into one fast lookup.
-                    Override per domain or per device.
-                </p>
-            </div>
-            <div class="notes">
-                <div class="note">
-                    <strong>Subscription lists</strong>
-                    <p>
-                        Add/enable/refresh any hosts-file, Adblock, or
-                        plain-domain list URL on the <em>Lists</em> page.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Whitelist / blacklist / patterns</strong>
-                    <p>
-                        Exact names, <code>*.wildcard</code> rules and
-                        <code>/regex/</code> ones, with a manual allow/deny
-                        that wins over lists.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Subscribable allowlists</strong>
-                    <p>
-                        Subscribe to a community false-positive feed (e.g.
-                        anudeepND) — its domains are never blocked. Adblock
-                        <code>@@||domain^</code> exceptions are understood.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Device profiles &amp; default-deny</strong>
-                    <p>
-                        Give chosen devices their own rules — a subset of the
-                        lists, their own block and allow entries, blocked
-                        services, SafeSearch — or block <em>everything</em>
-                        except what is allowed (kid / IoT mode). Local names
-                        (PTR, <code>.lan</code>, <code>.local</code>) keep
-                        resolving.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Blocked services</strong>
-                    <p>
-                        Block TikTok, Roblox, YouTube, Discord and 39 more by
-                        name — network-wide or per profile. Each service is a
-                        maintained set of its own domains, and a tunnel rule
-                        can route one just as easily.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Schedules</strong>
-                    <p>
-                        A profile can apply only in weekly windows — school
-                        nights, bedtime — in the box's local time, across
-                        midnight if need be. Outside them the device follows
-                        the network-wide rules.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>SafeSearch &amp; YouTube Restricted Mode</strong>
-                    <p>
-                        Force SafeSearch on Google, Bing and DuckDuckGo, and
-                        YouTube's moderate or strict Restricted Mode — for the
-                        whole network or one profile.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Per-client bypass</strong>
-                    <p>
-                        Let a specific device skip filtering entirely — matched
-                        by IP or MAC.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Why-blocked check</strong>
-                    <p>
-                        Type a domain and see <em>which</em> list or rule
-                        matched, and the whitelist entry that exempts it.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>The answer for a blocked name</strong>
-                    <p>
-                        NXDOMAIN by default — or an empty answer,
-                        <code>0.0.0.0</code> / <code>::</code>, an address of
-                        your own for a block page, or REFUSED.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+            <h2 id="network">Point your network at it</h2>
+            <p>
+                Ferrite only filters the devices that ask it. The usual way to
+                get there is the router:
+            </p>
+            <ol>
+                <li>
+                    Open your router's DHCP settings and set the DNS server to
+                    the ferrite box's address.
+                </li>
+                <li>
+                    Leave the second DNS field empty, or put a second ferrite
+                    there. A public resolver as the second server means devices
+                    sometimes use it and skip filtering.
+                </li>
+                <li>
+                    If the router hands out an IPv6 DNS server too, point that
+                    at ferrite or turn it off. Otherwise IPv6-capable devices
+                    keep asking the router.
+                </li>
+                <li>
+                    Devices pick up the change with their next DHCP lease.
+                    Reconnecting to Wi-Fi does it at once.
+                </li>
+            </ol>
+            <p class="callout">
+                Browsers with their own "secure DNS" setting bypass any network
+                DNS filter. Set it to use the system resolver, or turn it off.
+            </p>
+            <p>
+                You can also set the DNS server by hand on a single device,
+                which is a good way to try ferrite before switching the whole
+                network.
+            </p>
 
-    <section class="band" id="tunnels">
-        <div class="wrap">
-            <div class="section-head">
-                <p class="eyebrow">Selective routing · the wedge</p>
-                <h2 class="display">Route chosen domains through a tunnel</h2>
-                <p class="lead">
-                    This is what Ferrite adds over a plain ad-blocker. Define an
-                    <strong>egress</strong> (a tunnel), then a rule: a domain —
-                    or a whole device — resolves to Ferrite, which forwards the
-                    connection through that egress. Everything else stays
-                    direct.
-                </p>
-            </div>
-            <div class="notes">
-                <div class="note">
-                    <strong>Egress backends</strong>
-                    <p>
-                        <code>direct</code>, <code>socks5</code>,
-                        <code>wireguard</code> (paste a <code>.conf</code>), and
-                        <code>evasion</code>. Point a SOCKS5 egress at a local
-                        Tor (<code>127.0.0.1:9050</code>) to route over Tor.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>WireGuard, two backends</strong>
-                    <p>
-                        Kernel mode (a netlink-managed <code>wg</code> interface,
-                        multi-core crypto, no host routing changes) where the
-                        capability and module allow it; otherwise boringtun +
-                        smoltcp in-process — no TUN device, no root. Either way
-                        the tunnel stays warm and DNS for routed names resolves
-                        <em>through</em> it.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Per-rule device scope</strong>
-                    <p>
-                        Apply a routing rule only to selected clients (picked by
-                        name from the query log). Empty = all devices.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>DPI evasion</strong>
-                    <p>
-                        The <code>evasion</code> egress splits the TLS
-                        ClientHello at the SNI across TCP segments — bytes
-                        unchanged, only segment boundaries move.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Fail-closed</strong>
-                    <p>
-                        If a tunnel is down, a fail-closed rule drops the
-                        connection instead of leaking it direct. Toggle per
-                        rule.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Wildcard or apex</strong>
-                    <p>
-                        A plain domain routes it and all subdomains;
-                        <code>*.example.com</code> routes subdomains only.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+            <h2 id="first-run">Open the panel</h2>
+            <p>
+                Go to <code>http://fe.te</code> from any device that uses
+                ferrite. It is a built-in record pointing at the box. From a
+                device that doesn't, use the box's address instead.
+            </p>
+            <p>Set a password on the box before anything else:</p>
+            <pre><code>ferrite passwd</code></pre>
+            <p>
+                Without a password or an API key the panel is open to anyone who
+                can reach it, and ferrite warns about that in its log. A fresh
+                binary with no config listens on
+                <code>127.0.0.1:8080</code> only; the install script and the
+                Docker image put the panel on port 80 of the network.
+            </p>
+            <p>
+                To check that filtering works, ask for a known ad domain. The
+                answer should be empty, and the query shows up in the log with
+                your device's name:
+            </p>
+            <pre><code>dig @&lt;ferrite address&gt; doubleclick.net</code></pre>
 
-    <section class="band alt" id="upstreams">
-        <div class="wrap">
-            <div class="section-head">
-                <p class="eyebrow">Upstreams &amp; privacy</p>
-                <h2 class="display">
-                    Where misses go — and what leaks (nothing)
-                </h2>
-                <p class="lead">
-                    Cache misses leave through an upstream pool. Pick the
-                    protocol, send the query over a tunnel, and harden it so the
-                    resolver learns as little as possible.
-                </p>
-            </div>
-            <div class="protocol-grid" aria-label="Upstream protocols">
-                <div class="protocol">
-                    <strong>Plain</strong><span>UDP/TCP 53</span>
-                </div>
-                <div class="protocol">
-                    <strong>DoH</strong><span>DNS over HTTPS</span>
-                </div>
-                <div class="protocol">
-                    <strong>DoT</strong><span>DNS over TLS</span>
-                </div>
-                <div class="protocol">
-                    <strong>DoQ</strong><span>DNS over QUIC</span>
-                </div>
-            </div>
-            <div class="notes" style="margin-top: 1.5rem">
-                <div class="note">
-                    <strong>Through the tunnel</strong>
-                    <p>
-                        Send a resolver's queries (plain DNS-over-TCP or DoT)
-                        through an egress, with direct fallback when the tunnel
-                        is down — your ISP sees only WireGuard.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>No client-subnet leak</strong>
-                    <p>
-                        EDNS Client Subnet is stripped from outgoing queries, so
-                        the upstream never learns the client's subnet.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>DNSSEC requested</strong>
-                    <p>
-                        The DO bit is set and signatures are forwarded; pair
-                        with a validating resolver over DoT/DoH for end-to-end
-                        integrity.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Zone routing</strong>
-                    <p>
-                        Send a suffix (e.g. your <code>.lan</code> or reverse
-                        zones) to a specific local resolver.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Optimistic cache</strong>
-                    <p>
-                        Off by default: answer from an expired entry at once
-                        and refresh it in the background, so names keep
-                        resolving through an upstream outage.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Who may ask</strong>
-                    <p>
-                        Answer only your own ranges, never some others, and
-                        slow a device that floods the resolver with a
-                        per-device rate limit.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+            <h2 id="names">Device names</h2>
+            <p>
+                Ferrite learns names from your router (reverse lookups), from
+                mDNS and from the neighbour tables. For reverse lookups to work
+                it must know which questions go to the router:
+            </p>
+            <pre><code>ferrite setup</code></pre>
+            <p>
+                detects your gateway, subnet and local search domain and writes
+                the matching <a class="link" href="#zones">local zones</a>. Any
+                device can also be named by hand in the panel; a name given by
+                MAC follows the device across address changes.
+            </p>
+            <pre><code>[[client_aliases]]
+mac  = "aa:bb:cc:dd:ee:ff"
+name = "Kitchen TV"</code></pre>
 
-    <section class="band" id="more">
-        <div class="wrap">
-            <div class="section-head">
-                <p class="eyebrow">More</p>
-                <h2 class="display">Records, tools, and config</h2>
-            </div>
-            <div class="notes">
-                <div class="note">
-                    <strong>Custom DNS</strong>
-                    <p>
-                        Local A / AAAA / CNAME records for exact or wildcard
-                        names — clean names for internal services.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Tools</strong>
-                    <p>
-                        Built-in <em>nslookup</em> (any record type, through
-                        your own upstreams) and <em>WHOIS</em>, plus the
-                        why-blocked check.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Live stats &amp; query log</strong>
-                    <p>
-                        In-memory summary safe to poll, 24h timeseries, top
-                        domains and devices, and a filterable live log — and a
-                        side panel for any device or domain: what it did, what
-                        was blocked and why, the services behind it.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Storage &amp; privacy</strong>
-                    <p>
-                        The database keeps only what ferrite observed — the
-                        query log, rollups, and device inventory. SQLite at a
-                        path you pick, or a RAM-only backend; retention defaults
-                        to 30 days, with an optional size cap. Switches turn off
-                        query logging and statistics entirely.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Debug logging</strong>
-                    <p>
-                        A verbose-logging toggle (off by default) for diagnosing
-                        issues — flip it from Settings, no restart.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Coming from Pi-hole or AdGuard Home</strong>
-                    <p>
-                        Settings → System reads a Pi-hole v6 Teleporter export
-                        or an <code>AdGuardHome.yaml</code>, shows what comes
-                        over and what can't, and imports the parts you pick —
-                        beside what ferrite already has.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Two boxes, one setup</strong>
-                    <p>
-                        A second ferrite can follow the first: it takes the
-                        chosen parts of its configuration every few minutes and
-                        restarts for a second when something changed.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Config file</strong>
-                    <p>
-                        User config: <code>~/.config/ferrite/config.toml</code>;
-                        system-wide: <code>/etc/ferrite/config.toml</code>. The
-                        server writes it — the UI is the primary editor,
-                        hand-editing is optional.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Everything over REST</strong>
-                    <p>
-                        Settings, lists, records, rules, egresses, and history
-                        are all managed through the
-                        <a href="api.html">API</a> without restarting the
-                        resolver. Prometheus metrics live at
-                        <code>/api/metrics</code>.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Notifications</strong>
-                    <p>
-                        A tunnel down past a minute, or a device the box has
-                        never seen, reaches you on ntfy, Telegram, Discord,
-                        Slack, Gotify or a JSON webhook — with a test button.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>AI assistants (MCP)</strong>
-                    <p>
-                        Off by default: an MCP endpoint lets an assistant such
-                        as Claude ask why a site is blocked or what a device
-                        looked up — and, if you allow it, block or pause.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+            <h2 id="lists">Blocklists and allowlists</h2>
+            <p>
+                Subscribe to lists from the built-in catalog or by URL
+                (StevenBlack, OISD, AdGuard, Hagezi and the like). Hosts,
+                Adblock (<code>||domain^</code>) and plain one-domain-per-line
+                formats are detected on their own and compiled into one compact
+                lookup. Lists are refreshed twice a day, and only downloaded
+                again when they changed.
+            </p>
+            <p>
+                Allowlists work the same way in reverse: subscribe to a
+                community false-positive list and its domains are never blocked.
+                In Adblock-format lists, <code>@@||domain^</code>
+                exceptions count as allow entries.
+            </p>
+            <pre><code>[[blocklist.lists]]
+name    = "StevenBlack"
+url     = "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
+enabled = true
+
+[[allowlist.lists]]
+name    = "anudeepND Whitelist"
+url     = "https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt"
+enabled = true</code></pre>
+            <p>
+                A list can also be a local file:
+                <code>url = "file:///etc/ferrite/custom.hosts"</code>.
+            </p>
+
+            <h2 id="entries">Your own entries</h2>
+            <p>Block and allow entries take three forms:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Entry</th>
+                        <th>Matches</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ads.example.com</code></td>
+                        <td>the name and every subdomain</td>
+                    </tr>
+                    <tr>
+                        <td><code>*.example.com</code></td>
+                        <td>subdomains only, not example.com itself</td>
+                    </tr>
+                    <tr>
+                        <td><code>/^ads?[0-9]+\./</code></td>
+                        <td>
+                            a regular expression, anywhere in the name, ignoring
+                            case
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                An allow entry beats every list. Add one straight from the query
+                log when a list goes too far.
+            </p>
+
+            <h2 id="services">Services and SafeSearch</h2>
+            <p>
+                The service catalog groups the domains behind 43 apps in seven
+                categories (video, music, social, messaging, gaming, AI and
+                shopping), so blocking TikTok or Roblox is one switch instead of
+                a list of domains. Services can be blocked for the whole network
+                or only in a profile.
+            </p>
+            <p>
+                SafeSearch sends Google, Bing and DuckDuckGo to their safe
+                hosts, so results are filtered whatever the browser says.
+                YouTube Restricted Mode can be moderate or strict. A profile can
+                make both stricter for its devices, never looser.
+            </p>
+            <pre><code>[blocklist]
+services = ["tiktok"]
+safe_search = true
+youtube_restricted = "moderate"   # off | moderate | strict</code></pre>
+
+            <h2 id="block-response">What a blocked name gets</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mode</th>
+                        <th>Answer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>nxdomain</code></td>
+                        <td>
+                            no such name (the default); apps give up at once
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>nodata</code></td>
+                        <td>the name exists, without this record type</td>
+                    </tr>
+                    <tr>
+                        <td><code>null_ip</code></td>
+                        <td>
+                            <code>0.0.0.0</code> for A, <code>::</code> for AAAA
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>custom_ip</code></td>
+                        <td>
+                            an address of yours, such as a block page on your
+                            network
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>refused</code></td>
+                        <td>the server declines to answer</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="why">Why was it blocked?</h2>
+            <p>
+                Click any domain in the query log or on the dashboard. The side
+                panel says which list, entry or service matched, which allow
+                entry exempted it if one did, and which profile was in charge.
+                Tools has the same check for a name you type, along with a DNS
+                lookup through your own upstreams, a DNSSEC check, WHOIS, and
+                certificate and reachability probes.
+            </p>
+
+            <h2 id="pause">Pausing and bypass</h2>
+            <p>
+                Filtering can be paused for 5, 30 or 60 minutes for the whole
+                network, from the sidebar, or for one device, from Clients. It
+                comes back on its own. A device can also skip filtering for
+                good:
+            </p>
+            <pre><code>[blocklist]
+client_bypass = ["192.168.1.50", "aa:bb:cc:dd:ee:ff"]</code></pre>
+
+            <h2 id="profiles">Profiles</h2>
+            <p>
+                A profile is a set of rules for chosen devices, picked by MAC or
+                IP. It can block services, use only some of the lists, add its
+                own block and allow entries, force SafeSearch, run on a
+                schedule, or flip to allowed-only. Devices in no profile follow
+                the network-wide rules.
+            </p>
+            <p>For a device in a profile, a name is checked in this order:</p>
+            <ol>
+                <li>
+                    the profile's own allow and block entries, and its services
+                </li>
+                <li>the allowlists</li>
+                <li>allowed-only, if the profile has it on</li>
+                <li>the network-wide entries, services and lists</li>
+            </ol>
+            <pre><code>[[blocklist.profiles]]
+id = "kids"
+name = "Kids"
+clients  = ["aa:bb:cc:dd:ee:01", "aa:bb:cc:dd:ee:02"]
+services = ["tiktok", "roblox", "fortnite"]
+safe_search = true
+youtube_restricted = "moderate"</code></pre>
+
+            <h2 id="schedules">Schedules</h2>
+            <p>
+                A profile with no time windows is always on. Add windows and it
+                applies only inside them; outside, its devices follow the
+                network-wide rules. Times are the box's local time, and a window
+                may cross midnight.
+            </p>
+            <pre><code>[[blocklist.profiles.schedule]]
+days = ["sun", "mon", "tue", "wed", "thu"]
+from = "21:30"
+to   = "07:00"</code></pre>
+
+            <h2 id="allowed-only">Allowed only</h2>
+            <p>
+                For devices that should reach only a few places, such as a
+                camera, a robot vacuum or a kid's first tablet, a profile can
+                block everything that isn't explicitly allowed. Local names keep
+                working without extra setup: reverse lookups,
+                <code>.lan</code>, <code>.local</code> and your local zones.
+            </p>
+            <pre><code>[[blocklist.profiles]]
+id = "iot"
+name = "IoT"
+clients      = ["aa:bb:cc:dd:ee:ff"]
+default_deny = true</code></pre>
+
+            <h2 id="routing">How routing works</h2>
+            <p>
+                When a domain matches a routing rule, ferrite answers the DNS
+                query with its own LAN address, so the device connects to
+                ferrite. Ferrite reads the hostname from the TLS SNI (port 443)
+                or the HTTP Host header (port 80), checks the rule again against
+                it, and passes the connection through the rule's egress. It
+                never terminates TLS: the device still checks the site's real
+                certificate.
+            </p>
+            <p>
+                Routing decides how traffic leaves; blocking still decides
+                whether a name resolves. A tracker under a routed service stays
+                blocked unless you allow it. Rules, egresses and ports reload
+                without a restart.
+            </p>
+            <p class="callout">
+                Routing needs ports 80 and 443 on the box. The panel shares port
+                80 and is told apart by the Host header.
+            </p>
+
+            <h2 id="egresses">Egresses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kind</th>
+                        <th>What it does</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>direct</code></td>
+                        <td>
+                            connects straight out, resolving through ferrite's
+                            own upstreams
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>socks5</code></td>
+                        <td>
+                            through a SOCKS5 proxy, hostname included. Point it
+                            at a local Tor (<code>127.0.0.1:9050</code>) to go
+                            over Tor
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>wireguard</code></td>
+                        <td>
+                            built-in WireGuard from a pasted
+                            <code>.conf</code>; routed names resolve through the
+                            tunnel too
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>evasion</code></td>
+                        <td>
+                            like direct, but splits the TLS ClientHello at the
+                            SNI across TCP segments, so DPI can't read the
+                            hostname
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="wireguard">WireGuard</h2>
+            <p>
+                Paste the <code>.conf</code> your VPN provider gives you.
+                Ferrite picks one of two backends per host and says which in its
+                startup log:
+            </p>
+            <ul>
+                <li>
+                    <strong>Kernel</strong> (preferred, Linux): a real WireGuard
+                    interface with policy routing; your main routing table is
+                    never touched. The kernel does the crypto on all cores.
+                    Needs <code>CAP_NET_ADMIN</code> and the
+                    <code>wireguard</code> module.
+                </li>
+                <li>
+                    <strong>Userspace</strong> (everywhere else): fully inside
+                    the process, no extra capability and no TUN device. Fine for
+                    browsing, slower for streaming at full speed.
+                </li>
+            </ul>
+            <pre><code>[[proxy.egresses]]
+id = "nl"
+name = "NL"
+enabled = true
+kind = "wireguard"
+# backend = "kernel"    # auto by default; "kernel" fails loudly instead of falling back
+config = """
+[Interface]
+PrivateKey = &lt;your key&gt;
+Address = 10.2.0.2/32
+DNS = 10.2.0.1
+[Peer]
+PublicKey = &lt;peer key&gt;
+Endpoint = 203.0.113.10:51820
+AllowedIPs = 0.0.0.0/0
+"""</code></pre>
+            <p>
+                WireGuard's encryption is plain CPU work, and small ARM boards
+                have no hardware for it. Expect a few hundred Mbit/s through a
+                tunnel on that class of board, whatever its port speed.
+            </p>
+
+            <h2 id="route-rules">Rules</h2>
+            <p>
+                A rule sends a domain or a whole catalog service through an
+                egress, for every device or only for some. A plain domain covers
+                its subdomains; <code>*.example.com</code> covers only the
+                subdomains. With fail-closed on, a rule whose egress is down
+                refuses the connection instead of letting it go out directly.
+            </p>
+            <pre><code>[[proxy.rules]]
+pattern = "example.com"
+egress  = "nl"
+fail_closed = true
+clients = []           # empty = every device; or IPs and MACs
+
+[[proxy.rules]]
+service = "netflix"
+egress  = "nl"</code></pre>
+
+            <h2 id="upstreams">Upstreams</h2>
+            <p>
+                Ferrite forwards what it can't answer to a pool of upstream
+                resolvers, round-robin with failover. Plain, DoT, DoH and DoQ
+                can be mixed. The install script starts you on Cloudflare over
+                DoH.
+            </p>
+            <pre><code>[[upstream]]
+type = "https"
+url  = "https://cloudflare-dns.com/dns-query"
+bootstrap_ip = "1.1.1.1"
+
+[[upstream]]
+type = "tls"
+address  = "1.1.1.1"
+port     = 853
+tls_name = "cloudflare-dns.com"
+
+[[upstream]]
+type = "quic"
+address  = "94.140.14.14"
+port     = 853
+tls_name = "dns.adguard-dns.com"</code></pre>
+            <p>
+                DoH needs <code>bootstrap_ip</code> when ferrite is the box's
+                own resolver, since it can't look up the DoH host through
+                itself. A plain or DoT upstream can go through a tunnel with
+                <code>egress = "&lt;id&gt;"</code>, falling back to direct while
+                the tunnel is down. Outgoing queries have EDNS Client Subnet
+                stripped and ask for DNSSEC.
+            </p>
+
+            <h2 id="zones">Local zones</h2>
+            <p>
+                Names only your router knows, such as reverse lookups for
+                <code>192.168.x.x</code> or <code>printer.lan</code>, should go
+                to the router rather than the public upstreams. Zones match by
+                suffix and the longest one wins. <code>ferrite setup</code>
+                writes them for you.
+            </p>
+            <pre><code>[[zones]]
+name     = "1.168.192.in-addr.arpa"
+upstream = "192.168.1.1:53"
+
+[[zones]]
+name     = "lan"
+upstream = "192.168.1.1:53"</code></pre>
+
+            <h2 id="records">Local records</h2>
+            <p>
+                A, AAAA and CNAME records of your own answer before anything
+                else, exact or wildcard.
+            </p>
+            <pre><code>[[custom_records]]
+domain = "nas.lan"
+type   = "A"
+value  = "192.168.1.20"
+
+[[custom_records]]
+domain = "*.home.lan"
+type   = "A"
+value  = "192.168.1.100"</code></pre>
+
+            <h2 id="cache">Cache</h2>
+            <p>
+                Answers are cached, with upstream TTLs clamped between
+                <code>min_ttl</code> and <code>max_ttl</code>. The optimistic
+                cache answers a name from an expired entry at once and refreshes
+                it in the background, so devices don't wait on the upstream, and
+                names keep resolving for a while when the upstream is down.
+            </p>
+            <pre><code>[dns]
+cache_size    = 10000
+min_ttl       = 60
+max_ttl       = 3600
+serve_stale   = true
+stale_max_age = 43200   # seconds an expired answer may still be served</code></pre>
+
+            <h2 id="access">Password and access</h2>
+            <p>
+                A browser stays signed in for 7 days after it was last used,
+                across restarts and updates. Settings, then Access, lists the
+                signed-in browsers and signs any of them out; changing the
+                password signs out all the others.
+            </p>
+            <p>
+                Scripts use an API key, sent as
+                <code>Authorization: Bearer &lt;key&gt;</code> or
+                <code>X-Api-Key: &lt;key&gt;</code>. See the
+                <a class="link" href="api.html">API reference</a>.
+            </p>
+            <p>You can also limit who may use the resolver, and how fast:</p>
+            <pre><code>[dns]
+rate_limit      = 1000                 # queries per minute per device; over it, REFUSED
+allowed_clients = ["192.168.1.0/24"]   # only these get answers
+denied_clients  = ["192.168.1.66"]     # these never do</code></pre>
+
+            <h2 id="privacy">Privacy and storage</h2>
+            <p>
+                Everything you set lives in <code>config.toml</code>. The
+                database only holds what ferrite observed: the query log, its
+                rollups, the device inventory and the panel's sessions.
+            </p>
+            <ul>
+                <li>
+                    <strong>Retention:</strong> the query log keeps 30 days by
+                    default (<code>log_retention_days</code>), and can be capped
+                    in megabytes too (<code>log_max_mb</code>).
+                </li>
+                <li>
+                    <strong>RAM only:</strong> <code>backend = "memory"</code>
+                    keeps history in a bounded ring in memory; nothing about
+                    your traffic is written to disk, and it is gone after a
+                    restart.
+                </li>
+                <li>
+                    <strong>Switches:</strong> the query log and the statistics
+                    can each be turned off. With both off ferrite keeps
+                    filtering and records nothing about what was resolved.
+                </li>
+                <li>
+                    <strong>Clearing</strong> the log also compacts the
+                    database, so the space really leaves the disk.
+                </li>
+            </ul>
+            <p>
+                The only call ferrite makes on its own is an hourly check for a
+                new release on GitHub.
+            </p>
+
+            <h2 id="updates">Updates</h2>
+            <p>
+                The panel shows when a release is out and updates the server and
+                itself in place; the service manager restarts ferrite on the new
+                binary. A panel release is only offered when it fits the running
+                server. In Docker, restarting the container also fetches the
+                latest release, unless you pin one with the variables below.
+            </p>
+
+            <h2 id="backup">Backup and restore</h2>
+            <p>
+                Settings, then System, exports the whole configuration as one
+                file and restores it on this box or another. Copying
+                <code>config.toml</code> does the same. Losing the database
+                loses history and sessions, never your setup.
+            </p>
+
+            <h2 id="second-box">A second box</h2>
+            <p>
+                A second ferrite can follow the first, so devices given both
+                addresses get the same answers from either. It takes the parts
+                you choose from the primary every few minutes, with the
+                primary's API key, and restarts for about a second when
+                something changed. Edit on the primary: changes made on the
+                follower to those parts are replaced on the next sync.
+            </p>
+            <pre><code>[sync]
+primary  = "http://192.168.1.10"
+api_key  = "&lt;the primary's API key&gt;"
+interval = 300
+sections = ["filtering", "records", "devices", "dns"]</code></pre>
+            <p class="callout">
+                Add <code>"tunnels"</code> only if the second box routes too,
+                and never with the same WireGuard key on both: two peers with
+                one key knock each other off.
+            </p>
+
+            <h2 id="import">From Pi-hole or AdGuard Home</h2>
+            <p>
+                Settings, then System, reads a Pi-hole v6 Teleporter export or
+                an <code>AdGuardHome.yaml</code>. It shows what comes over
+                (lists, block and allow rules, local records, groups and
+                per-device settings, blocked services) and what can't, and you
+                choose the parts before anything changes.
+            </p>
+
+            <h2 id="notifications">Notifications</h2>
+            <p>
+                One webhook gets an event when a tunnel has been down for over a
+                minute (and when it recovers), and when a device the box has
+                never seen joins the network. The format fits the receiver:
+                <code>ntfy</code>, <code>telegram</code>, <code>discord</code>,
+                <code>slack</code> (also Mattermost and Rocket.Chat),
+                <code>gotify</code>, or <code>json</code> for Home Assistant and
+                scripts. Settings can send a test event.
+            </p>
+            <pre><code>[notifications]
+webhook       = "https://ntfy.sh/my-ferrite"
+format        = "ntfy"
+tunnel_alerts = true
+new_device    = true
+
+# Telegram: the bot's sendMessage URL and the chat to post to
+# webhook = "https://api.telegram.org/bot&lt;token&gt;/sendMessage"
+# format  = "telegram"
+# chat_id = "123456789"</code></pre>
+
+            <h2 id="metrics">Metrics</h2>
+            <p>
+                Prometheus metrics are at <code>/api/metrics</code>, behind the
+                API key when one is set. There is a
+                <a class="link" href="ferrite-grafana-dashboard.json" download
+                    >Grafana dashboard</a
+                >
+                ready to import.
+            </p>
+
+            <h2 id="mcp">AI assistants</h2>
+            <p>
+                <code>/api/mcp</code> lets an assistant that speaks the Model
+                Context Protocol, such as Claude Code, read what ferrite is
+                doing: why a site is blocked, what a device did. It uses the API
+                key and is off by default. Changes (block, allow, pause) need a
+                second switch.
+            </p>
+            <pre><code>[mcp]
+enabled       = true
+allow_changes = false</code></pre>
+
+            <h2 id="config">Config file</h2>
+            <p>
+                <code>~/.config/ferrite/config.toml</code> for a user install,
+                <code>/etc/ferrite/config.toml</code> system-wide. The panel is
+                the main editor and writes the file itself; hand edits are fine,
+                but comments inside the sections the panel manages don't survive
+                a save. Without a file ferrite starts with plain upstreams and
+                the panel on <code>127.0.0.1:8080</code>. Every key is described
+                in
+                <a
+                    class="link"
+                    href="https://github.com/syntlyx/ferrite-server/blob/main/config.toml.example"
+                    >config.toml.example</a
+                >.
+            </p>
+
+            <h2 id="ports">Ports and paths</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Port</th>
+                        <th>For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>53</code> UDP and TCP</td>
+                        <td>DNS</td>
+                    </tr>
+                    <tr>
+                        <td><code>80</code> TCP</td>
+                        <td>the panel and API, and routed HTTP</td>
+                    </tr>
+                    <tr>
+                        <td><code>443</code> TCP</td>
+                        <td>routed HTTPS, only when routing is on</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>In the data directory</th>
+                        <th>Holds</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ferrite.db</code></td>
+                        <td>query log, rollups, device inventory, sessions</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>blocklist.fst</code>,
+                            <code>allowlist.fst</code>
+                        </td>
+                        <td>the compiled lists, rebuilt when lists change</td>
+                    </tr>
+                    <tr>
+                        <td><code>lists/</code>, <code>allowlists/</code></td>
+                        <td>each list's parsed cache</td>
+                    </tr>
+                    <tr>
+                        <td><code>state.bin</code></td>
+                        <td>the cache and counters, for a warm restart</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                The data directory is <code>~/.local/share/ferrite</code> by
+                default and <code>/var/lib/ferrite</code> for the installer and
+                Docker.
+            </p>
+
+            <h2 id="docker-env">Docker variables</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Does</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>FERRITE_SERVER_VERSION</code></td>
+                        <td>
+                            pins the server release, e.g. <code>0.2.0</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>FERRITE_WEB_VERSION</code></td>
+                        <td>
+                            pins the panel release; defaults to the server's
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>FERRITE_PANEL_IP</code></td>
+                        <td>
+                            the host's LAN address for <code>fe.te</code>,
+                            needed in bridge mode
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>FERRITE_PANEL_URL</code></td>
+                        <td>
+                            the address shown in the log when the panel sits on
+                            another host port
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>GITHUB_TOKEN</code></td>
+                        <td>higher GitHub API limits for update checks</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="troubleshooting">Troubleshooting</h2>
+            <h3>Port 53 is already in use</h3>
+            <p>
+                On Debian and Ubuntu, systemd-resolved holds it. The install
+                script turns its stub listener off; by hand, set
+                <code>DNSStubListener=no</code> in
+                <code>/etc/systemd/resolved.conf.d/ferrite.conf</code> and
+                restart systemd-resolved.
+            </p>
+            <h3>Every device shows up as one</h3>
+            <p>
+                Ferrite sees all queries coming from the same address: it is
+                behind a Docker bridge, or the router forwards DNS itself. Run
+                Docker on the host network, and hand ferrite's address out over
+                DHCP rather than setting it as the router's upstream.
+            </p>
+            <h3>Devices show as IP addresses</h3>
+            <p>
+                Reverse lookups aren't reaching the router. Run
+                <code>ferrite setup</code>, or add the
+                <a class="link" href="#zones">local zones</a> by hand.
+            </p>
+            <h3><code>fe.te</code> doesn't open</h3>
+            <p>
+                The device isn't using ferrite for DNS yet, or ferrite runs in a
+                Docker bridge without <code>FERRITE_PANEL_IP</code>. Use the
+                box's address meanwhile.
+            </p>
+            <h3>A site or app stopped working</h3>
+            <p>
+                Find it in the query log, click the blocked name to see what
+                matched, and allow it. To rule ferrite out quickly, pause
+                filtering for that one device.
+            </p>
+            <h3>Tunnels are slow on a small board</h3>
+            <p>
+                Check the startup log for the WireGuard backend. If it says
+                userspace, give ferrite <code>CAP_NET_ADMIN</code> and load the
+                <code>wireguard</code> module. With the kernel backend the limit
+                is the CPU's encryption speed, not ferrite.
+            </p>
+        </article>
+    </div>
 </main>

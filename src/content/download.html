@@ -7,10 +7,11 @@
                     One script, then point your network at it
                 </h1>
                 <p class="lead">
-                    The installer fetches the server and web UI release assets,
-                    prepares system paths, and sets up the service for systemd,
-                    OpenRC, or launchd. Prefer containers? Pull the image from
-                    GHCR.
+                    The script downloads the server and the panel, checks their
+                    checksums, and sets up a systemd or OpenRC service. Prefer
+                    containers? The image is on GHCR. Every option and the steps
+                    after it are in the
+                    <a class="link" href="docs.html#install">install guide</a>.
                 </p>
                 <div class="commands">
                     <div class="command">
@@ -27,18 +28,18 @@
                     </div>
                     <div class="command">
                         <div class="command-head">
-                            <span>Docker — ghcr.io</span>
+                            <span>Docker (ghcr.io)</span>
                             <button
                                 class="copy"
-                                data-copy="docker run -d --name ferrite \&#10;  --restart unless-stopped \&#10;  -p 53:53/tcp -p 53:53/udp \&#10;  -p 80:80/tcp \&#10;  -v ferrite-data:/var/lib/ferrite \&#10;  ghcr.io/syntlyx/ferrite-server:latest"
+                                data-copy="docker run -d --name ferrite \&#10;  --restart unless-stopped \&#10;  --network host \&#10;  --cap-add=NET_BIND_SERVICE \&#10;  -v ferrite-data:/var/lib/ferrite \&#10;  ghcr.io/syntlyx/ferrite-server:latest"
                             >
                                 Copy
                             </button>
                         </div>
                         <pre><code>docker run -d --name ferrite \
   --restart unless-stopped \
-  -p 53:53/tcp -p 53:53/udp \
-  -p 80:80/tcp \
+  --network host \
+  --cap-add=NET_BIND_SERVICE \
   -v ferrite-data:/var/lib/ferrite \
   ghcr.io/syntlyx/ferrite-server:latest</code></pre>
                     </div>
@@ -81,21 +82,23 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
                         A small Alpine image is published to
                         <code>ghcr.io/syntlyx/ferrite-server</code>. Mount
                         <code>/var/lib/ferrite</code> so config, data, and
-                        updates survive restarts — an Unraid Community Apps
-                        template is available too.
+                        updates survive restarts. Run it on the host network so
+                        each device keeps its own address; an Unraid Community
+                        Apps template is available too.
                     </p>
                 </div>
                 <div class="note">
                     <strong>No root for tunnels</strong>
                     <p>
-                        Two WireGuard backends, picked automatically. Kernel mode
-                        gives multi-core crypto and line-rate throughput from a
-                        <code>CAP_NET_ADMIN</code> capability — still not root,
+                        Two WireGuard backends, picked automatically. Kernel
+                        mode gives multi-core crypto and line-rate throughput
+                        from a
+                        <code>CAP_NET_ADMIN</code> capability. Still not root,
                         and it never touches the host routing table. Where that
                         capability or the kernel module is missing, the tunnel
                         runs in userspace (boringtun + smoltcp) with no TUN
-                        device and no capability at all. Privileged ports (53/80)
-                        just need the usual bind capability.
+                        device and no capability at all. Privileged ports
+                        (53/80) just need the usual bind capability.
                     </p>
                 </div>
                 <div class="note">
@@ -103,7 +106,7 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
                     <p>
                         The web UI updates through
                         <code>POST /api/update/web</code>, and the server
-                        self-updates from GitHub releases — once Ferrite is
+                        self-updates from GitHub releases once Ferrite is
                         running.
                     </p>
                 </div>
@@ -134,43 +137,42 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
                         Rules for each device, not just the network. Profiles
                         can block services from a built-in catalog of 43 —
                         TikTok, Roblox, YouTube, Discord and more, one click
-                        each — apply on a weekly schedule such as school
-                        nights, and force SafeSearch and YouTube Restricted
-                        Mode; the same services and SafeSearch work for the
-                        whole network, and a tunnel rule can route a whole
-                        service. Profiles have a page of their own, and any
-                        device or domain opens in a side panel: its profile and
-                        whether it applies right now, a day of activity, the
-                        services behind it, what it asked for and what was
-                        blocked and why — from the query log, the dashboard,
-                        the device list or ⌘K. Notifications reach ntfy,
-                        Telegram, Discord, Slack or Gotify as readable messages
-                        when a tunnel stays down or a device the box has never
-                        seen joins. Panel sign-ins now last seven days since
-                        last use and survive restarts and updates, and Settings
-                        lists every signed-in browser with a way to sign it
-                        out. An MCP endpoint, off by default, lets an AI
-                        assistant ask why a site is blocked — or, if you allow
-                        it, block one. The resolver itself grew too: a blocked
-                        name can be answered NXDOMAIN, empty, with
+                        each — apply on a weekly schedule such as school nights,
+                        and force SafeSearch and YouTube Restricted Mode; the
+                        same services and SafeSearch work for the whole network,
+                        and a tunnel rule can route a whole service. Profiles
+                        have a page of their own, and any device or domain opens
+                        in a side panel: its profile and whether it applies
+                        right now, a day of activity, the services behind it,
+                        what it asked for and what was blocked and why — from
+                        the query log, the dashboard, the device list or ⌘K.
+                        Notifications reach ntfy, Telegram, Discord, Slack or
+                        Gotify as readable messages when a tunnel stays down or
+                        a device the box has never seen joins. Panel sign-ins
+                        now last seven days since last use and survive restarts
+                        and updates, and Settings lists every signed-in browser
+                        with a way to sign it out. An MCP endpoint, off by
+                        default, lets an AI assistant ask why a site is blocked
+                        — or, if you allow it, block one. The resolver itself
+                        grew too: a blocked name can be answered NXDOMAIN,
+                        empty, with
                         <code>0.0.0.0</code> or with a block page of your own;
                         an optimistic cache keeps names resolving through an
                         upstream outage; a per-device rate limit and allowed or
-                        denied ranges keep it to your network; and manual
-                        rules take regular expressions. Coming from Pi-hole or
-                        AdGuard Home, Settings reads a Teleporter export or an
+                        denied ranges keep it to your network; and manual rules
+                        take regular expressions. Coming from Pi-hole or AdGuard
+                        Home, Settings reads a Teleporter export or an
                         <code>AdGuardHome.yaml</code> and shows what comes over
                         — lists, rules, records, groups, blocked services — and
                         what can't, before anything changes. And a second
                         ferrite can now follow the first, taking its filtering,
                         records and DNS settings every few minutes, so two
                         resolvers answer alike and you edit in one place.
-                        Upgrading: the database
-                        moves to schema
-                        v12 on first start, so an older ferrite can't open it
-                        afterwards — copy <code>ferrite.db</code> first if you
-                        may roll back; <code>[proxy] alert_webhook</code> moves
-                        to <code>[notifications]</code> by itself; and the panel
+                        Upgrading: the database moves to schema v12 on first
+                        start, so an older ferrite can't open it afterwards —
+                        copy <code>ferrite.db</code> first if you may roll back;
+                        <code>[proxy] alert_webhook</code> moves to
+                        <code>[notifications]</code> by itself; and the panel
                         asks for the password once more.
                     </p>
                 </div>
@@ -188,21 +190,20 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
                         longer trust the distrusted emSign intermediates. Under
                         the hood blocklists and allowlists now share one
                         implementation instead of two mirrored copies — config,
-                        API routes and blocking decisions are unchanged. New
-                        in the panel: block or allow a domain in one click
-                        from the query log or the dashboard, with an undo;
-                        pause filtering for five minutes to an hour — for the
-                        whole network or one device — without touching the
-                        config; and back up or restore the whole
-                        configuration as a single file. Subscription lists now
-                        refresh on their own every 12 hours, and a restart
-                        after an upgrade no longer holds DNS back while device
-                        profiles rebuild. The
-                        panel got a pass too: repeated queries fold into one
-                        line, tunnel rules and clients read at a glance with a
-                        colour per tunnel and an icon per device, every page
-                        fits a phone, and the German, Spanish and French
-                        translations are proofread.
+                        API routes and blocking decisions are unchanged. New in
+                        the panel: block or allow a domain in one click from the
+                        query log or the dashboard, with an undo; pause
+                        filtering for five minutes to an hour — for the whole
+                        network or one device — without touching the config; and
+                        back up or restore the whole configuration as a single
+                        file. Subscription lists now refresh on their own every
+                        12 hours, and a restart after an upgrade no longer holds
+                        DNS back while device profiles rebuild. The panel got a
+                        pass too: repeated queries fold into one line, tunnel
+                        rules and clients read at a glance with a colour per
+                        tunnel and an icon per device, every page fits a phone,
+                        and the German, Spanish and French translations are
+                        proofread.
                     </p>
                 </div>
                 <div class="note">
@@ -249,8 +250,7 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
                         mode that exempts local names. Egress health gained
                         active latency probes that gate fail-closed routing,
                         down-alert webhooks, Prometheus metrics at
-                        <code>/api/metrics</code>, and per-tunnel traffic
-                        stats.
+                        <code>/api/metrics</code>, and per-tunnel traffic stats.
                     </p>
                 </div>
                 <div class="note">

@@ -1,12 +1,14 @@
 ---
 import Base from "../layouts/Base.astro";
 import content from "../content/docs.html?raw";
+import script from "../content/docs.script.js?raw";
 ---
 
 <Base
     title="Docs — Ferrite"
-    description="How to run Ferrite: quick start, filtering, selective per-device routing through WireGuard/SOCKS5/Tor, encrypted upstreams, custom DNS, and diagnostic tools."
+    description="How to run Ferrite: install, point your network at it, filtering, device profiles and schedules, routing through WireGuard, SOCKS5 or Tor, upstreams, privacy, updates, a second box, and troubleshooting."
     active="docs"
 >
     <Fragment set:html={content} />
+    <script is:inline set:html={script} />
 </Base>

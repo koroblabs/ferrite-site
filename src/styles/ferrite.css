@@ -791,6 +791,155 @@ a.copy {
     font-size: 0.8rem;
 }
 
+/* ── Docs ────────────────────────────────────────────────────────── */
+.docs-page {
+    padding: calc(60px + clamp(2rem, 5vw, 3.5rem)) var(--page-pad) 4rem;
+}
+.docs {
+    width: min(100%, var(--max));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+}
+.docs-nav {
+    position: sticky;
+    top: 84px;
+    max-height: calc(100vh - 104px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+.docs-nav summary {
+    display: none;
+}
+.docs-nav nav {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1rem;
+}
+.docs-nav nav p {
+    margin: 1rem 0 0.3rem;
+    padding: 0 0.6rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+.docs-nav nav p:first-child {
+    margin-top: 0;
+}
+.docs-nav nav a {
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius);
+    color: var(--body);
+    font-size: 0.88rem;
+    transition:
+        color 150ms ease,
+        background 150ms ease;
+}
+.docs-nav nav a:hover {
+    color: var(--heading);
+}
+.docs-nav nav a[aria-current="true"] {
+    background: rgba(255, 106, 56, 0.1);
+    color: var(--heading);
+}
+.doc {
+    max-width: 760px;
+    min-width: 0;
+    color: var(--body);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+.doc-head {
+    margin-bottom: 1rem;
+}
+.doc h1 {
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+}
+.doc h2 {
+    margin: 3.2rem 0 0.8rem;
+    padding-top: 0.4rem;
+    font-size: clamp(1.45rem, 2.6vw, 1.8rem);
+    font-weight: 650;
+    letter-spacing: -0.015em;
+    scroll-margin-top: 84px;
+}
+.doc h3 {
+    margin: 1.8rem 0 0.5rem;
+    color: var(--heading);
+    font-size: 1.08rem;
+    font-weight: 650;
+}
+.doc p,
+.doc ul,
+.doc ol {
+    margin: 0 0 1rem;
+}
+.doc ul,
+.doc ol {
+    padding-left: 1.3rem;
+}
+.doc li {
+    margin-bottom: 0.4rem;
+}
+.doc li::marker {
+    color: var(--muted);
+}
+.doc strong {
+    color: var(--heading);
+    font-weight: 600;
+}
+.doc code {
+    padding: 0.1em 0.35em;
+    border-radius: 0.3rem;
+    background: var(--panel);
+    color: var(--heading);
+    font-size: 0.86em;
+}
+.doc pre {
+    margin: 0 0 1.2rem;
+    padding: 1rem 1.15rem;
+    overflow-x: auto;
+    border: 1px solid var(--bdr);
+    border-radius: var(--radius-card);
+    background: var(--sidebar);
+    line-height: 1.6;
+}
+.doc pre code {
+    padding: 0;
+    background: none;
+    font-size: 0.84rem;
+}
+.doc table {
+    width: 100%;
+    margin: 0 0 1.2rem;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+.doc th,
+.doc td {
+    padding: 0.6rem 0.8rem 0.6rem 0;
+    border-bottom: 1px solid var(--bdr);
+    text-align: left;
+    vertical-align: top;
+}
+.doc th {
+    color: var(--muted);
+    font-weight: 600;
+}
+.doc td:first-child {
+    white-space: nowrap;
+}
+.callout {
+    padding: 0.85rem 1.05rem;
+    border: 1px solid rgba(255, 106, 56, 0.28);
+    border-radius: var(--radius-card);
+    background: rgba(255, 106, 56, 0.06);
+    color: var(--body);
+    font-size: 0.95rem;
+}
+
 /* ── Footer ──────────────────────────────────────────────────────── */
 footer {
     padding: 1.75rem var(--page-pad) 2.25rem;
@@ -821,6 +970,27 @@ footer a:hover {
 
 /* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 1040px) {
+    .docs {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .docs-nav {
+        position: static;
+        max-height: none;
+        border: 1px solid var(--bdr);
+        border-radius: var(--radius-card);
+        background: var(--card);
+    }
+    .docs-nav summary {
+        display: block;
+        padding: 0.8rem 1rem;
+        color: var(--heading);
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .docs-nav nav {
+        padding: 0 0.4rem 0.8rem;
+    }
     .hero-inner {
         grid-template-columns: 1fr;
     }

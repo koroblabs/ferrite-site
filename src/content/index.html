@@ -3,20 +3,17 @@
         <div class="hero-inner">
             <div class="hero-copy">
                 <p class="hero-kicker">
-                    <span class="pulse" aria-hidden="true"></span>
-                    DNS filtering · per-device rules · tunnels · forged in Rust
+                    Self-hosted DNS filtering, per-device rules and tunnels
                 </p>
                 <h1 id="hero-title" class="display">
-                    Burn the ads.<br />Tunnel the<br /><span class="ember"
-                        >rest</span
-                    >
+                    Burn the ads.<br />Tunnel the rest.
                 </h1>
                 <p class="hero-sub">
                     Ferrite blocks ads, trackers and malware for every device on
-                    your network, gives the ones that need it their own rules —
-                    blocked services, schedules, SafeSearch — and routes chosen
-                    domains, services or whole devices through
-                    <strong>WireGuard, SOCKS5, or Tor</strong>. One binary, no
+                    your network. The devices that need it get their own rules:
+                    blocked services, schedules, SafeSearch. Chosen domains,
+                    services or whole devices go out through
+                    <strong>WireGuard, SOCKS5 or Tor</strong>. One binary, no
                     root.
                 </p>
                 <div class="hero-actions">
@@ -63,95 +60,66 @@
                         Source
                     </a>
                 </div>
-                <div class="hero-meta" aria-label="Ferrite highlights">
-                    <span class="meta-chip">per-device rules &amp; routing</span>
-                    <span class="meta-chip">WireGuard · SOCKS5 · Tor</span>
-                    <span class="meta-chip">DPI evasion</span>
-                    <span class="meta-chip">no root · single binary</span>
-                </div>
             </div>
 
-            <div class="terminal ticks" aria-hidden="true">
-                <div class="terminal-head">
-                    <div class="terminal-dots">
-                        <span></span><span></span><span></span>
-                    </div>
-                    <span>ferrite — query log</span>
+            <div class="feed" aria-hidden="true">
+                <div class="feed-head">
+                    <strong>Just now</strong><span class="live">Live</span>
                 </div>
-                <div class="terminal-body">
-                    <div class="tline">
-                        <span class="ts">12:00:01</span
-                        ><span class="st-up">UPSTREAM</span>
-                        <span class="domain">api.github.com</span
-                        ><span class="lat">4ms</span>
+                <div class="feed-body">
+                    <div class="frow st-up">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">api.github.com</span
+                            ><span class="who">macbook</span></span
+                        ><span class="verdict">upstream</span>
                     </div>
-                    <div class="tline blocked">
-                        <span class="ts">12:00:01</span
-                        ><span class="st-block">BLOCKED</span>
-                        <span class="domain">ads.doubleclick.net</span
-                        ><span class="lat">0ms</span>
+                    <div class="frow blocked st-block">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">ads.doubleclick.net</span
+                            ><span class="who">pixel-8</span></span
+                        ><span class="verdict">blocked</span>
                     </div>
-                    <div class="tline">
-                        <span class="ts">12:00:02</span
-                        ><span class="st-cache">CACHED</span>
-                        <span class="domain">cloudflare-dns.com</span
-                        ><span class="lat">&lt;1ms</span>
+                    <div class="frow st-route">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">nflxvideo.net</span
+                            ><span class="who">apple-tv</span></span
+                        ><span class="verdict">via proton-nl</span>
                     </div>
-                    <div class="tline blocked">
-                        <span class="ts">12:00:02</span
-                        ><span class="st-block">BLOCKED</span>
-                        <span class="domain">telemetry.vendor.io</span
-                        ><span class="lat">0ms</span>
+                    <div class="frow st-cache">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">gateway.icloud.com</span
+                            ><span class="who">macbook</span></span
+                        ><span class="verdict">cached</span>
                     </div>
-                    <div class="tline">
-                        <span class="ts">12:00:03</span
-                        ><span class="st-cache">CACHED</span>
-                        <span class="domain">router.home.lan</span
-                        ><span class="lat">&lt;1ms</span>
+                    <div class="frow blocked st-block">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">app-measurement.com</span
+                            ><span class="who">kids-tablet</span></span
+                        ><span class="verdict">blocked</span>
                     </div>
-                    <div class="tline blocked">
-                        <span class="ts">12:00:03</span
-                        ><span class="st-block">BLOCKED</span>
-                        <span class="domain">pixel.adsafeprotected.com</span
-                        ><span class="lat">0ms</span>
+                    <div class="frow st-cache">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">fe.te</span
+                            ><span class="who">macbook</span></span
+                        ><span class="verdict">cached</span>
                     </div>
-                    <div class="tline">
-                        <span class="ts">12:00:04</span
-                        ><span class="st-up">UPSTREAM</span>
-                        <span class="domain">crates.io</span
-                        ><span class="lat">6ms</span>
+                    <div class="frow blocked st-block">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">www.roblox.com</span
+                            ><span class="who">kids-tablet</span></span
+                        ><span class="verdict">blocked · Kids</span>
                     </div>
-                    <div class="tline blocked">
-                        <span class="ts">12:00:04</span
-                        ><span class="st-block">BLOCKED</span>
-                        <span class="domain">metrics.icloud.com</span
-                        ><span class="lat">0ms</span>
-                    </div>
-                    <div class="tline">
-                        <span class="ts">12:00:05</span
-                        ><span class="st-cache">CACHED</span>
-                        <span class="domain">fe.te</span
-                        ><span class="lat">&lt;1ms</span>
-                    </div>
-                    <span class="terminal-cursor"></span>
                 </div>
             </div>
         </div>
     </section>
-
-    <div class="burn-strip" aria-hidden="true">
-        <div class="burn-track">
-            <span><s>ads.doubleclick.net</s></span
-            ><span><s>graph.facebook.com</s></span
-            ><span><s>telemetry.mozilla.org</s></span
-            ><span><b>9,381 blocked today</b></span
-            ><span><s>pixel.adsafeprotected.com</s></span
-            ><span><s>stats.g.doubleclick.net</s></span
-            ><span><s>metrics.icloud.com</s></span
-            ><span><s>adservice.google.com</s></span
-            ><span><b>fe.te · control plane online</b></span>
-        </div>
-    </div>
 
     <section class="metric-strip" aria-label="Product metrics">
         <div class="metric">
@@ -162,7 +130,8 @@
             ><span>cache-hit &amp; blocklist decision</span>
         </div>
         <div class="metric">
-            <strong>0</strong><span>root needed — capabilities, not root</span>
+            <strong>0</strong
+            ><span>root needed: it runs with capabilities</span>
         </div>
         <div class="metric">
             <strong>1</strong><span>binary: DNS, filtering, tunnels, UI</span>
@@ -177,15 +146,12 @@
                 <p class="lead">
                     Ferrite filters everything that asks it, holds the devices
                     that need it to stricter rules, and sends what should leave
-                    privately through a tunnel — on a hot path small enough
-                    for a Raspberry Pi.
+                    privately through a tunnel. The hot path is small enough for
+                    a Raspberry Pi.
                 </p>
             </div>
             <div class="feature-grid">
-                <article
-                    class="feature ticks"
-                    style="--feature-color: var(--ember)"
-                >
+                <article class="feature" style="--feature-color: var(--ember)">
                     <div class="feature-icon" aria-hidden="true">
                         <svg
                             width="20"
@@ -197,7 +163,9 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                         >
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <path
+                                d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+                            ></path>
                             <circle cx="9" cy="7" r="4"></circle>
                             <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
@@ -205,13 +173,14 @@
                     </div>
                     <h3>Rules per device</h3>
                     <p>
-                        Profiles for the devices that need them: block TikTok or Roblox in one
-                        click, run on a weekly schedule, force SafeSearch and
-                        YouTube Restricted Mode, or allow only what you list.
+                        Profiles for the devices that need them: block TikTok or
+                        Roblox in one click, run on a weekly schedule, force
+                        SafeSearch and YouTube Restricted Mode, or allow only
+                        what you list.
                     </p>
                 </article>
                 <article
-                    class="feature ticks"
+                    class="feature"
                     style="--feature-color: var(--blocked)"
                 >
                     <div class="feature-icon" aria-hidden="true">
@@ -233,13 +202,13 @@
                     </div>
                     <h3>Smart blocklists</h3>
                     <p>
-                        Hosts, Adblock and plain lists — block and allow feeds
-                        alike — merge into one fast lookup, and every verdict
-                        names the list, rule or service behind it.
+                        Hosts, Adblock and plain lists, for blocking and
+                        allowing alike, merge into one fast lookup. Every
+                        verdict names the list, rule or service behind it.
                     </p>
                 </article>
                 <article
-                    class="feature ticks"
+                    class="feature"
                     style="--feature-color: var(--upstream)"
                 >
                     <div class="feature-icon" aria-hidden="true">
@@ -261,15 +230,12 @@
                     </div>
                     <h3>Encrypted upstreams</h3>
                     <p>
-                        Plain, DoH, DoT, and DoQ in one pool with failover — and
-                        your queries can ride the tunnel, with client subnet
+                        Plain, DoH, DoT and DoQ in one pool with failover.
+                        Queries can ride the tunnel too, with client subnet
                         stripped and DNSSEC requested.
                     </p>
                 </article>
-                <article
-                    class="feature ticks"
-                    style="--feature-color: var(--warn)"
-                >
+                <article class="feature" style="--feature-color: var(--warn)">
                     <div class="feature-icon" aria-hidden="true">
                         <svg
                             width="20"
@@ -293,10 +259,7 @@
                         wildcard domains, so internal services get clean names.
                     </p>
                 </article>
-                <article
-                    class="feature ticks"
-                    style="--feature-color: var(--cached)"
-                >
+                <article class="feature" style="--feature-color: var(--cached)">
                     <div class="feature-icon" aria-hidden="true">
                         <svg
                             width="20"
@@ -308,21 +271,29 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                         >
-                            <path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path>
+                            <path
+                                d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"
+                            ></path>
                             <path d="M10 19v-3.96 3.15"></path>
                             <path d="M7 19h5"></path>
-                            <rect width="6" height="10" x="16" y="12" rx="2"></rect>
+                            <rect
+                                width="6"
+                                height="10"
+                                x="16"
+                                y="12"
+                                rx="2"
+                            ></rect>
                         </svg>
                     </div>
                     <h3>See every device</h3>
                     <p>
-                        What each device asked for, what was blocked and why, the services
-                        behind it and the profile in charge — one click from
-                        the live query log.
+                        What each device asked for, what was blocked and why,
+                        the services behind it and the profile in charge, one
+                        click from the live query log.
                     </p>
                 </article>
                 <article
-                    class="feature ticks"
+                    class="feature"
                     style="--feature-color: var(--upstream)"
                 >
                     <div class="feature-icon" aria-hidden="true">
@@ -336,21 +307,20 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                         >
-                            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                            <path
+                                d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"
+                            ></path>
                             <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
                         </svg>
                     </div>
                     <h3>Alerts &amp; automation</h3>
                     <p>
-                        A tunnel down or a new device on the network reaches you on ntfy,
-                        Telegram or Discord. Everything else is a REST API,
-                        Prometheus metrics and an MCP endpoint.
+                        A tunnel down or a new device on the network reaches you
+                        on ntfy, Telegram or Discord. Everything else is a REST
+                        API, Prometheus metrics and an MCP endpoint.
                     </p>
                 </article>
-                <article
-                    class="feature ticks"
-                    style="--feature-color: var(--ember)"
-                >
+                <article class="feature" style="--feature-color: var(--ember)">
                     <div class="feature-icon" aria-hidden="true">
                         <svg
                             width="20"
@@ -371,13 +341,13 @@
                     </div>
                     <h3>Selective per-device routing</h3>
                     <p>
-                        Send a domain — or a whole device, chosen by client name
-                        — through a tunnel. Everything else resolves direct, at
+                        Send a domain, or a whole device chosen by its name,
+                        through a tunnel. Everything else resolves direct at
                         full speed.
                     </p>
                 </article>
                 <article
-                    class="feature ticks"
+                    class="feature"
                     style="--feature-color: var(--upstream)"
                 >
                     <div class="feature-icon" aria-hidden="true">
@@ -402,13 +372,10 @@
                         WireGuard, SOCKS5, and Tor egress live in the resolver
                         itself. WireGuard runs kernel-backed for line-rate
                         throughput, or fully in-process where that isn't
-                        available — no TUN device, no root either way.
+                        available. No TUN device and no root either way.
                     </p>
                 </article>
-                <article
-                    class="feature ticks"
-                    style="--feature-color: var(--warn)"
-                >
+                <article class="feature" style="--feature-color: var(--warn)">
                     <div class="feature-icon" aria-hidden="true">
                         <svg
                             width="20"
@@ -495,9 +462,9 @@
                     <div>
                         <strong>Per-device policy decides</strong>
                         <span
-                            >The device's profile — services, schedule, its own
-                            entries — then the network-wide lists decide;
-                            allowed hot names come straight from cache.</span
+                            >The device's profile (services, schedule, its own
+                            entries) decides first, then the network-wide lists.
+                            Hot names come straight from cache.</span
                         >
                     </div>
                     <code>FST</code>
@@ -521,96 +488,23 @@
         <div class="wrap">
             <div class="section-head">
                 <p class="eyebrow">Web UI</p>
-                <h2 class="display">Built for repeated use, not novelty</h2>
+                <h2 class="display">The panel</h2>
                 <p class="lead">
                     The UI mirrors the resolver: dense, readable, and live.
                     Watch the network, open any device or domain to see what it
                     did and why, and change its rules from the same place.
                 </p>
             </div>
-            <div
-                class="dashboard-shell ticks"
-                aria-label="Ferrite dashboard preview"
-            >
-                <div class="dashboard-top">
-                    <div class="terminal-dots" aria-hidden="true">
-                        <span></span><span></span><span></span>
-                    </div>
-                    <code>http://fe.te</code>
-                </div>
-                <div class="dashboard-body">
-                    <aside class="sidebar" aria-hidden="true">
-                        <div class="side-item active">Dashboard</div>
-                        <div class="side-item">Query Log</div>
-                        <div class="side-item">Clients</div>
-                        <div class="side-item">Blocklist</div>
-                        <div class="side-item">Profiles</div>
-                        <div class="side-item">Tunnels</div>
-                        <div class="side-item">Custom DNS</div>
-                        <div class="side-item">Tools</div>
-                        <div class="side-item">Settings</div>
-                    </aside>
-                    <div class="dash-main">
-                        <div class="stat">
-                            <small>Total queries</small><strong>14,523</strong>
-                        </div>
-                        <div class="stat" style="--stat-color: var(--blocked)">
-                            <small>Blocked</small><strong>3,210</strong>
-                        </div>
-                        <div class="stat" style="--stat-color: var(--cached)">
-                            <small>Cached</small><strong>6,700</strong>
-                        </div>
-                        <div class="dash-chart">
-                            <svg
-                                viewBox="0 0 760 130"
-                                preserveAspectRatio="none"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    d="M0 111 L40 94 L80 102 L120 68 L160 76 L200 42 L240 52 L280 34 L320 44 L360 26 L400 58 L440 40 L480 72 L520 54 L560 82 L600 64 L640 92 L680 76 L720 94 L760 74 L760 130 L0 130 Z"
-                                    fill="rgba(255,106,56,0.13)"
-                                ></path>
-                                <path
-                                    d="M0 111 L40 94 L80 102 L120 68 L160 76 L200 42 L240 52 L280 34 L320 44 L360 26 L400 58 L440 40 L480 72 L520 54 L560 82 L600 64 L640 92 L680 76 L720 94 L760 74"
-                                    fill="none"
-                                    stroke="#ff6a38"
-                                    stroke-width="3"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                ></path>
-                                <path
-                                    d="M0 124 L40 118 L80 116 L120 98 L160 103 L200 86 L240 92 L280 72 L320 84 L360 66 L400 90 L440 78 L480 101 L520 83 L560 105 L600 96 L640 112 L680 102 L720 110 L760 98"
-                                    fill="none"
-                                    stroke="#ff5c5c"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    opacity="0.9"
-                                ></path>
-                            </svg>
-                        </div>
-                        <div class="live-list" aria-hidden="true">
-                            <div class="live-row">
-                                <span>12:00:01</span
-                                ><span class="q-up">upstream</span
-                                ><span>api.github.com</span><span>4ms</span>
-                            </div>
-                            <div class="live-row">
-                                <span>12:00:02</span
-                                ><span class="q-block">blocked</span
-                                ><span>ads.doubleclick.net</span
-                                ><span>0ms</span>
-                            </div>
-                            <div class="live-row">
-                                <span>12:00:03</span
-                                ><span class="q-cache">cached</span
-                                ><span>router.home.lan</span
-                                ><span>&lt;1ms</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <figure class="shot">
+                <img
+                    src="panel-dashboard.webp"
+                    width="2560"
+                    height="1600"
+                    alt="The ferrite dashboard: totals, a 24-hour traffic chart, top domains, top devices and the live query feed"
+                    loading="lazy"
+                    decoding="async"
+                />
+            </figure>
         </div>
     </section>
 
@@ -628,7 +522,7 @@
                     containers? Pull the image from GHCR instead.
                 </p>
                 <div class="commands">
-                    <div class="command ticks">
+                    <div class="command">
                         <div class="command-head">
                             <span>Linux / macOS release install</span>
                             <button
@@ -642,7 +536,7 @@
                     </div>
                     <div class="command">
                         <div class="command-head">
-                            <span>Docker — ghcr.io</span>
+                            <span>Docker (ghcr.io)</span>
                             <button
                                 class="copy"
                                 data-copy="docker run -d --name ferrite \&#10;  --restart unless-stopped \&#10;  -p 53:53/tcp -p 53:53/udp \&#10;  -p 80:80/tcp \&#10;  -v ferrite-data:/var/lib/ferrite \&#10;  ghcr.io/syntlyx/ferrite-server:latest"
@@ -697,7 +591,7 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
                         A small Alpine image is published to
                         <code>ghcr.io/syntlyx/ferrite-server</code>. Mount
                         <code>/var/lib/ferrite</code> so config, data, and
-                        updates survive restarts — an Unraid Community Apps
+                        updates survive restarts. An Unraid Community Apps
                         template is available too.
                     </p>
                 </div>

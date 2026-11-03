@@ -452,6 +452,15 @@
                     <button
                         type="button"
                         role="tab"
+                        id="tab-device"
+                        aria-controls="shot-device"
+                        aria-selected="false"
+                    >
+                        One device
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
                         id="tab-profile"
                         aria-controls="shot-profile"
                         aria-selected="false"
@@ -531,6 +540,26 @@
                     <figcaption>
                         Devices sorted into the profiles that govern them, with
                         what each profile blocks and when it is on.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-device"
+                    role="tabpanel"
+                    aria-labelledby="tab-device"
+                >
+                    <img
+                        src="/shots/device.webp"
+                        width="2560"
+                        height="1600"
+                        alt="The side panel for one device, ipad-mini: its profile Kids in effect now, a day of activity, the services it used, and its most asked and most blocked domains"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        One device: its profile and whether it applies now, a
+                        day of activity, the services it used and what was
+                        blocked.
                     </figcaption>
                 </figure>
                 <figure

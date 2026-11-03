@@ -551,6 +551,148 @@ h2 {
     height: auto;
 }
 
+/* ── Panel gallery ───────────────────────────────────────────────── */
+.gallery-tabs {
+    display: flex;
+    gap: 2px;
+    width: max-content;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    padding: 3px;
+    overflow-x: auto;
+    border: 1px solid var(--bdr);
+    border-radius: 0.65rem;
+    background: var(--card);
+    scrollbar-width: none;
+}
+.gallery-tabs button {
+    flex: none;
+    min-height: 36px;
+    padding: 0.4rem 0.9rem;
+    border: 0;
+    border-radius: 0.45rem;
+    background: transparent;
+    color: var(--muted);
+    font: 500 0.9rem var(--sans);
+    transition:
+        background 150ms ease,
+        color 150ms ease;
+}
+.gallery-tabs button:hover {
+    color: var(--heading);
+}
+.gallery-tabs button[aria-selected="true"] {
+    background: var(--raised);
+    color: var(--heading);
+}
+.gallery .shot + .shot {
+    margin-top: 1rem;
+}
+.gallery.ready .shot + .shot {
+    margin-top: 0;
+}
+.shot figcaption {
+    padding: 0.85rem 1.1rem;
+    border-top: 1px solid var(--bdr);
+    background: var(--card);
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* ── Two-column bands: a heading beside a list of points ─────────── */
+.split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+}
+.split .section-head {
+    margin-bottom: 0;
+}
+.points {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.6rem 2rem;
+}
+.point strong {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: var(--heading);
+    font-size: 1rem;
+    font-weight: 650;
+}
+.point p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.62;
+}
+.point code,
+.feature code {
+    color: var(--heading);
+    font-size: 0.84em;
+}
+.trio {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+.link {
+    color: var(--ember);
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 106, 56, 0.4);
+    text-underline-offset: 3px;
+}
+.link:hover {
+    text-decoration-color: currentColor;
+}
+.lead.small {
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+}
+
+/* ── FAQ ─────────────────────────────────────────────────────────── */
+.faq {
+    border-top: 1px solid var(--bdr);
+}
+.faq details {
+    border-bottom: 1px solid var(--bdr);
+}
+.faq summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 56px;
+    padding: 0.9rem 0;
+    color: var(--heading);
+    font-size: 1.02rem;
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+}
+.faq summary::-webkit-details-marker {
+    display: none;
+}
+.faq summary::after {
+    content: "+";
+    flex: none;
+    color: var(--muted);
+    font-size: 1.3rem;
+    font-weight: 400;
+    transition: transform 150ms ease;
+}
+.faq details[open] summary::after {
+    transform: rotate(45deg);
+}
+.faq details p {
+    margin: 0 0 1.1rem;
+    max-width: 62ch;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
+}
+
 /* ── Install ─────────────────────────────────────────────────────── */
 .install-grid {
     display: grid;
@@ -668,6 +810,14 @@ footer {
 footer a:hover {
     color: var(--heading);
 }
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.4rem;
+}
+.footer-note {
+    font-size: 0.82rem;
+}
 
 /* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 1040px) {
@@ -681,7 +831,11 @@ footer a:hover {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .runtime,
-    .install-grid {
+    .install-grid,
+    .split {
+        grid-template-columns: 1fr;
+    }
+    .trio {
         grid-template-columns: 1fr;
     }
 }
@@ -706,6 +860,9 @@ footer a:hover {
     }
     .protocol-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .points {
+        grid-template-columns: 1fr;
     }
 }
 @media (max-width: 440px) {

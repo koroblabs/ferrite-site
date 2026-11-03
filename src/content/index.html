@@ -404,7 +404,194 @@
         </div>
     </section>
 
-    <section class="band alt" id="runtime">
+    <section class="band alt" id="panel">
+        <div class="wrap">
+            <div class="section-head">
+                <p class="eyebrow">Web UI</p>
+                <h2 class="display">The panel, as it ships</h2>
+                <p class="lead">
+                    Real screens, not mockups. Watch the network, open any
+                    device or domain to see what it did and why, and change its
+                    rules from the same place. English, Ukrainian, German,
+                    Spanish and French, dark or light.
+                </p>
+            </div>
+            <div class="gallery">
+                <div
+                    class="gallery-tabs"
+                    role="tablist"
+                    aria-label="Panel screens"
+                >
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-dashboard"
+                        aria-controls="shot-dashboard"
+                        aria-selected="true"
+                    >
+                        Dashboard
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-log"
+                        aria-controls="shot-log"
+                        aria-selected="false"
+                    >
+                        Query log
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-devices"
+                        aria-controls="shot-devices"
+                        aria-selected="false"
+                    >
+                        Devices
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-profile"
+                        aria-controls="shot-profile"
+                        aria-selected="false"
+                    >
+                        Profiles
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-tunnels"
+                        aria-controls="shot-tunnels"
+                        aria-selected="false"
+                    >
+                        Tunnels
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-light"
+                        aria-controls="shot-light"
+                        aria-selected="false"
+                    >
+                        Light theme
+                    </button>
+                </div>
+                <figure
+                    class="shot"
+                    id="shot-dashboard"
+                    role="tabpanel"
+                    aria-labelledby="tab-dashboard"
+                >
+                    <img
+                        src="shots/dashboard.webp"
+                        width="2560"
+                        height="1600"
+                        alt="The dashboard: query totals with the blocked, cached and forwarded split, a 24-hour traffic chart, a Right now card with devices, profiles and tunnels, and the top domains and devices"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Totals, a day of traffic, what needs a look right now,
+                        and the busiest domains and devices.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-log"
+                    role="tabpanel"
+                    aria-labelledby="tab-log"
+                >
+                    <img
+                        src="shots/query-log.webp"
+                        width="2560"
+                        height="1600"
+                        alt="The query log: time, domain, record type, the device by name, the verdict and the latency of every query"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Every query with the device by name and the verdict.
+                        Click a domain to see which list or rule decided.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-devices"
+                    role="tabpanel"
+                    aria-labelledby="tab-devices"
+                >
+                    <img
+                        src="shots/devices.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Devices grouped by profile: Kids, School nights and IoT, each with its devices and how much of their traffic was blocked"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Devices sorted into the profiles that govern them, with
+                        what each profile blocks and when it is on.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-profile"
+                    role="tabpanel"
+                    aria-labelledby="tab-profile"
+                >
+                    <img
+                        src="shots/profile.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Editing the Kids profile: its devices, a schedule, and blocked services by category, with TikTok, Snapchat, Roblox and Fortnite switched on"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        A profile: pick the devices, block services by category,
+                        add a schedule and SafeSearch.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-tunnels"
+                    role="tabpanel"
+                    aria-labelledby="tab-tunnels"
+                >
+                    <img
+                        src="shots/tunnels.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Tunnel rules: netflix.com, bbc.co.uk, chatgpt.com and others routed through two WireGuard egresses, with fail-closed switches and hit counts"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Routing rules: which domains or services leave through
+                        which tunnel, for which devices.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-light"
+                    role="tabpanel"
+                    aria-labelledby="tab-light"
+                >
+                    <img
+                        src="shots/dashboard-light.webp"
+                        width="2560"
+                        height="1600"
+                        alt="The dashboard in the light theme"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>The same panel in the light theme.</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="band" id="runtime">
         <div class="wrap runtime">
             <div>
                 <p class="eyebrow">Resolver pipeline</p>
@@ -484,42 +671,173 @@
         </div>
     </section>
 
-    <section class="band" id="dashboard">
-        <div class="wrap">
+    <section class="band alt" id="privacy">
+        <div class="wrap split">
             <div class="section-head">
-                <p class="eyebrow">Web UI</p>
-                <h2 class="display">The panel</h2>
+                <p class="eyebrow">Privacy</p>
+                <h2 class="display">What it learns stays on the box</h2>
                 <p class="lead">
-                    The UI mirrors the resolver: dense, readable, and live.
-                    Watch the network, open any device or domain to see what it
-                    did and why, and change its rules from the same place.
+                    A DNS server sees every name your household looks up.
+                    Ferrite keeps that to itself, and lets you decide how much
+                    of it to keep at all.
                 </p>
             </div>
-            <figure class="shot">
-                <img
-                    src="panel-dashboard.webp"
-                    width="2560"
-                    height="1600"
-                    alt="The ferrite dashboard: totals, a 24-hour traffic chart, top domains, top devices and the live query feed"
-                    loading="lazy"
-                    decoding="async"
-                />
-            </figure>
+            <div class="points">
+                <div class="point">
+                    <strong>No telemetry</strong>
+                    <p>
+                        No analytics and no phone-home. The only call it makes
+                        on its own is an hourly check for a new release on
+                        GitHub; the rest are the lists and notifications you set
+                        up.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Encrypted on the way out</strong>
+                    <p>
+                        DoH, DoT or DoQ to the resolvers you pick. A resolver's
+                        own queries can ride a tunnel too, so your ISP sees
+                        WireGuard and nothing else.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Nothing extra upstream</strong>
+                    <p>
+                        EDNS Client Subnet is stripped, so the resolver never
+                        learns your subnet. DNSSEC is requested on every query.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>No TLS interception</strong>
+                    <p>
+                        For a routed domain it reads the SNI or Host to pick the
+                        tunnel and never terminates TLS. Your browser still
+                        checks the real certificate.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Logging you can switch off</strong>
+                    <p>
+                        The query log and the statistics each have a switch.
+                        Turn both off and ferrite keeps filtering while
+                        recording nothing about what was resolved.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Kind to SD cards</strong>
+                    <p>
+                        Keep history for as many days as you like, cap it in
+                        megabytes, or keep it in RAM only so nothing about your
+                        traffic is written to disk.
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="band alt" id="install">
+    <section class="band" id="moving-in">
+        <div class="wrap">
+            <div class="section-head">
+                <p class="eyebrow">Moving in</p>
+                <h2 class="display">Bring your setup, then add a second box</h2>
+            </div>
+            <div class="trio">
+                <article class="feature">
+                    <h3>From Pi-hole or AdGuard Home</h3>
+                    <p>
+                        Settings, then System, reads a Pi-hole v6 Teleporter
+                        export or an <code>AdGuardHome.yaml</code>. You see what
+                        comes over (lists, rules, local records, groups,
+                        per-device settings, blocked services) and what can't,
+                        before anything changes.
+                    </p>
+                </article>
+                <article class="feature">
+                    <h3>Two resolvers, one setup</h3>
+                    <p>
+                        Point a second ferrite at the first and it takes the
+                        parts you choose every few minutes: filtering, records,
+                        device names, DNS settings. Give your devices both and
+                        either one answers the same way.
+                    </p>
+                </article>
+                <article class="feature">
+                    <h3>One file to back up</h3>
+                    <p>
+                        Everything you set lives in <code>config.toml</code>,
+                        and the panel can export and restore it. The database
+                        only holds history, so losing it never loses your setup.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="band alt" id="integrations">
+        <div class="wrap split">
+            <div class="section-head">
+                <p class="eyebrow">Automation</p>
+                <h2 class="display">Talks to the rest of your setup</h2>
+                <p class="lead">
+                    Everything the panel does goes through a documented REST
+                    API, so a script can do it too.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-ghost" href="api.html"
+                        >API reference</a
+                    >
+                    <a
+                        class="button button-ghost"
+                        href="ferrite-grafana-dashboard.json"
+                        download
+                        >Grafana dashboard</a
+                    >
+                </div>
+            </div>
+            <div class="points">
+                <div class="point">
+                    <strong>Notifications</strong>
+                    <p>
+                        A tunnel down for over a minute, or a device the box has
+                        never seen. Sent to ntfy, Telegram, Discord, Slack,
+                        Gotify, or as JSON for Home Assistant and scripts.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Prometheus</strong>
+                    <p>
+                        Metrics at <code>/api/metrics</code>, cheap to scrape,
+                        with a ready Grafana dashboard to import.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>AI assistants (MCP)</strong>
+                    <p>
+                        An MCP endpoint lets an assistant ask why a site is
+                        blocked. It can only block, allow or pause if you switch
+                        that on. Off by default.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Docker and Unraid</strong>
+                    <p>
+                        An image on GHCR and an Unraid Community Apps template,
+                        besides the static binaries for x86_64 and aarch64.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band" id="install">
         <div class="wrap install-grid">
             <div>
                 <p class="eyebrow">Install</p>
-                <h2 class="display">
-                    One script, then point your network at it
-                </h2>
+                <h2 class="display">Running in a few minutes</h2>
                 <p class="lead">
-                    The installer downloads the server and web UI release
-                    assets, prepares system paths, and sets up the service for
-                    systemd, OpenRC, or launchd where available. Prefer
-                    containers? Pull the image from GHCR instead.
+                    The script downloads the server and the panel, checks their
+                    checksums, and sets up a systemd or OpenRC service. Prefer
+                    containers? The image is on GHCR.
                 </p>
                 <div class="commands">
                     <div class="command">
@@ -539,78 +857,127 @@
                             <span>Docker (ghcr.io)</span>
                             <button
                                 class="copy"
-                                data-copy="docker run -d --name ferrite \&#10;  --restart unless-stopped \&#10;  -p 53:53/tcp -p 53:53/udp \&#10;  -p 80:80/tcp \&#10;  -v ferrite-data:/var/lib/ferrite \&#10;  ghcr.io/syntlyx/ferrite-server:latest"
+                                data-copy="docker run -d --name ferrite \&#10;  --restart unless-stopped \&#10;  --network host \&#10;  --cap-add=NET_BIND_SERVICE \&#10;  -v ferrite-data:/var/lib/ferrite \&#10;  ghcr.io/syntlyx/ferrite-server:latest"
                             >
                                 Copy
                             </button>
                         </div>
                         <pre><code>docker run -d --name ferrite \
   --restart unless-stopped \
-  -p 53:53/tcp -p 53:53/udp \
-  -p 80:80/tcp \
+  --network host \
+  --cap-add=NET_BIND_SERVICE \
   -v ferrite-data:/var/lib/ferrite \
   ghcr.io/syntlyx/ferrite-server:latest</code></pre>
-                    </div>
-                    <div class="command">
-                        <div class="command-head">
-                            <span>Build from source</span>
-                            <button
-                                class="copy"
-                                data-copy="cargo build --release&#10;sudo cp target/release/ferrite /usr/local/bin/ferrite"
-                            >
-                                Copy
-                            </button>
-                        </div>
-                        <pre><code>cargo build --release
-sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
-                    </div>
-                    <div class="command">
-                        <div class="command-head">
-                            <span>Set a web UI password</span>
-                            <button class="copy" data-copy="ferrite passwd">
-                                Copy
-                            </button>
-                        </div>
-                        <pre><code>ferrite passwd</code></pre>
                     </div>
                 </div>
             </div>
             <div class="notes">
                 <div class="note">
-                    <strong>Default panel shortcut</strong>
+                    <strong>1. Point your network at it</strong>
                     <p>
-                        Ferrite serves a built-in
-                        <code>fe.te</code> record that points to the detected
-                        local server address, so the panel is easy to find on
-                        the LAN.
+                        In your router's DHCP settings, set the DNS server to
+                        the ferrite box's address. Devices pick it up with their
+                        next lease.
                     </p>
                 </div>
                 <div class="note">
-                    <strong>Container image on GHCR</strong>
+                    <strong>2. Open the panel</strong>
                     <p>
-                        A small Alpine image is published to
-                        <code>ghcr.io/syntlyx/ferrite-server</code>. Mount
-                        <code>/var/lib/ferrite</code> so config, data, and
-                        updates survive restarts. An Unraid Community Apps
-                        template is available too.
+                        Go to <code>http://fe.te</code> on your network. It is a
+                        built-in record that points at the box.
                     </p>
                 </div>
                 <div class="note">
-                    <strong>Config stays small</strong>
+                    <strong>3. Set a password</strong>
                     <p>
-                        User config lives at
-                        <code>~/.config/ferrite/config.toml</code>; system-wide
-                        config lives at <code>/etc/ferrite/config.toml</code>.
+                        Run <code>ferrite passwd</code> on the box before you
+                        leave the panel reachable from the network.
                     </p>
                 </div>
                 <div class="note">
-                    <strong>UI updates are runtime-managed</strong>
+                    <strong>Why host networking in Docker</strong>
                     <p>
-                        The web UI can be updated through
-                        <code>POST /api/update/web</code> once Ferrite is
-                        running.
+                        Profiles and routing rules match each device by its
+                        address. Behind a Docker bridge every query arrives from
+                        the gateway, and all your devices look like one.
                     </p>
                 </div>
+                <p class="lead small">
+                    Build from source, Unraid, updates and every setting:
+                    <a class="link" href="docs.html#install">install guide</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="band alt" id="faq">
+        <div class="wrap split">
+            <div class="section-head">
+                <p class="eyebrow">Questions</p>
+                <h2 class="display">Before you install</h2>
+                <p class="lead">
+                    The rest is in the
+                    <a class="link" href="docs.html">docs</a>.
+                </p>
+            </div>
+            <div class="faq">
+                <details>
+                    <summary>Do I install anything on each device?</summary>
+                    <p>
+                        No. Set ferrite as the DNS server in your router's DHCP
+                        settings and every device that joins uses it. Browsers
+                        with their own "secure DNS" setting skip any network DNS
+                        filter, so leave that off or set it to the system
+                        resolver.
+                    </p>
+                </details>
+                <details>
+                    <summary>What happens if the box goes down?</summary>
+                    <p>
+                        Devices stop resolving names until it is back. Run a
+                        second ferrite that follows the first and hand out both
+                        addresses. Don't add a public resolver as the second
+                        server: devices would use it and skip filtering.
+                    </p>
+                </details>
+                <details>
+                    <summary>Will it run on a Raspberry Pi?</summary>
+                    <p>
+                        Yes. On an ARM board serving 30 devices from a
+                        1.8-million-domain blocklist it uses about 60 MB of
+                        memory. There are static builds for aarch64 and x86_64.
+                    </p>
+                </details>
+                <details>
+                    <summary>Does it need root?</summary>
+                    <p>
+                        The installer does, to set up the service. Ferrite
+                        itself runs as its own user with the capability to bind
+                        port 53, plus the one for kernel WireGuard if you route
+                        through it.
+                    </p>
+                </details>
+                <details>
+                    <summary>Does it see my HTTPS traffic?</summary>
+                    <p>
+                        It answers DNS. Only for a domain you route through a
+                        tunnel does the connection pass through ferrite, and
+                        then it reads the hostname to pick the tunnel without
+                        decrypting anything.
+                    </p>
+                </details>
+                <details>
+                    <summary>What about IPv6?</summary>
+                    <p>
+                        The installer has it listen on IPv4 and IPv6. If your
+                        router also advertises its own IPv6 DNS server, point
+                        that at ferrite too, or devices will ask the router
+                        instead.
+                    </p>
+                </details>
+                <details>
+                    <summary>Is it free?</summary>
+                    <p>Yes, MIT licensed, with no account and no paid tier.</p>
+                </details>
             </div>
         </div>
     </section>

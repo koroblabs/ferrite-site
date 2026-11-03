@@ -30,6 +30,19 @@ pnpm build     # static build into dist/
 pnpm preview   # serve the built dist/
 ```
 
+## Demo
+
+`/demo/` is the real panel running on sample data in the browser. `pnpm build`
+builds it first from `../web` (`pnpm build:demo` there) into `public/demo/`;
+`pnpm demo` does just that step. Without `../web` the site builds without it.
+
+## Ukrainian pages
+
+`src/content/uk/*.html` are generated from the English pages by
+`python3 scripts/translate.py`, using the string tables in `i18n/uk/`. After
+changing English text, run it: it lists any string it can no longer match, so
+the table can be updated. Then format with prettier (`--tab-width 4`).
+
 ## Deploy
 
 Served as [Cloudflare Workers static

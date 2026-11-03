@@ -5,7 +5,7 @@ interface Props {
     title: string;
     description?: string;
     /** Which nav item is the current page (highlights it; `home` marks the logo). */
-    active?: "home" | "docs" | "api" | "download";
+    active?: "home" | "docs" | "api" | "download" | "changelog";
 }
 
 const { title, description, active } = Astro.props;
@@ -63,7 +63,7 @@ const FAVICON =
                     <a href={active === "home" ? "#panel" : "index.html#panel"}>Panel</a>
                     <a href="docs.html" aria-current={cur("docs")}>Docs</a>
                     <a href="api.html" aria-current={cur("api")}>API</a>
-                    <a href="download.html#releases">Changelog</a>
+                    <a href="changelog.html" aria-current={cur("changelog")}>Changelog</a>
                     <a href="https://github.com/syntlyx/ferrite-server">GitHub</a>
                     <a
                         href="download.html"
@@ -106,7 +106,7 @@ const FAVICON =
                     <a href="docs.html">Docs</a>
                     <a href="api.html">API</a>
                     <a href="download.html">Download</a>
-                    <a href="download.html#releases">Changelog</a>
+                    <a href="changelog.html">Changelog</a>
                     <a href="https://github.com/syntlyx/ferrite-server">Server source</a>
                     <a href="https://github.com/syntlyx/ferrite-web">Panel source</a>
                 </nav>

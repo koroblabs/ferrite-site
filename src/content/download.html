@@ -3,9 +3,7 @@
         <div class="wrap install-grid">
             <div>
                 <p class="eyebrow">Install</p>
-                <h1 class="display">
-                    One script, then point your network at it
-                </h1>
+                <h1 class="display">Install ferrite</h1>
                 <p class="lead">
                     The script downloads the server and the panel, checks their
                     checksums, and sets up a systemd or OpenRC service. Prefer
@@ -115,181 +113,46 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
     </section>
 
     <section class="band alt" id="releases">
-        <div class="wrap">
+        <div class="wrap split">
             <div class="section-head">
-                <p class="eyebrow">Releases</p>
-                <h2 class="display">What's new</h2>
+                <p class="eyebrow">Latest release</p>
+                <h2 class="display">What's new in 0.2.0</h2>
                 <p class="lead">
-                    Source and tagged releases live on GitHub:
-                    <a href="https://github.com/syntlyx/ferrite-server"
-                        >ferrite-server</a
-                    >
-                    and
-                    <a href="https://github.com/syntlyx/ferrite-web"
-                        >ferrite-web</a
-                    >.
+                    Rules for each device, not only for the network.
                 </p>
+                <div class="hero-actions">
+                    <a class="button button-ghost" href="changelog.html"
+                        >Full changelog</a
+                    >
+                </div>
             </div>
-            <div class="notes">
-                <div class="note">
-                    <strong>v0.2.0 — current</strong>
+            <div class="points">
+                <div class="point">
+                    <strong>Services and schedules</strong>
                     <p>
-                        Rules for each device, not just the network. Profiles
-                        can block services from a built-in catalog of 43 —
-                        TikTok, Roblox, YouTube, Discord and more, one click
-                        each — apply on a weekly schedule such as school nights,
-                        and force SafeSearch and YouTube Restricted Mode; the
-                        same services and SafeSearch work for the whole network,
-                        and a tunnel rule can route a whole service. Profiles
-                        have a page of their own, and any device or domain opens
-                        in a side panel: its profile and whether it applies
-                        right now, a day of activity, the services behind it,
-                        what it asked for and what was blocked and why — from
-                        the query log, the dashboard, the device list or ⌘K.
-                        Notifications reach ntfy, Telegram, Discord, Slack or
-                        Gotify as readable messages when a tunnel stays down or
-                        a device the box has never seen joins. Panel sign-ins
-                        now last seven days since last use and survive restarts
-                        and updates, and Settings lists every signed-in browser
-                        with a way to sign it out. An MCP endpoint, off by
-                        default, lets an AI assistant ask why a site is blocked
-                        — or, if you allow it, block one. The resolver itself
-                        grew too: a blocked name can be answered NXDOMAIN,
-                        empty, with
-                        <code>0.0.0.0</code> or with a block page of your own;
-                        an optimistic cache keeps names resolving through an
-                        upstream outage; a per-device rate limit and allowed or
-                        denied ranges keep it to your network; and manual rules
-                        take regular expressions. Coming from Pi-hole or AdGuard
-                        Home, Settings reads a Teleporter export or an
-                        <code>AdGuardHome.yaml</code> and shows what comes over
-                        — lists, rules, records, groups, blocked services — and
-                        what can't, before anything changes. And a second
-                        ferrite can now follow the first, taking its filtering,
-                        records and DNS settings every few minutes, so two
-                        resolvers answer alike and you edit in one place.
-                        Upgrading: the database moves to schema v12 on first
-                        start, so an older ferrite can't open it afterwards —
-                        copy <code>ferrite.db</code> first if you may roll back;
-                        <code>[proxy] alert_webhook</code> moves to
-                        <code>[notifications]</code> by itself; and the panel
-                        asks for the password once more.
+                        Block TikTok, Roblox or YouTube for one profile with a
+                        click, and turn the profile on for school nights only.
                     </p>
                 </div>
-                <div class="note">
-                    <strong>v0.1.10</strong>
+                <div class="point">
+                    <strong>SafeSearch</strong>
                     <p>
-                        A security release for the TLS and QUIC stack under
-                        every encrypted upstream. rustls 0.23.46 closes four
-                        advisories, among them an unauthenticated ServerHello
-                        that could downgrade later connections to classical key
-                        exchange, and up to 1 GiB allocated decompressing a
-                        certificate before it is verified. quinn-proto 0.11.19
-                        fixes five ways a DoQ peer could crash ferrite or grow
-                        its memory without bound, and certificate checks no
-                        longer trust the distrusted emSign intermediates. Under
-                        the hood blocklists and allowlists now share one
-                        implementation instead of two mirrored copies — config,
-                        API routes and blocking decisions are unchanged. New in
-                        the panel: block or allow a domain in one click from the
-                        query log or the dashboard, with an undo; pause
-                        filtering for five minutes to an hour — for the whole
-                        network or one device — without touching the config; and
-                        back up or restore the whole configuration as a single
-                        file. Subscription lists now refresh on their own every
-                        12 hours, and a restart after an upgrade no longer holds
-                        DNS back while device profiles rebuild. The panel got a
-                        pass too: repeated queries fold into one line, tunnel
-                        rules and clients read at a glance with a colour per
-                        tunnel and an icon per device, every page fits a phone,
-                        and the German, Spanish and French translations are
-                        proofread.
+                        Google, Bing and DuckDuckGo filtered, and YouTube
+                        Restricted Mode, for the whole network or one profile.
                     </p>
                 </div>
-                <div class="note">
-                    <strong>v0.1.9</strong>
+                <div class="point">
+                    <strong>Moving in</strong>
                     <p>
-                        A lighter hot path: queries are read and patched on the
-                        wire instead of decoded and rebuilt, and on Linux UDP
-                        moves in batches — CPU per query drops from ~139 µs to
-                        ~19 µs. A blocklist refresh that changed nothing now
-                        builds nothing, a profile recompiles only when its own
-                        lists move, and the refresh peak on a million-domain
-                        list fell from 96 MB to 50 MB. The database now holds
-                        only what ferrite observed — everything you configure
-                        lives in <code>config.toml</code> — and you choose where
-                        it goes: SQLite at a path picked from the box's mounts,
-                        or a RAM-only backend, with a size cap and a 30-day
-                        default retention. The compiled blocklist can sit in RAM
-                        too, sparing an SD card. New switches stop query logging
-                        and statistics — including the device inventory —
-                        outright.
+                        Import from Pi-hole or AdGuard Home, and let a second
+                        ferrite follow the first.
                     </p>
                 </div>
-                <div class="note">
-                    <strong>v0.1.8</strong>
+                <div class="point">
+                    <strong>Before you upgrade</strong>
                     <p>
-                        WireGuard tunnels can now run on the kernel backend:
-                        ferrite builds its own <code>wg</code> interface over
-                        netlink and steers only its own traffic through it, so
-                        crypto uses every core and throughput follows the link
-                        instead of a fixed window. Proxied bytes move with
-                        <code>splice(2)</code>, never entering user space.
-                        Blocking now wins over selective routing, so a
-                        blocklisted subdomain stays blocked under a routed
-                        domain, and a new client-TTL ceiling keeps devices thin
-                        so list, rule and profile changes reach them within a
-                        minute. The Linux download is ~20 MB instead of ~171.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>v0.1.7</strong>
-                    <p>
-                        Per-device blocklist profiles with manual block/allow
-                        overrides, subscribable allowlists, and a default-deny
-                        mode that exempts local names. Egress health gained
-                        active latency probes that gate fail-closed routing,
-                        down-alert webhooks, Prometheus metrics at
-                        <code>/api/metrics</code>, and per-tunnel traffic stats.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>v0.1.6</strong>
-                    <p>
-                        Memory overhaul — the mimalloc allocator, bounded
-                        internal caches, and new memory-introspection stats keep
-                        long-running RSS low and flat. Tunnel supervision was
-                        hardened against stalls and reconnect churn, and the
-                        Docker image now exposes 443.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>v0.1.5</strong>
-                    <p>
-                        Transport-independent DNSSEC — signatures now survive
-                        over DoT and plain upstreams by raw-forwarding the wire
-                        response instead of rebuilding the query. Idle tunnel
-                        connections are reaped on a timeout, so memory stays
-                        flat under heavy per-device routing.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>v0.1.4</strong>
-                    <p>
-                        Per-device routing rules, upstream-through-tunnel
-                        (DNS-over-TCP + DoT), DPI-evasion egress, unified :80
-                        (panel + proxy), DNSSEC request + ECS stripping,
-                        diagnostic Tools (nslookup/WHOIS), block-source
-                        attribution, and a debug-logging toggle.
-                    </p>
-                </div>
-                <div class="note">
-                    <strong>Earlier</strong>
-                    <p>
-                        Selective routing engine, userspace WireGuard / SOCKS5
-                        egress, encrypted upstreams (DoH/DoT/DoQ), compiled
-                        blocklists, custom DNS, live stats, and the REST-managed
-                        web UI.
+                        The database moves to schema v12. Copy
+                        <code>ferrite.db</code> first if you may roll back.
                     </p>
                 </div>
             </div>

@@ -1,0 +1,12 @@
+---
+import Base from "../layouts/Base.astro";
+import content from "../content/changelog.html?raw";
+---
+
+<Base
+    title="Changelog — Ferrite"
+    description="What changed in each Ferrite release, newest first: new features, improvements, security fixes and upgrade notes."
+    active="changelog"
+>
+    <Fragment set:html={content} />
+</Base>

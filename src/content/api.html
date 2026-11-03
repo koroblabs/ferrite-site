@@ -93,7 +93,9 @@
                     </p>
                 </div>
                 <div class="note">
-                    <strong><code>GET</code> /api/clients/{device}/stats</strong>
+                    <strong
+                        ><code>GET</code> /api/clients/{device}/stats</strong
+                    >
                     <p>
                         One device in detail: counters, its top and blocked
                         domains, the services behind them, 10-minute activity.
@@ -163,8 +165,10 @@
                     <strong><code>GET · POST</code> /api/allowlists</strong>
                     <p>
                         Allowlist subscriptions — domains on them are never
-                        blocked. Mirrors /api/lists one-to-one
-                        (<code>PATCH · DELETE</code> /{name}, refresh).
+                        blocked. Mirrors /api/lists one-to-one (<code
+                            >PATCH · DELETE</code
+                        >
+                        /{name}, refresh).
                     </p>
                 </div>
                 <div class="note">
@@ -180,25 +184,31 @@
                 <div class="note">
                     <strong><code>GET</code> /api/services</strong>
                     <p>
-                        The service catalog: id, name, category and domains of each.
+                        The service catalog: id, name, category and domains of
+                        each.
                     </p>
                 </div>
                 <div class="note">
-                    <strong><code>GET · PUT</code> /api/blocklist/services</strong>
-                    <p>
-                        Services blocked for the whole network.
-                    </p>
+                    <strong
+                        ><code>GET · PUT</code> /api/blocklist/services</strong
+                    >
+                    <p>Services blocked for the whole network.</p>
                 </div>
                 <div class="note">
-                    <strong><code>GET · PUT</code> /api/blocklist/safe-search</strong>
-                    <p>
-                        Network-wide SafeSearch and YouTube Restricted Mode.
-                    </p>
+                    <strong
+                        ><code>GET · PUT</code>
+                        /api/blocklist/safe-search</strong
+                    >
+                    <p>Network-wide SafeSearch and YouTube Restricted Mode.</p>
                 </div>
                 <div class="note">
-                    <strong><code>GET · POST</code> /api/blocking/pause · /api/blocking/resume</strong>
+                    <strong
+                        ><code>GET · POST</code> /api/blocking/pause ·
+                        /api/blocking/resume</strong
+                    >
                     <p>
-                        Pause filtering for a few minutes — box-wide or per device — and end it early.
+                        Pause filtering for a few minutes — box-wide or per
+                        device — and end it early.
                     </p>
                 </div>
             </div>
@@ -276,13 +286,12 @@
                             <span>prometheus.yml — scrape config</span>
                             <button
                                 class="copy"
-                                data-copy="scrape_configs:&#10;  - job_name: ferrite&#10;    metrics_path: /api/metrics&#10;    authorization:&#10;      credentials: YOUR_API_KEY&#10;    static_configs:&#10;      - targets: [&quot;ferrite.lan:80&quot;]"
+                                data-copy='scrape_configs:&#10;  - job_name: ferrite&#10;    metrics_path: /api/metrics&#10;    authorization:&#10;      credentials: YOUR_API_KEY&#10;    static_configs:&#10;      - targets: ["ferrite.lan:80"]'
                             >
                                 Copy
                             </button>
                         </div>
-                        <pre
-                            class="noprompt"><code>scrape_configs:
+                        <pre class="noprompt"><code>scrape_configs:
   - job_name: ferrite
     metrics_path: /api/metrics
     authorization:
@@ -296,11 +305,13 @@
                             <a
                                 class="copy"
                                 href="/ferrite-grafana-dashboard.json"
-                                download>Download</a
+                                download
+                                >Download</a
                             >
                         </div>
                         <pre
-                            class="noprompt"><code>Dashboards &rarr; New &rarr; Import &rarr; upload the JSON,
+                            class="noprompt"
+                        ><code>Dashboards &rarr; New &rarr; Import &rarr; upload the JSON,
 then pick your Prometheus data source. Covers query
 rates, cache, egress health, probe RTT, throughput,
 rule hits, and process memory.</code></pre>
@@ -322,8 +333,8 @@ rule hits, and process memory.</code></pre>
                         <p>
                             Query counters by outcome, cache and blocklist
                             gauges, process memory and file descriptors, and
-                            per-egress health, probe RTT, traffic, failures,
-                            and per-rule hit counters. Per-domain tables are
+                            per-egress health, probe RTT, traffic, failures, and
+                            per-rule hit counters. Per-domain tables are
                             deliberately not exported — their label cardinality
                             is unbounded; egress ids and rule patterns are
                             config-bounded, so they are.
@@ -367,27 +378,44 @@ rule hits, and process memory.</code></pre>
                     <p>Check session · log in (password) · log out.</p>
                 </div>
                 <div class="note">
-                    <strong><code>GET · DELETE</code> /api/auth/sessions[/{id}]</strong>
+                    <strong
+                        ><code>GET · DELETE</code>
+                        /api/auth/sessions[/{id}]</strong
+                    >
                     <p>
-                        Signed-in browsers — where and when each signed in; sign one out, or every one but yours.
+                        Signed-in browsers — where and when each signed in; sign
+                        one out, or every one but yours.
                     </p>
                 </div>
                 <div class="note">
-                    <strong><code>GET · PUT</code> /api/notifications · <code>POST</code> /notifications/test</strong>
+                    <strong
+                        ><code>GET · PUT</code> /api/notifications ·
+                        <code>POST</code> /notifications/test</strong
+                    >
                     <p>
-                        Webhook target and format (ntfy, Telegram, Discord, Slack, Gotify, JSON), which events go to it, and a test send.
+                        Webhook target and format (ntfy, Telegram, Discord,
+                        Slack, Gotify, JSON), which events go to it, and a test
+                        send.
                     </p>
                 </div>
                 <div class="note">
-                    <strong><code>GET</code> /api/config/export · <code>POST</code> /api/config/import</strong>
+                    <strong
+                        ><code>GET</code> /api/config/export ·
+                        <code>POST</code> /api/config/import</strong
+                    >
                     <p>
                         Back up or restore the whole configuration as one file.
                     </p>
                 </div>
                 <div class="note">
-                    <strong><code>POST</code> /api/mcp · <code>GET · PUT</code> /api/settings/mcp</strong>
+                    <strong
+                        ><code>POST</code> /api/mcp ·
+                        <code>GET · PUT</code> /api/settings/mcp</strong
+                    >
                     <p>
-                        The Model Context Protocol endpoint for AI assistants, and whether it is on and may change things. Off by default.
+                        The Model Context Protocol endpoint for AI assistants,
+                        and whether it is on and may change things. Off by
+                        default.
                     </p>
                 </div>
                 <div class="note">

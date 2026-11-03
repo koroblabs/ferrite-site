@@ -1,22 +1,78 @@
 ---
 import "../styles/ferrite.css";
 
+type Lang = "en" | "uk";
+
 interface Props {
     title: string;
     description?: string;
     /** Which nav item is the current page (highlights it; `home` marks the logo). */
     active?: "home" | "docs" | "api" | "download" | "changelog";
+    /** This page's file, as the other language has it too: "" for the front page, "docs.html" … */
+    page?: string;
+    lang?: Lang;
+    /** Pages that exist in one language only leave out the switcher. */
+    translated?: boolean;
 }
 
-const { title, description, active } = Astro.props;
+const {
+    title,
+    description,
+    active,
+    page = "",
+    lang = "en",
+    translated = true,
+} = Astro.props;
 const cur = (key: Props["active"]) => (active === key ? "page" : undefined);
+
+const T = {
+    en: {
+        home: "Ferrite home",
+        panel: "Panel",
+        demo: "Demo",
+        docs: "Docs",
+        api: "API",
+        changelog: "Changelog",
+        download: "Download",
+        menu: "Menu",
+        serverSource: "Server source",
+        panelSource: "Panel source",
+        note: "MIT licence · no account, no telemetry",
+        other: "Українською",
+        otherShort: "УКР",
+    },
+    uk: {
+        home: "Ferrite, головна",
+        panel: "Панель",
+        demo: "Демо",
+        docs: "Документація",
+        api: "API",
+        changelog: "Зміни",
+        download: "Завантажити",
+        menu: "Меню",
+        serverSource: "Код сервера",
+        panelSource: "Код панелі",
+        note: "Ліцензія MIT · без акаунта, без телеметрії",
+        other: "In English",
+        otherShort: "ENG",
+    },
+}[lang];
+
+// Pages of each language sit side by side ("/docs.html", "/uk/docs.html"), so
+// the links below stay relative; the API reference is English only.
+const root = lang === "uk" ? "/uk/" : "/";
+const apiHref = lang === "uk" ? "/api.html" : "api.html";
+const otherHref = (lang === "uk" ? "/" : "/uk/") + page;
+const site = Astro.site ?? new URL("https://ferrite.me");
+const canonical = new URL(root + page, site).href;
+const ogImage = new URL("/og.png", site).href;
 
 const FAVICON =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171411'/%3E%3Cpath d='M18 12h29v9H28v8h16v9H28v14H18Z' fill='%23ff6a38'/%3E%3C/svg%3E";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,20 +80,47 @@ const FAVICON =
         {description && <meta name="description" content={description} />}
         <meta name="theme-color" content="#0e0c0a" />
         <link rel="icon" href={FAVICON} />
+        <link rel="canonical" href={canonical} />
+        {
+            translated && (
+                <>
+                    <link rel="alternate" hreflang="en" href={new URL("/" + page, site).href} />
+                    <link rel="alternate" hreflang="uk" href={new URL("/uk/" + page, site).href} />
+                </>
+            )
+        }
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Ferrite" />
+        <meta property="og:title" content={title} />
+        {description && <meta property="og:description" content={description} />}
+        <meta property="og:url" content={canonical} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content={lang === "uk" ? "uk_UA" : "en_US"} />
+        <meta name="twitter:card" content="summary_large_image" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
             href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
             rel="stylesheet"
         />
+        {
+            lang === "uk" && (
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap"
+                    rel="stylesheet"
+                />
+            )
+        }
     </head>
     <body>
         <nav class="site-nav" aria-label="Primary navigation">
             <div class="nav-inner">
                 <a
                     class="brand display"
-                    href={active === "home" ? "#top" : "index.html"}
-                    aria-label="Ferrite home"
+                    href={active === "home" ? "#top" : root}
+                    aria-label={T.home}
                     aria-current={cur("home")}
                 >
                     <span class="mark" aria-hidden="true">
@@ -59,17 +142,39 @@ const FAVICON =
                     </span>
                     <span>ferrite</span>
                 </a>
-                <div class="nav-links">
-                    <a href={active === "home" ? "#panel" : "index.html#panel"}>Panel</a>
-                    <a href="docs.html" aria-current={cur("docs")}>Docs</a>
-                    <a href="api.html" aria-current={cur("api")}>API</a>
-                    <a href="changelog.html" aria-current={cur("changelog")}>Changelog</a>
+                <div class="nav-links" id="site-menu">
+                    <a href={active === "home" ? "#panel" : root + "#panel"}>{T.panel}</a>
+                    <a href={root + "docs.html"} aria-current={cur("docs")}>{T.docs}</a>
+                    <a href={apiHref} aria-current={cur("api")}>{T.api}</a>
+                    <a href={root + "changelog.html"} aria-current={cur("changelog")}>{T.changelog}</a>
                     <a href="https://github.com/syntlyx/ferrite-server">GitHub</a>
+                    {
+                        translated && (
+                            <a class="lang-link" href={otherHref} hreflang={lang === "uk" ? "en" : "uk"} title={T.other}>
+                                {T.otherShort}
+                            </a>
+                        )
+                    }
+                </div>
+                <div class="nav-actions">
                     <a
-                        href="download.html"
+                        href={root + "download.html"}
                         class="button button-primary button-mini"
-                        aria-current={cur("download")}>Download</a
+                        aria-current={cur("download")}>{T.download}</a
                     >
+                    <button
+                        type="button"
+                        class="nav-toggle"
+                        aria-controls="site-menu"
+                        aria-expanded="false"
+                        aria-label={T.menu}
+                    >
+                        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <path class="bar-top" d="M4 7h16"></path>
+                            <path class="bar-mid" d="M4 12h16"></path>
+                            <path class="bar-bot" d="M4 17h16"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </nav>
@@ -78,11 +183,7 @@ const FAVICON =
 
         <footer>
             <div class="footer-inner">
-                <a
-                    class="brand display"
-                    href="index.html"
-                    aria-label="Ferrite home"
-                >
+                <a class="brand display" href={root} aria-label={T.home}>
                     <span class="mark" aria-hidden="true">
                         <svg viewBox="0 0 64 64" aria-hidden="true">
                             <rect width="64" height="64" rx="14" fill="#1c1814"
@@ -103,15 +204,42 @@ const FAVICON =
                     <span>ferrite</span>
                 </a>
                 <nav class="footer-links" aria-label="Footer">
-                    <a href="docs.html">Docs</a>
-                    <a href="api.html">API</a>
-                    <a href="download.html">Download</a>
-                    <a href="changelog.html">Changelog</a>
-                    <a href="https://github.com/syntlyx/ferrite-server">Server source</a>
-                    <a href="https://github.com/syntlyx/ferrite-web">Panel source</a>
+                    <a href={root + "docs.html"}>{T.docs}</a>
+                    <a href={apiHref}>{T.api}</a>
+                    <a href={root + "download.html"}>{T.download}</a>
+                    <a href={root + "changelog.html"}>{T.changelog}</a>
+                    <a href="https://github.com/syntlyx/ferrite-server">{T.serverSource}</a>
+                    <a href="https://github.com/syntlyx/ferrite-web">{T.panelSource}</a>
+                    {translated && <a href={otherHref} hreflang={lang === "uk" ? "en" : "uk"}>{T.other}</a>}
                 </nav>
-                <span class="footer-note">MIT licence · no account, no telemetry</span>
+                <span class="footer-note">{T.note}</span>
             </div>
         </footer>
+
+        <script is:inline>
+            // Phones: the links fold behind a menu button; a link, a click
+            // outside or Escape folds them away again.
+            (() => {
+                const nav = document.querySelector(".site-nav");
+                const toggle = nav && nav.querySelector(".nav-toggle");
+                if (!toggle) return;
+                const set = (open) => {
+                    nav.classList.toggle("open", open);
+                    toggle.setAttribute("aria-expanded", String(open));
+                };
+                toggle.addEventListener("click", () =>
+                    set(!nav.classList.contains("open")),
+                );
+                nav.querySelectorAll(".nav-links a").forEach((a) =>
+                    a.addEventListener("click", () => set(false)),
+                );
+                document.addEventListener("click", (e) => {
+                    if (!nav.contains(e.target)) set(false);
+                });
+                document.addEventListener("keydown", (e) => {
+                    if (e.key === "Escape") set(false);
+                });
+            })();
+        </script>
     </body>
 </html>

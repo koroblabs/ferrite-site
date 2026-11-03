@@ -3,6 +3,11 @@ import Base from "../layouts/Base.astro";
 import content from "../content/notfound.html?raw";
 ---
 
-<Base title="404 — Ferrite" description="Page not found.">
+<Base
+    title="404 — Ferrite"
+    description="Page not found."
+    page="404.html"
+    translated={false}
+>
     <Fragment set:html={content} />
 </Base>

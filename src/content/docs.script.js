@@ -33,3 +33,22 @@ if (contents) {
   mark();
   addEventListener("scroll", mark, { passive: true });
 }
+
+// A Copy button on every code block.
+document.querySelectorAll(".doc pre").forEach((pre) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "copy copy-code";
+  button.textContent = "Copy";
+  button.addEventListener("click", async () => {
+    const code = pre.querySelector("code") ?? pre;
+    try {
+      await navigator.clipboard.writeText(code.innerText.replace(/\n$/, ""));
+      button.textContent = "Copied";
+    } catch {
+      button.textContent = "Select it";
+    }
+    setTimeout(() => (button.textContent = "Copy"), 1400);
+  });
+  pre.append(button);
+});

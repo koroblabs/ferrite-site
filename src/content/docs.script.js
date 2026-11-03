@@ -35,20 +35,24 @@ if (contents) {
 }
 
 // A Copy button on every code block.
+const UK = document.documentElement.lang === "uk";
+const COPY = UK ? "Копіювати" : "Copy";
+const COPIED = UK ? "Скопійовано" : "Copied";
+const SELECT = UK ? "Виділіть" : "Select it";
 document.querySelectorAll(".doc pre").forEach((pre) => {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "copy copy-code";
-  button.textContent = "Copy";
+  button.textContent = COPY;
   button.addEventListener("click", async () => {
     const code = pre.querySelector("code") ?? pre;
     try {
       await navigator.clipboard.writeText(code.innerText.replace(/\n$/, ""));
-      button.textContent = "Copied";
+      button.textContent = COPIED;
     } catch {
-      button.textContent = "Select it";
+      button.textContent = SELECT;
     }
-    setTimeout(() => (button.textContent = "Copy"), 1400);
+    setTimeout(() => (button.textContent = COPY), 1400);
   });
   pre.append(button);
 });

@@ -1,0 +1,469 @@
+<main id="top" class="changelog-page">
+    <div class="wrap">
+        <header class="section-head">
+            <p class="eyebrow">Зміни</p>
+            <h1 class="display">Що змінилось, реліз за релізом</h1>
+            <p class="lead">
+                Найновіші зверху. Збірки з тегами лежать на GitHub: для
+                <a
+                    class="link"
+                    href="https://github.com/syntlyx/ferrite-server/releases"
+                    >сервера</a
+                >
+                і для
+                <a
+                    class="link"
+                    href="https://github.com/syntlyx/ferrite-web/releases"
+                    >панелі</a
+                >.
+            </p>
+            <nav class="release-jump" aria-label="Релізи">
+                <a href="#v0.2.0">0.2.0</a>
+                <a href="#v0.1.10">0.1.10</a>
+                <a href="#v0.1.9">0.1.9</a>
+                <a href="#v0.1.8">0.1.8</a>
+                <a href="#v0.1.7">0.1.7</a>
+                <a href="#v0.1.6">0.1.6</a>
+                <a href="#v0.1.5">0.1.5</a>
+                <a href="#v0.1.4">0.1.4</a>
+                <a href="#v0.1.0">0.1.0–0.1.3</a>
+            </nav>
+        </header>
+
+        <div class="changelog">
+            <article class="release" id="v0.2.0">
+                <div class="release-meta">
+                    <h2 class="release-version">0.2.0</h2>
+                    <span class="release-badge">Остання</span>
+                    <time datetime="2026-11">Листопад 2026</time>
+                </div>
+                <div class="release-body">
+                    <p class="release-summary">
+                        Правила для кожного пристрою, а не лише для всієї
+                        мережі.
+                    </p>
+                    <figure class="shot release-shot">
+                        <img
+                            src="/shots/profile.webp"
+                            width="2560"
+                            height="1600"
+                            alt="Редагування профілю Kids: пристрої, розклад і заблоковані сервіси за категоріями"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                        <figcaption>
+                            Профіль у 0.2.0: пристрої, розклад і заблоковані
+                            сервіси за категоріями.
+                        </figcaption>
+                    </figure>
+                    <h3 class="tag-new">Нове</h3>
+                    <ul>
+                        <li>
+                            Профілі блокують сервіси з каталогу на 43 (TikTok,
+                            Roblox, YouTube, Discord та інші), кожен одним
+                            кліком.
+                        </li>
+                        <li>
+                            Профілі вмикаються за тижневим розкладом, наприклад
+                            на шкільні вечори.
+                        </li>
+                        <li>
+                            SafeSearch і обмежений режим YouTube, для всієї
+                            мережі чи одного профілю.
+                        </li>
+                        <li>
+                            Правило тунелю може вести через тунель цілий сервіс.
+                        </li>
+                        <li>
+                            Бокова панель для будь-якого пристрою чи домену:
+                            його профіль і чи діє він зараз, активність за добу,
+                            сервіси за ним, а також що заблоковано і чому.
+                        </li>
+                        <li>
+                            Сповіщення в ntfy, Telegram, Discord, Slack чи
+                            Gotify, коли тунель довго лежить або з'являється
+                            новий пристрій.
+                        </li>
+                        <li>
+                            Імпорт з експорту Teleporter з Pi-hole або з
+                            <code>AdGuardHome.yaml</code>, з попереднім
+                            переглядом того, що перенесеться, а що ні.
+                        </li>
+                        <li>
+                            Другий ferrite може слідувати за першим і
+                            відповідати так само, тож редагуєте в одному місці.
+                        </li>
+                        <li>
+                            MCP, вимкнений за замовчуванням, щоб AI-асистент міг
+                            спитати, чому сайт заблоковано.
+                        </li>
+                    </ul>
+                    <h3 class="tag-dns">Резолвер</h3>
+                    <ul>
+                        <li>
+                            Можна вибрати, що отримує заблоковане ім'я:
+                            NXDOMAIN, порожню відповідь,
+                            <code>0.0.0.0</code> або власну сторінку блокування.
+                        </li>
+                        <li>
+                            Оптимістичний кеш тримає імена робочими, навіть коли
+                            upstream недоступний.
+                        </li>
+                        <li>
+                            Обмеження швидкості для кожного пристрою і дозволені
+                            чи заборонені діапазони адрес.
+                        </li>
+                        <li>Ручні правила приймають регулярні вирази.</li>
+                    </ul>
+                    <h3 class="tag-improved">Панель</h3>
+                    <ul>
+                        <li>
+                            Спокійніший вигляд, картка «Зараз» на дашборді й
+                            пристрої, згруповані за профілями.
+                        </li>
+                        <li>
+                            <kbd>⌘K</kbd> знаходить будь-яке налаштування,
+                            пристрій, профіль, список чи тунель і веде до нього.
+                        </li>
+                        <li>
+                            Вхід тримається сім днів від останнього використання
+                            й переживає перезапуски та оновлення. У
+                            налаштуваннях видно браузери, в яких виконано вхід,
+                            і з будь-якого можна вийти.
+                        </li>
+                    </ul>
+                    <div class="release-upgrade">
+                        <strong>Перед оновленням</strong>
+                        <ul>
+                            <li>
+                                Під час першого запуску база переходить на схему
+                                v12, і старіший ferrite її вже не відкриє.
+                                Скопіюйте <code>ferrite.db</code> заздалегідь,
+                                якщо можете захотіти відкотитися.
+                            </li>
+                            <li>
+                                <code>[proxy] alert_webhook</code> переїжджає в
+                                <code>[notifications]</code> автоматично.
+                            </li>
+                            <li>Панель ще раз попросить пароль.</li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
+            <article class="release" id="v0.1.10">
+                <div class="release-meta">
+                    <h2 class="release-version">0.1.10</h2>
+                    <time datetime="2026-11-02">2 листопада 2026</time>
+                    <a
+                        class="link"
+                        href="https://github.com/syntlyx/ferrite-server/releases/tag/v0.1.10"
+                        >На GitHub</a
+                    >
+                </div>
+                <div class="release-body">
+                    <p class="release-summary">
+                        Безпековий реліз для стеку TLS і QUIC і порція роботи
+                        над панеллю.
+                    </p>
+                    <h3 class="tag-security">Безпека</h3>
+                    <ul>
+                        <li>
+                            rustls 0.23.46 закриває чотири вразливості, серед
+                            них ServerHello, що міг знизити наступні з'єднання
+                            до класичного обміну ключами, і до 1 ГіБ пам'яті на
+                            розпакування сертифіката ще до його перевірки.
+                        </li>
+                        <li>
+                            quinn-proto 0.11.19 виправляє п'ять способів, якими
+                            DoQ-сервер міг покласти ferrite чи без меж роздути
+                            його пам'ять.
+                        </li>
+                        <li>
+                            Відкликаним проміжним сертифікатам emSign більше не
+                            довіряємо.
+                        </li>
+                    </ul>
+                    <h3 class="tag-new">Нове</h3>
+                    <ul>
+                        <li>
+                            Блокування чи дозвіл домену одним кліком з логу
+                            запитів або дашборду, з можливістю скасувати.
+                        </li>
+                        <li>
+                            Пауза фільтрації від п'яти хвилин до години, для
+                            всієї мережі чи одного пристрою.
+                        </li>
+                        <li>
+                            Бекап і відновлення всієї конфігурації одним файлом.
+                        </li>
+                        <li>
+                            Списки за підпискою самі оновлюються кожні 12 годин.
+                        </li>
+                    </ul>
+                    <h3 class="tag-improved">Покращено</h3>
+                    <ul>
+                        <li>
+                            Перезапуск після оновлення більше не затримує DNS,
+                            поки перебудовуються профілі пристроїв.
+                        </li>
+                        <li>
+                            Списки блокування й дозволу тепер мають одну
+                            реалізацію. Конфіг, API і рішення про блокування не
+                            змінились.
+                        </li>
+                        <li>
+                            Повторні запити згортаються в один рядок, кожен
+                            тунель має свій колір, кожен пристрій іконку, і
+                            кожна сторінка вміщається на телефоні.
+                        </li>
+                        <li>
+                            Німецький, іспанський і французький переклади
+                            вичитано.
+                        </li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="release" id="v0.1.9">
+                <div class="release-meta">
+                    <h2 class="release-version">0.1.9</h2>
+                    <time datetime="2026-09-30">30 вересня 2026</time>
+                    <a
+                        class="link"
+                        href="https://github.com/syntlyx/ferrite-server/releases/tag/v0.1.9"
+                        >На GitHub</a
+                    >
+                </div>
+                <div class="release-body">
+                    <p class="release-summary">
+                        Легший шлях запиту і сховище на ваш вибір.
+                    </p>
+                    <h3 class="tag-faster">Швидше</h3>
+                    <ul>
+                        <li>
+                            Запити читаються й правляться прямо в байтах замість
+                            повного розбору й перебудови, а на Linux UDP іде
+                            пачками. Час CPU на запит падає з ~139 мкс до ~19
+                            мкс.
+                        </li>
+                        <li>
+                            Оновлення списків, яке нічого не змінило, нічого й
+                            не перебудовує, а профіль перекомпілюється лише
+                            тоді, коли змінились його власні списки.
+                        </li>
+                        <li>
+                            Пік пам'яті при оновленні списку на мільйон доменів
+                            упав з 96 МБ до 50 МБ.
+                        </li>
+                    </ul>
+                    <h3 class="tag-privacy">Зберігання й приватність</h3>
+                    <ul>
+                        <li>
+                            У базі лише те, що ferrite побачив сам. Усе, що ви
+                            налаштовуєте, живе в
+                            <code>config.toml</code>.
+                        </li>
+                        <li>
+                            SQLite за шляхом, вибраним серед дисків боксу, або
+                            сховище тільки в RAM, з обмеженням розміру і 30
+                            днями історії за замовчуванням.
+                        </li>
+                        <li>
+                            Скомпільований список блокування теж може жити в RAM
+                            і берегти SD-картку.
+                        </li>
+                        <li>
+                            Перемикачі, що зупиняють лог запитів і статистику,
+                            разом зі списком пристроїв.
+                        </li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="release" id="v0.1.8">
+                <div class="release-meta">
+                    <h2 class="release-version">0.1.8</h2>
+                    <time datetime="2026-08-02">2 серпня 2026</time>
+                    <a
+                        class="link"
+                        href="https://github.com/syntlyx/ferrite-server/releases/tag/v0.1.8"
+                        >На GitHub</a
+                    >
+                </div>
+                <div class="release-body">
+                    <p class="release-summary">WireGuard у ядрі.</p>
+                    <ul>
+                        <li>
+                            Тунелі можуть працювати через ядро: ferrite створює
+                            власний інтерфейс <code>wg</code> через netlink і
+                            пускає через нього лише свій трафік, тож шифрування
+                            використовує всі ядра.
+                        </li>
+                        <li>
+                            Байти через проксі передаються за допомогою
+                            <code>splice(2)</code> і ніколи не потрапляють у
+                            user space.
+                        </li>
+                        <li>
+                            Блокування важливіше за маршрутизацію: заблокований
+                            піддомен лишається заблокованим, навіть якщо домен
+                            іде через тунель.
+                        </li>
+                        <li>
+                            Стеля для TTL, який бачать пристрої, тож зміни
+                            списків, правил і профілів доходять до них за
+                            хвилину.
+                        </li>
+                        <li>Збірка для Linux важить ~20 МБ замість ~171.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="release" id="v0.1.7">
+                <div class="release-meta">
+                    <h2 class="release-version">0.1.7</h2>
+                    <time datetime="2026-07-20">20 липня 2026</time>
+                    <a
+                        class="link"
+                        href="https://github.com/syntlyx/ferrite-server/releases/tag/v0.1.7"
+                        >На GitHub</a
+                    >
+                </div>
+                <div class="release-body">
+                    <p class="release-summary">Профілі для пристроїв.</p>
+                    <ul>
+                        <li>
+                            Профілі блокування для окремих пристроїв з власними
+                            записами блокування й дозволу.
+                        </li>
+                        <li>Списки дозволу за підпискою.</li>
+                        <li>
+                            Режим «заборонено все, крім дозволеного», в якому
+                            локальні імена працюють.
+                        </li>
+                        <li>
+                            Перевірки затримки вирішують, коли спрацьовує
+                            fail-closed, а вебхук повідомляє, коли тунель
+                            лежить.
+                        </li>
+                        <li>
+                            Метрики Prometheus на <code>/api/metrics</code>
+                            і статистика трафіку для кожного тунелю.
+                        </li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="release" id="v0.1.6">
+                <div class="release-meta">
+                    <h2 class="release-version">0.1.6</h2>
+                    <time datetime="2026-07-12">12 липня 2026</time>
+                    <a
+                        class="link"
+                        href="https://github.com/syntlyx/ferrite-server/releases/tag/v0.1.6"
+                        >На GitHub</a
+                    >
+                </div>
+                <div class="release-body">
+                    <p class="release-summary">Пам'ять, що не росте.</p>
+                    <ul>
+                        <li>
+                            Алокатор mimalloc, обмежені внутрішні кеші й
+                            статистика пам'яті тримають процес невеликим,
+                            скільки б він не працював.
+                        </li>
+                        <li>
+                            Нагляд за тунелями стійкіший до зависань і частих
+                            перепідключень.
+                        </li>
+                        <li>Образ Docker відкриває порт 443.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="release" id="v0.1.5">
+                <div class="release-meta">
+                    <h2 class="release-version">0.1.5</h2>
+                    <time datetime="2026-06-25">25 червня 2026</time>
+                    <a
+                        class="link"
+                        href="https://github.com/syntlyx/ferrite-server/releases/tag/v0.1.5"
+                        >На GitHub</a
+                    >
+                </div>
+                <div class="release-body">
+                    <p class="release-summary">
+                        DNSSEC через будь-який upstream.
+                    </p>
+                    <ul>
+                        <li>
+                            Підписи доходять і через DoT, і через звичайні
+                            upstream-сервери: відповідь пересилається як є, без
+                            перебудови.
+                        </li>
+                        <li>
+                            Неактивні з'єднання тунелів закриваються за
+                            таймаутом, тож пам'ять не росте навіть при активній
+                            маршрутизації.
+                        </li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="release" id="v0.1.4">
+                <div class="release-meta">
+                    <h2 class="release-version">0.1.4</h2>
+                    <time datetime="2026-06-21">21 червня 2026</time>
+                    <a
+                        class="link"
+                        href="https://github.com/syntlyx/ferrite-server/releases/tag/v0.1.4"
+                        >На GitHub</a
+                    >
+                </div>
+                <div class="release-body">
+                    <p class="release-summary">
+                        Маршрутизація для окремих пристроїв.
+                    </p>
+                    <ul>
+                        <li>Правила маршрутизації для вибраних пристроїв.</li>
+                        <li>
+                            Upstream-сервери через тунель, по DNS-over-TCP і
+                            DoT.
+                        </li>
+                        <li>Вихід з обходом DPI.</li>
+                        <li>Один порт 80 і для панелі, і для проксі.</li>
+                        <li>
+                            DNSSEC запитується, підмережа клієнта вирізається.
+                        </li>
+                        <li>
+                            Інструменти (nslookup, WHOIS), список, що стоїть за
+                            кожним блокуванням, і перемикач детальних логів.
+                        </li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="release" id="v0.1.0">
+                <div class="release-meta">
+                    <h2 class="release-version">0.1.0–0.1.3</h2>
+                    <time datetime="2026-05">Травень–червень 2026</time>
+                </div>
+                <div class="release-body">
+                    <p class="release-summary">Перші релізи.</p>
+                    <ul>
+                        <li>
+                            Рушій вибіркової маршрутизації з виходами через
+                            WireGuard у userspace і SOCKS5.
+                        </li>
+                        <li>Зашифровані upstream-сервери: DoH, DoT і DoQ.</li>
+                        <li>
+                            Скомпільовані списки блокування, власні DNS-записи,
+                            живу статистику й вебпанель поверх REST API.
+                        </li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+    </div>
+</main>

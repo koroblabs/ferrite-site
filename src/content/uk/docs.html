@@ -1,0 +1,914 @@
+<main id="top" class="docs-page">
+    <div class="docs">
+        <aside class="docs-nav">
+            <details>
+                <summary>На цій сторінці</summary>
+                <nav aria-label="Документація">
+                    <p>Початок роботи</p>
+                    <a href="#install">Встановлення</a>
+                    <a href="#network">Направте на нього мережу</a>
+                    <a href="#first-run">Відкрийте панель</a>
+                    <a href="#names">Імена пристроїв</a>
+                    <p>Фільтрація</p>
+                    <a href="#lists">Списки блокування й дозволу</a>
+                    <a href="#entries">Власні записи</a>
+                    <a href="#services">Сервіси й SafeSearch</a>
+                    <a href="#block-response">Що отримує заблоковане ім'я</a>
+                    <a href="#why">Чому заблоковано?</a>
+                    <a href="#pause">Пауза й винятки</a>
+                    <p>Пристрої</p>
+                    <a href="#profiles">Профілі</a>
+                    <a href="#schedules">Розклад</a>
+                    <a href="#allowed-only">Тільки дозволене</a>
+                    <p>Тунелі</p>
+                    <a href="#routing">Як працює маршрутизація</a>
+                    <a href="#egresses">Виходи</a>
+                    <a href="#wireguard">WireGuard</a>
+                    <a href="#route-rules">Правила</a>
+                    <p>DNS</p>
+                    <a href="#upstreams">Upstream-сервери</a>
+                    <a href="#zones">Локальні зони</a>
+                    <a href="#records">Локальні записи</a>
+                    <a href="#cache">Кеш</a>
+                    <p>Експлуатація</p>
+                    <a href="#access">Пароль і доступ</a>
+                    <a href="#privacy">Приватність і зберігання</a>
+                    <a href="#updates">Оновлення</a>
+                    <a href="#backup">Бекап і відновлення</a>
+                    <a href="#second-box">Другий бокс</a>
+                    <a href="#import">З Pi-hole чи AdGuard Home</a>
+                    <a href="#notifications">Сповіщення</a>
+                    <a href="#metrics">Метрики</a>
+                    <a href="#mcp">AI-асистенти</a>
+                    <p>Довідка</p>
+                    <a href="#config">Файл конфігурації</a>
+                    <a href="#ports">Порти й шляхи</a>
+                    <a href="#docker-env">Змінні Docker</a>
+                    <a href="#troubleshooting">Розв'язання проблем</a>
+                </nav>
+            </details>
+        </aside>
+
+        <article class="doc">
+            <header class="doc-head">
+                <p class="eyebrow">Документація</p>
+                <h1 class="display">Робота з ferrite</h1>
+                <p class="lead">
+                    Від першого встановлення до другого боксу. Майже все тут
+                    робиться в панелі, а фрагменти конфігу показують, що саме
+                    вона записує, якщо вам зручніше редагувати файл.
+                </p>
+            </header>
+
+            <h2 id="install">Встановлення</h2>
+            <p>
+                Ferrite — це один виконуваний файл плюс статичні файли панелі.
+                Виберіть спосіб запуску, що пасує вашому боксу.
+            </p>
+            <h3>Скрипт встановлення (Linux)</h3>
+            <p>
+                Завантажує найновіші сервер і панель, перевіряє контрольні суми,
+                встановлює їх у <code>/var/lib/ferrite</code>
+                і реєструє сервіс systemd чи OpenRC. На Debian і Ubuntu він
+                також вимикає stub listener у systemd-resolved, який інакше
+                займає порт 53. Можете спершу прочитати скрипт:
+            </p>
+            <pre><code>curl -fsSLO https://raw.githubusercontent.com/syntlyx/ferrite-server/main/install.sh
+less install.sh
+sudo sh install.sh</code></pre>
+            <p>
+                Сервіс працює від власного користувача <code>ferrite</code> з
+                дозволами займати порт 53 і запускати WireGuard у ядрі, а не від
+                root. Повторний запуск скрипта оновлює встановлення.
+            </p>
+            <h3>Docker</h3>
+            <p>
+                Образ лежить у GitHub Container Registry. Використовуйте мережу
+                host: профілі й правила маршрутизації впізнають пристрій за
+                адресою, а за Docker bridge кожен запит приходить від шлюзу.
+            </p>
+            <pre><code>services:
+  ferrite:
+    image: ghcr.io/syntlyx/ferrite-server:latest
+    container_name: ferrite
+    restart: unless-stopped
+    network_mode: host
+    cap_add: [NET_BIND_SERVICE]
+    volumes:
+      - ferrite-data:/var/lib/ferrite
+volumes:
+  ferrite-data:</code></pre>
+            <p>
+                Змонтуйте <code>/var/lib/ferrite</code> для конфігу, історії й
+                оновлень, щоб вони переживали контейнер. Додайте
+                <code>NET_ADMIN</code> у <code>cap_add</code> для WireGuard у
+                ядрі; тоді модуль <code>wireguard</code> має бути завантажений
+                на хості. Якщо без bridge ніяк, задайте
+                <code>FERRITE_PANEL_IP</code> адресою хоста в локальній мережі,
+                щоб <code>fe.te</code> резолвився, і опублікуйте
+                <code>443/tcp</code> теж, якщо користуєтесь тунелями.
+            </p>
+            <h3>Статичний файл</h3>
+            <p>
+                Кожен реліз має musl-збірки для <code>x86_64</code> і
+                <code>aarch64</code>, кожна з <code>.sha256</code> поруч:
+            </p>
+            <pre><code>VER=v0.2.0; ARCH=$(uname -m)-unknown-linux-musl
+BASE=https://github.com/syntlyx/ferrite-server/releases/download/$VER
+curl -fsSLO $BASE/ferrite-$VER-$ARCH.tar.gz
+curl -fsSL  $BASE/ferrite-$VER-$ARCH.tar.gz.sha256 | sha256sum -c -
+tar -xzf ferrite-$VER-$ARCH.tar.gz &amp;&amp; sudo install -m755 ferrite /usr/local/bin/ferrite</code></pre>
+            <h3>З коду</h3>
+            <pre><code>cargo build --release
+sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
+            <p>
+                На Unraid скористайтеся шаблоном з Community Apps. Він запускає
+                той самий образ.
+            </p>
+
+            <h2 id="network">Направте на нього мережу</h2>
+            <p>
+                Ferrite фільтрує тільки ті пристрої, що до нього звертаються.
+                Зазвичай це налаштовують на роутері:
+            </p>
+            <ol>
+                <li>
+                    Відкрийте DHCP-налаштування роутера й вкажіть адресу боксу з
+                    ferrite як DNS-сервер.
+                </li>
+                <li>
+                    Друге поле DNS залиште порожнім або вкажіть там другий
+                    ferrite. Публічний резолвер другим сервером означає, що
+                    пристрої часом ходитимуть до нього й оминатимуть фільтрацію.
+                </li>
+                <li>
+                    Якщо роутер роздає ще й IPv6 DNS, направте його на ferrite
+                    або вимкніть. Інакше пристрої з IPv6 і далі питатимуть
+                    роутер.
+                </li>
+                <li>
+                    Пристрої підхоплять зміну, коли наступного разу
+                    отримуватимуть адресу по DHCP. Перепідключення до Wi-Fi
+                    робить це одразу.
+                </li>
+            </ol>
+            <p class="callout">
+                Браузери з власним налаштуванням «безпечного DNS» оминають
+                будь-який мережевий DNS-фільтр. Налаштуйте їх на системний
+                резолвер або вимкніть цю опцію.
+            </p>
+            <p>
+                DNS-сервер можна вказати й вручну на одному пристрої. Це добрий
+                спосіб спробувати ferrite, перш ніж перемикати всю мережу.
+            </p>
+
+            <h2 id="first-run">Відкрийте панель</h2>
+            <p>
+                Відкрийте <code>http://fe.te</code> з будь-якого пристрою, що
+                користується ferrite. Це вбудований запис, що вказує на бокс. З
+                пристрою, що ним не користується, відкрийте адресу боксу.
+            </p>
+            <p>Перш за все задайте пароль на боксі:</p>
+            <pre><code>ferrite passwd</code></pre>
+            <p>
+                Без пароля чи API-ключа панель відкрита всім, хто до неї
+                дістанеться, і ferrite попереджає про це в лозі. Новий файл без
+                конфігу слухає тільки
+                <code>127.0.0.1:8080</code> — а скрипт встановлення й образ
+                Docker відкривають панель на порту 80 у мережі.
+            </p>
+            <p>
+                Щоб перевірити, що фільтрація працює, запитайте відомий
+                рекламний домен. Відповідь має бути порожньою, а запит з'явиться
+                в лозі з іменем вашого пристрою:
+            </p>
+            <pre><code>dig @&lt;ferrite address&gt; doubleclick.net</code></pre>
+
+            <h2 id="names">Імена пристроїв</h2>
+            <p>
+                Ferrite дізнається імена від роутера (зворотні запити), з mDNS і
+                з таблиць сусідів. Щоб зворотні запити працювали, він має знати,
+                які питання відправляти роутеру:
+            </p>
+            <pre><code>ferrite setup</code></pre>
+            <p>
+                визначає шлюз, підмережу й локальний домен пошуку і записує
+                відповідні <a class="link" href="#zones">локальні зони</a>.
+                Будь-який пристрій можна назвати й вручну в панелі; ім'я,
+                прив'язане до MAC, лишається за пристроєм, навіть коли
+                змінюється його адреса.
+            </p>
+            <pre><code>[[client_aliases]]
+mac  = "aa:bb:cc:dd:ee:ff"
+name = "Kitchen TV"</code></pre>
+
+            <h2 id="lists">Списки блокування й дозволу</h2>
+            <p>
+                Підписуйтесь на списки з вбудованого каталогу або за URL
+                (StevenBlack, OISD, AdGuard, Hagezi тощо). Формати hosts,
+                Adblock (<code>||domain^</code>) і простий список доменів
+                розпізнаються самі й компілюються в один компактний пошук.
+                Списки оновлюються двічі на день і завантажуються заново, лише
+                якщо змінились.
+            </p>
+            <p>
+                Списки дозволу працюють так само, але навпаки: підпишіться на
+                спільнотний список хибних спрацювань, і його домени ніколи не
+                блокуватимуться. У списках формату Adblock винятки
+                <code>@@||domain^</code>
+                вважаються записами дозволу.
+            </p>
+            <pre><code>[[blocklist.lists]]
+name    = "StevenBlack"
+url     = "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
+enabled = true
+
+[[allowlist.lists]]
+name    = "anudeepND Whitelist"
+url     = "https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt"
+enabled = true</code></pre>
+            <p>
+                Список може бути й локальним файлом:
+                <code>url = "file:///etc/ferrite/custom.hosts"</code>.
+            </p>
+
+            <h2 id="entries">Власні записи</h2>
+            <p>Записи блокування й дозволу бувають трьох видів:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Запис</th>
+                        <th>Що охоплює</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ads.example.com</code></td>
+                        <td>саме ім'я і всі піддомени</td>
+                    </tr>
+                    <tr>
+                        <td><code>*.example.com</code></td>
+                        <td>тільки піддомени, без самого example.com</td>
+                    </tr>
+                    <tr>
+                        <td><code>/^ads?[0-9]+\./</code></td>
+                        <td>
+                            регулярний вираз, будь-де в імені, без урахування
+                            регістру
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                Запис дозволу сильніший за будь-який список. Додайте його прямо
+                з логу запитів, коли список перестарався.
+            </p>
+
+            <h2 id="services">Сервіси й SafeSearch</h2>
+            <p>
+                Каталог сервісів групує домени 43 застосунків у сім категорій
+                (відео, музика, соцмережі, месенджери, ігри, AI і покупки), тож
+                заблокувати TikTok чи Roblox можна одним перемикачем, а не
+                списком доменів. Сервіси можна блокувати для всієї мережі або
+                лише в профілі.
+            </p>
+            <p>
+                SafeSearch відправляє Google, Bing і DuckDuckGo на їхні безпечні
+                адреси, тож результати фільтруються, що б не казав браузер.
+                Обмежений режим YouTube може бути помірним або суворим. Профіль
+                може зробити обидва суворішими для своїх пристроїв, але не
+                м'якшими.
+            </p>
+            <pre><code>[blocklist]
+services = ["tiktok"]
+safe_search = true
+youtube_restricted = "moderate"   # off | moderate | strict</code></pre>
+
+            <h2 id="block-response">Що отримує заблоковане ім'я</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Режим</th>
+                        <th>Відповідь</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>nxdomain</code></td>
+                        <td>
+                            такого імені немає (за замовчуванням); застосунки
+                            одразу здаються
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>nodata</code></td>
+                        <td>ім'я існує, але без такого типу запису</td>
+                    </tr>
+                    <tr>
+                        <td><code>null_ip</code></td>
+                        <td>
+                            <code>0.0.0.0</code> для A, <code>::</code> для AAAA
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>custom_ip</code></td>
+                        <td>
+                            ваша адреса, наприклад сторінка блокування у вашій
+                            мережі
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>refused</code></td>
+                        <td>сервер відмовляється відповідати</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="why">Чому заблоковано?</h2>
+            <p>
+                Клікніть будь-який домен у лозі запитів чи на дашборді. Бокова
+                панель покаже, який список, запис чи сервіс спрацював, який
+                запис дозволу його звільнив, якщо такий був, і який профіль
+                діяв. В інструментах є та сама перевірка для введеного імені, а
+                також DNS-запит через ваші upstream-сервери, перевірка DNSSEC,
+                WHOIS і перевірки сертифіката та доступності.
+            </p>
+
+            <h2 id="pause">Пауза й винятки</h2>
+            <p>
+                Фільтрацію можна поставити на паузу на 5, 30 чи 60 хвилин для
+                всієї мережі (з бокової панелі) або для одного пристрою (на
+                сторінці Clients). Вона вмикається сама. Пристрій також можна
+                назавжди звільнити від фільтрації:
+            </p>
+            <pre><code>[blocklist]
+client_bypass = ["192.168.1.50", "aa:bb:cc:dd:ee:ff"]</code></pre>
+
+            <h2 id="profiles">Профілі</h2>
+            <p>
+                Профіль — це набір правил для вибраних пристроїв, визначених за
+                MAC чи IP. Він може блокувати сервіси, використовувати лише
+                частину списків, мати власні записи блокування й дозволу,
+                примусово вмикати SafeSearch, працювати за розкладом або перейти
+                в режим «тільки дозволене». Пристрої поза профілями живуть за
+                загальними правилами мережі.
+            </p>
+            <p>Для пристрою в профілі ім'я перевіряється в такому порядку:</p>
+            <ol>
+                <li>
+                    власні записи дозволу й блокування профілю та його сервіси
+                </li>
+                <li>списки дозволу</li>
+                <li>режим «тільки дозволене», якщо його ввімкнено в профілі</li>
+                <li>загальні записи, сервіси й списки мережі</li>
+            </ol>
+            <pre><code>[[blocklist.profiles]]
+id = "kids"
+name = "Kids"
+clients  = ["aa:bb:cc:dd:ee:01", "aa:bb:cc:dd:ee:02"]
+services = ["tiktok", "roblox", "fortnite"]
+safe_search = true
+youtube_restricted = "moderate"</code></pre>
+
+            <h2 id="schedules">Розклад</h2>
+            <p>
+                Профіль без часових вікон діє завжди. Додайте вікна, і він
+                діятиме тільки в них, а поза ними його пристрої житимуть за
+                загальними правилами. Час рахується за місцевим часом боксу, і
+                вікно може переходити через північ.
+            </p>
+            <pre><code>[[blocklist.profiles.schedule]]
+days = ["sun", "mon", "tue", "wed", "thu"]
+from = "21:30"
+to   = "07:00"</code></pre>
+
+            <h2 id="allowed-only">Тільки дозволене</h2>
+            <p>
+                Для пристроїв, яким потрібні лише кілька адрес, як-от камера,
+                робот-пилосос чи перший планшет дитини, профіль може блокувати
+                все, що не дозволено явно. Локальні імена працюють без
+                додаткових налаштувань: зворотні запити,
+                <code>.lan</code>, <code>.local</code> і ваші локальні зони.
+            </p>
+            <pre><code>[[blocklist.profiles]]
+id = "iot"
+name = "IoT"
+clients      = ["aa:bb:cc:dd:ee:ff"]
+default_deny = true</code></pre>
+
+            <h2 id="routing">Як працює маршрутизація</h2>
+            <p>
+                Коли домен підпадає під правило маршрутизації, ferrite
+                відповідає на DNS-запит власною адресою в мережі, тож пристрій
+                з'єднується з ferrite. Ferrite читає ім'я хоста з TLS SNI (порт
+                443) чи заголовка HTTP Host (порт 80), ще раз перевіряє за ним
+                правило і пропускає з'єднання через вихід цього правила. TLS він
+                ніколи не розшифровує: пристрій і далі перевіряє справжній
+                сертифікат сайту.
+            </p>
+            <p>
+                Маршрутизація вирішує, як трафік виходить назовні, а блокування
+                й далі вирішує, чи резолвиться ім'я. Трекер у сервісі, що йде
+                через тунель, лишається заблокованим, поки ви його не дозволите.
+                Правила, виходи й порти оновлюються без перезапуску.
+            </p>
+            <p class="callout">
+                Для маршрутизації потрібні порти 80 і 443 на боксі. Панель
+                ділить порт 80, а розрізняють їх за заголовком Host.
+            </p>
+
+            <h2 id="egresses">Виходи</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Тип</th>
+                        <th>Що робить</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>direct</code></td>
+                        <td>
+                            з'єднується напряму, резолвлячи через
+                            upstream-сервери самого ferrite
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>socks5</code></td>
+                        <td>
+                            через SOCKS5-проксі, разом з іменем хоста. Направте
+                            його на локальний Tor (<code>127.0.0.1:9050</code>),
+                            щоб іти через Tor
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>wireguard</code></td>
+                        <td>
+                            вбудований WireGuard з вставленого
+                            <code>.conf</code>; імена для тунелю теж
+                            резолвляться через нього
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>evasion</code></td>
+                        <td>
+                            як direct, але розбиває TLS ClientHello по SNI на
+                            кілька TCP-сегментів, тож DPI не може прочитати ім'я
+                            хоста
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="wireguard">WireGuard</h2>
+            <p>
+                Вставте <code>.conf</code> від вашого VPN-провайдера. Ferrite
+                вибирає один з двох бекендів для кожного хоста й пише, який
+                саме, в лозі запуску:
+            </p>
+            <ul>
+                <li>
+                    <strong>Ядро ОС</strong> (бажано, Linux): справжній
+                    інтерфейс WireGuard з policy routing; основна таблиця
+                    маршрутизації не змінюється. Шифрує ядро ОС, на всіх ядрах
+                    процесора. Потрібні дозвіл <code>CAP_NET_ADMIN</code> і
+                    модуль <code>wireguard</code> у ядрі.
+                </li>
+                <li>
+                    <strong>Userspace</strong> (усюди інде): повністю всередині
+                    процесу, без додаткових дозволів і без TUN-пристрою. Для
+                    сайтів вистачає, для стримінгу на повній швидкості
+                    повільніший.
+                </li>
+            </ul>
+            <pre><code>[[proxy.egresses]]
+id = "nl"
+name = "NL"
+enabled = true
+kind = "wireguard"
+# backend = "kernel"    # auto by default; "kernel" fails loudly instead of falling back
+config = """
+[Interface]
+PrivateKey = &lt;your key&gt;
+Address = 10.2.0.2/32
+DNS = 10.2.0.1
+[Peer]
+PublicKey = &lt;peer key&gt;
+Endpoint = 203.0.113.10:51820
+AllowedIPs = 0.0.0.0/0
+"""</code></pre>
+            <p>
+                Шифрування WireGuard — це звичайна робота процесора, а малі
+                ARM-плати не мають для нього апаратного прискорення. На платах
+                такого класу розраховуйте на кілька сотень Мбіт/с через тунель,
+                хоч би яка швидкість порту.
+            </p>
+
+            <h2 id="route-rules">Правила</h2>
+            <p>
+                Правило відправляє домен або цілий сервіс з каталогу через
+                вихід, для всіх пристроїв або лише для деяких. Звичайний домен
+                охоплює й піддомени; <code>*.example.com</code> охоплює тільки
+                піддомени. З увімкненим fail-closed правило, вихід якого лежить,
+                відхиляє з'єднання, а не випускає його напряму.
+            </p>
+            <pre><code>[[proxy.rules]]
+pattern = "example.com"
+egress  = "nl"
+fail_closed = true
+clients = []           # empty = every device; or IPs and MACs
+
+[[proxy.rules]]
+service = "netflix"
+egress  = "nl"</code></pre>
+
+            <h2 id="upstreams">Upstream-сервери</h2>
+            <p>
+                Те, на що Ferrite не може відповісти сам, він пересилає пулу
+                upstream-резолверів по черзі, з перемиканням при збоях. Plain,
+                DoT, DoH і DoQ можна змішувати. Скрипт встановлення починає з
+                Cloudflare через DoH.
+            </p>
+            <pre><code>[[upstream]]
+type = "https"
+url  = "https://cloudflare-dns.com/dns-query"
+bootstrap_ip = "1.1.1.1"
+
+[[upstream]]
+type = "tls"
+address  = "1.1.1.1"
+port     = 853
+tls_name = "cloudflare-dns.com"
+
+[[upstream]]
+type = "quic"
+address  = "94.140.14.14"
+port     = 853
+tls_name = "dns.adguard-dns.com"</code></pre>
+            <p>
+                DoH потребує <code>bootstrap_ip</code> у випадку, коли ferrite є
+                резолвером самого боксу, бо інакше не знайде DoH-хост через себе
+                ж. Звичайний чи DoT upstream може йти через тунель з параметром
+                <code>egress = "&lt;id&gt;"</code>, а поки тунель лежить, іде
+                напряму. Вихідні запити не містять EDNS Client Subnet і просять
+                DNSSEC.
+            </p>
+
+            <h2 id="zones">Локальні зони</h2>
+            <p>
+                Імена, які знає лише роутер, як-от зворотні запити для
+                <code>192.168.x.x</code> або <code>printer.lan</code>, мають іти
+                до роутера, а не до публічних upstream-серверів. Зони збігаються
+                за суфіксом, і перемагає найдовша. <code>ferrite setup</code>
+                запише їх за вас.
+            </p>
+            <pre><code>[[zones]]
+name     = "1.168.192.in-addr.arpa"
+upstream = "192.168.1.1:53"
+
+[[zones]]
+name     = "lan"
+upstream = "192.168.1.1:53"</code></pre>
+
+            <h2 id="records">Локальні записи</h2>
+            <p>
+                Ваші власні записи A, AAAA і CNAME, точні чи wildcard,
+                відповідають раніше за все інше.
+            </p>
+            <pre><code>[[custom_records]]
+domain = "nas.lan"
+type   = "A"
+value  = "192.168.1.20"
+
+[[custom_records]]
+domain = "*.home.lan"
+type   = "A"
+value  = "192.168.1.100"</code></pre>
+
+            <h2 id="cache">Кеш</h2>
+            <p>
+                Відповіді кешуються, а TTL від upstream обмежується між
+                <code>min_ttl</code> і <code>max_ttl</code>. Оптимістичний кеш
+                одразу відповідає з простроченого запису й оновлює його у фоні,
+                тож пристрої не чекають на upstream, а імена ще якийсь час
+                резолвляться, навіть коли upstream лежить.
+            </p>
+            <pre><code>[dns]
+cache_size    = 10000
+min_ttl       = 60
+max_ttl       = 3600
+serve_stale   = true
+stale_max_age = 43200   # seconds an expired answer may still be served</code></pre>
+
+            <h2 id="access">Пароль і доступ</h2>
+            <p>
+                Вхід у браузері тримається 7 днів від останнього використання,
+                попри перезапуски й оновлення. Налаштування → Доступ показує
+                браузери, в яких виконано вхід, і дозволяє вийти з будь-якого;
+                зміна пароля виводить з усіх інших.
+            </p>
+            <p>
+                Скрипти використовують API-ключ, переданий як
+                <code>Authorization: Bearer &lt;key&gt;</code> або
+                <code>X-Api-Key: &lt;key&gt;</code>. Див.
+                <a class="link" href="/api.html">довідник API</a>.
+            </p>
+            <p>
+                Можна також обмежити, хто й як часто може користуватися
+                резолвером:
+            </p>
+            <pre><code>[dns]
+rate_limit      = 1000                 # queries per minute per device; over it, REFUSED
+allowed_clients = ["192.168.1.0/24"]   # only these get answers
+denied_clients  = ["192.168.1.66"]     # these never do</code></pre>
+
+            <h2 id="privacy">Приватність і зберігання</h2>
+            <p>
+                Усе, що ви налаштовуєте, живе в <code>config.toml</code>. У базі
+                лише те, що ferrite побачив сам: лог запитів, його зведення,
+                список пристроїв і сесії панелі.
+            </p>
+            <ul>
+                <li>
+                    <strong>Зберігання:</strong> лог запитів за замовчуванням
+                    тримає 30 днів (<code>log_retention_days</code>), і його
+                    можна обмежити ще й у мегабайтах (<code>log_max_mb</code>).
+                </li>
+                <li>
+                    <strong>Тільки RAM:</strong> <code>backend = "memory"</code>
+                    тримає історію в обмеженому кільцевому буфері в пам'яті;
+                    нічого про ваш трафік не пишеться на диск, а після
+                    перезапуску історія зникає.
+                </li>
+                <li>
+                    <strong>Перемикачі:</strong> лог запитів і статистику можна
+                    вимкнути окремо. Коли вимкнено обидва, ferrite фільтрує далі
+                    й нічого не записує про те, що резолвилось.
+                </li>
+                <li>
+                    <strong>Очищення</strong> логу також стискає базу, тож місце
+                    справді звільняється на диску.
+                </li>
+            </ul>
+            <p>
+                Сам ferrite робить лише один запит назовні: щогодинну перевірку
+                нового релізу на GitHub.
+            </p>
+
+            <h2 id="updates">Оновлення</h2>
+            <p>
+                Панель показує, коли вийшов реліз, і оновлює сервер та себе на
+                місці; менеджер сервісів перезапускає ferrite вже з новим
+                файлом. Реліз панелі пропонується лише тоді, коли він сумісний
+                із запущеним сервером. У Docker перезапуск контейнера теж
+                підтягує найновіший реліз, якщо ви не закріпили версію змінними
+                нижче.
+            </p>
+
+            <h2 id="backup">Бекап і відновлення</h2>
+            <p>
+                Налаштування → Система експортує всю конфігурацію одним файлом і
+                відновлює її на цьому чи іншому боксі. Копіювання
+                <code>config.toml</code> робить те саме. Втративши базу, ви
+                втратите історію й сесії, але не налаштування.
+            </p>
+
+            <h2 id="second-box">Другий бокс</h2>
+            <p>
+                Другий ferrite може слідувати за першим, тож пристрої з обома
+                адресами отримують однакові відповіді від будь-якого. Він кожні
+                кілька хвилин забирає з основного вибрані частини за API-ключем
+                основного й перезапускається приблизно на секунду, якщо щось
+                змінилось. Редагуйте на основному: зміни в цих частинах на
+                другому боксі замінюються під час наступної синхронізації.
+            </p>
+            <pre><code>[sync]
+primary  = "http://192.168.1.10"
+api_key  = "&lt;the primary's API key&gt;"
+interval = 300
+sections = ["filtering", "records", "devices", "dns"]</code></pre>
+            <p class="callout">
+                Додавайте <code>"tunnels"</code> тільки якщо другий бокс теж
+                маршрутизує, і ніколи з тим самим ключем WireGuard на обох: два
+                вузли з одним ключем вибивають один одного.
+            </p>
+
+            <h2 id="import">З Pi-hole чи AdGuard Home</h2>
+            <p>
+                Налаштування → Система читає експорт Teleporter з Pi-hole v6 або
+                <code>AdGuardHome.yaml</code>. Він показує, що перенесеться
+                (списки, правила блокування й дозволу, локальні записи, групи й
+                налаштування пристроїв, заблоковані сервіси) і що ні, а ви
+                вибираєте частини ще до будь-яких змін.
+            </p>
+
+            <h2 id="notifications">Сповіщення</h2>
+            <p>
+                Один вебхук отримує подію, коли тунель лежить довше хвилини (і
+                коли піднімається), і коли в мережі з'являється пристрій, якого
+                бокс ще не бачив. Формат підлаштовується під отримувача:
+                <code>ntfy</code>, <code>telegram</code>, <code>discord</code>,
+                <code>slack</code> (також Mattermost і Rocket.Chat),
+                <code>gotify</code>, або <code>json</code> для Home Assistant і
+                скриптів. З налаштувань можна надіслати тестову подію.
+            </p>
+            <pre><code>[notifications]
+webhook       = "https://ntfy.sh/my-ferrite"
+format        = "ntfy"
+tunnel_alerts = true
+new_device    = true
+
+# Telegram: the bot's sendMessage URL and the chat to post to
+# webhook = "https://api.telegram.org/bot&lt;token&gt;/sendMessage"
+# format  = "telegram"
+# chat_id = "123456789"</code></pre>
+
+            <h2 id="metrics">Метрики</h2>
+            <p>
+                Метрики Prometheus доступні на <code>/api/metrics</code>, за
+                API-ключем, якщо він заданий. Є
+                <a class="link" href="/ferrite-grafana-dashboard.json" download
+                    >дашборд для Grafana</a
+                >
+                — готовий до імпорту.
+            </p>
+
+            <h2 id="mcp">AI-асистенти</h2>
+            <p>
+                <code>/api/mcp</code> дає асистенту, що вміє Model Context
+                Protocol (наприклад, Claude Code), бачити, що робить ferrite:
+                чому сайт заблоковано, що робив пристрій. Він працює з
+                API-ключем і за замовчуванням вимкнений. Для змін (блокування,
+                дозвіл, пауза) потрібен ще один перемикач.
+            </p>
+            <pre><code>[mcp]
+enabled       = true
+allow_changes = false</code></pre>
+
+            <h2 id="config">Файл конфігурації</h2>
+            <p>
+                <code>~/.config/ferrite/config.toml</code> для встановлення від
+                користувача, <code>/etc/ferrite/config.toml</code> для всієї
+                системи. Основний редактор — панель, вона сама записує файл;
+                правити вручну можна, але коментарі в розділах, якими керує
+                панель, не переживають збереження. Без файлу ferrite стартує зі
+                звичайними upstream-серверами й панеллю на
+                <code>127.0.0.1:8080</code>. Кожен ключ описано в
+                <a
+                    class="link"
+                    href="https://github.com/syntlyx/ferrite-server/blob/main/config.toml.example"
+                    >config.toml.example</a
+                >.
+            </p>
+
+            <h2 id="ports">Порти й шляхи</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Порт</th>
+                        <th>Для чого</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>53</code> UDP і TCP</td>
+                        <td>DNS</td>
+                    </tr>
+                    <tr>
+                        <td><code>80</code> TCP</td>
+                        <td>панель і API, а також HTTP через тунель</td>
+                    </tr>
+                    <tr>
+                        <td><code>443</code> TCP</td>
+                        <td>
+                            HTTPS через тунель, лише коли маршрутизацію
+                            ввімкнено
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>У теці даних</th>
+                        <th>Що зберігає</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ferrite.db</code></td>
+                        <td>лог запитів, зведення, список пристроїв, сесії</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>blocklist.fst</code>,
+                            <code>allowlist.fst</code>
+                        </td>
+                        <td>
+                            скомпільовані списки, перебудовуються, коли списки
+                            змінюються
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>lists/</code>, <code>allowlists/</code></td>
+                        <td>розібраний кеш кожного списку</td>
+                    </tr>
+                    <tr>
+                        <td><code>state.bin</code></td>
+                        <td>кеш і лічильники для теплого перезапуску</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>
+                Тека даних: <code>~/.local/share/ferrite</code> за замовчуванням
+                і <code>/var/lib/ferrite</code> для інсталятора й Docker.
+            </p>
+
+            <h2 id="docker-env">Змінні Docker</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Змінна</th>
+                        <th>Що робить</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>FERRITE_SERVER_VERSION</code></td>
+                        <td>
+                            закріплює реліз сервера, наприклад
+                            <code>0.2.0</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>FERRITE_WEB_VERSION</code></td>
+                        <td>
+                            закріплює реліз панелі; за замовчуванням як у
+                            сервера
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>FERRITE_PANEL_IP</code></td>
+                        <td>
+                            адреса хоста в локальній мережі для
+                            <code>fe.te</code>, потрібна в режимі bridge
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>FERRITE_PANEL_URL</code></td>
+                        <td>
+                            адреса, яку показує лог, коли панель на іншому порту
+                            хоста
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>GITHUB_TOKEN</code></td>
+                        <td>вищі ліміти GitHub API для перевірки оновлень</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="troubleshooting">Розв'язання проблем</h2>
+            <h3>Порт 53 уже зайнятий</h3>
+            <p>
+                На Debian і Ubuntu його тримає systemd-resolved. Скрипт
+                встановлення вимикає його stub listener; вручну задайте
+                <code>DNSStubListener=no</code> у
+                <code>/etc/systemd/resolved.conf.d/ferrite.conf</code> і
+                перезапустіть systemd-resolved.
+            </p>
+            <h3>Усі пристрої видно як один</h3>
+            <p>
+                Ferrite бачить усі запити з однієї адреси: він за Docker bridge,
+                або роутер сам пересилає DNS. Запускайте Docker у мережі host і
+                роздавайте адресу ferrite через DHCP, а не вказуйте її
+                upstream-сервером роутера.
+            </p>
+            <h3>Замість імен пристроїв видно IP-адреси</h3>
+            <p>
+                Зворотні запити не доходять до роутера. Виконайте
+                <code>ferrite setup</code>, або додайте
+                <a class="link" href="#zones">локальні зони</a> вручну.
+            </p>
+            <h3><code>fe.te</code> не відкривається</h3>
+            <p>
+                Пристрій ще не користується ferrite як DNS, або ferrite працює в
+                Docker bridge без <code>FERRITE_PANEL_IP</code>. Поки що
+                відкривайте адресу боксу.
+            </p>
+            <h3>Сайт чи застосунок перестав працювати</h3>
+            <p>
+                Знайдіть його в лозі запитів, клікніть заблоковане ім'я, щоб
+                побачити, що спрацювало, і дозвольте його. Щоб швидко виключити
+                ferrite, поставте фільтрацію на паузу для цього одного пристрою.
+            </p>
+            <h3>Тунелі повільні на малій платі</h3>
+            <p>
+                Гляньте в лозі запуску, який бекенд WireGuard вибрано. Якщо
+                userspace, дайте ferrite <code>CAP_NET_ADMIN</code> і завантажте
+                модуль <code>wireguard</code> у ядро. Тоді межею буде швидкість
+                шифрування процесора, а не ferrite.
+            </p>
+        </article>
+    </div>
+</main>

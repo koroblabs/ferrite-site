@@ -1,0 +1,16 @@
+---
+import Base from "../../layouts/Base.astro";
+import content from "../../content/uk/download.html?raw";
+import script from "../../content/download.script.js?raw";
+---
+
+<Base
+    lang="uk"
+    page="download.html"
+    title="Завантажити — Ferrite"
+    description="Встановлення Ferrite: скрипт для Linux, образ Docker з GHCR, статичні збірки або збірка з коду. Один файл: DNS, фільтрація, тунелі й панель."
+    active="download"
+>
+    <Fragment set:html={content} />
+    <script is:inline set:html={script} />
+</Base>

@@ -1,0 +1,16 @@
+---
+import Base from "../../layouts/Base.astro";
+import content from "../../content/uk/docs.html?raw";
+import script from "../../content/docs.script.js?raw";
+---
+
+<Base
+    lang="uk"
+    page="docs.html"
+    title="Документація — Ferrite"
+    description="Як працювати з Ferrite: встановлення, налаштування роутера, фільтрація, профілі пристроїв і розклад, маршрутизація через WireGuard, SOCKS5 чи Tor, upstream-сервери, приватність, оновлення, другий бокс і розв'язання проблем."
+    active="docs"
+>
+    <Fragment set:html={content} />
+    <script is:inline set:html={script} />
+</Base>

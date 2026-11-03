@@ -1,0 +1,16 @@
+---
+import Base from "../../layouts/Base.astro";
+import content from "../../content/uk/index.html?raw";
+import script from "../../content/index.script.js?raw";
+---
+
+<Base
+    lang="uk"
+    page=""
+    title="Ferrite — DNS-фільтр з правилами для кожного пристрою і тунелями"
+    description="Ferrite — DNS-фільтр і роутер для домашньої мережі в одному файлі: блокує рекламу й трекери, дає кожному пристрою власні правила і відправляє вибраний трафік через WireGuard, SOCKS5 або Tor. Без root, без хмари."
+    active="home"
+>
+    <Fragment set:html={content} />
+    <script is:inline set:html={script} />
+</Base>

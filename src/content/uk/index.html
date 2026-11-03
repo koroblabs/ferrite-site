@@ -1,0 +1,1040 @@
+<main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-inner">
+            <div class="hero-copy">
+                <p class="hero-kicker">
+                    DNS-фільтр у вашій мережі: правила для кожного пристрою і
+                    тунелі
+                </p>
+                <h1 id="hero-title" class="display">
+                    Рекламу&nbsp;— геть.<br />Решту&nbsp;— в&nbsp;тунель.
+                </h1>
+                <p class="hero-sub">
+                    Ferrite блокує рекламу, трекери й шкідливі сайти для кожного
+                    пристрою у вашій мережі. Пристрої, яким це потрібно,
+                    отримують власні правила: заблоковані сервіси, розклад,
+                    SafeSearch. Вибрані домени, сервіси чи цілі пристрої
+                    виходять назовні через
+                    <strong>WireGuard, SOCKS5 або Tor</strong>. Один файл, без
+                    root.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#install">
+                        <svg
+                            aria-hidden="true"
+                            width="15"
+                            height="15"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.4"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path
+                                d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                            ></path>
+                            <path d="M7 10l5 5 5-5"></path>
+                            <path d="M12 15V3"></path>
+                        </svg>
+                        Встановити Ferrite
+                    </a>
+                    <a class="button button-ghost" href="/demo/"
+                        >Спробувати демо</a
+                    >
+                    <a
+                        class="button button-ghost"
+                        href="https://github.com/syntlyx/ferrite-server"
+                    >
+                        <svg
+                            aria-hidden="true"
+                            width="15"
+                            height="15"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path
+                                d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+                            ></path>
+                            <path d="M9 18c-4.51 2-5-2-7-2"></path>
+                        </svg>
+                        Код
+                    </a>
+                </div>
+            </div>
+
+            <div class="feed" aria-hidden="true">
+                <div class="feed-head">
+                    <strong>Щойно</strong><span class="live">Наживо</span>
+                </div>
+                <div class="feed-body">
+                    <div class="frow st-up">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">api.github.com</span
+                            ><span class="who">macbook</span></span
+                        ><span class="verdict">upstream</span>
+                    </div>
+                    <div class="frow blocked st-block">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">ads.doubleclick.net</span
+                            ><span class="who">pixel-8</span></span
+                        ><span class="verdict">заблоковано</span>
+                    </div>
+                    <div class="frow st-route">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">nflxvideo.net</span
+                            ><span class="who">apple-tv</span></span
+                        ><span class="verdict">через proton-nl</span>
+                    </div>
+                    <div class="frow st-cache">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">gateway.icloud.com</span
+                            ><span class="who">macbook</span></span
+                        ><span class="verdict">з кешу</span>
+                    </div>
+                    <div class="frow blocked st-block">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">app-measurement.com</span
+                            ><span class="who">kids-tablet</span></span
+                        ><span class="verdict">заблоковано</span>
+                    </div>
+                    <div class="frow st-cache">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">fe.te</span
+                            ><span class="who">macbook</span></span
+                        ><span class="verdict">з кешу</span>
+                    </div>
+                    <div class="frow blocked st-block">
+                        <span class="dot"></span
+                        ><span class="what"
+                            ><span class="domain">www.roblox.com</span
+                            ><span class="who">kids-tablet</span></span
+                        ><span class="verdict">заблоковано · Kids</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="metric-strip" aria-label="Показники">
+        <div class="metric">
+            <strong>30k+</strong><span>запитів на секунду без втрат</span>
+        </div>
+        <div class="metric">
+            <strong>&lt;2ms</strong
+            ><span>відповідь з кешу чи рішення про блокування</span>
+        </div>
+        <div class="metric">
+            <strong>0</strong
+            ><span>root не потрібен: вистачає capabilities</span>
+        </div>
+        <div class="metric">
+            <strong>1</strong><span>файл: DNS, фільтрація, тунелі, панель</span>
+        </div>
+    </section>
+
+    <section class="band" id="features">
+        <div class="wrap">
+            <div class="section-head">
+                <p class="eyebrow">Контроль мережі</p>
+                <h2 class="display">
+                    Одна мережа, кожному пристрою свої правила
+                </h2>
+                <p class="lead">
+                    Ferrite фільтрує все, що до нього звертається, тримає
+                    потрібні пристрої в суворіших рамках і відправляє через
+                    тунель те, що має виходити приватно. Він настільки легкий,
+                    що вистачає Raspberry Pi.
+                </p>
+            </div>
+            <div class="feature-grid">
+                <article class="feature" style="--feature-color: var(--ember)">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path
+                                d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+                            ></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3>Правила для кожного пристрою</h3>
+                    <p>
+                        Профілі для пристроїв, яким вони потрібні: заблокувати
+                        TikTok чи Roblox одним кліком, вмикати за тижневим
+                        розкладом, примусово вмикати SafeSearch і обмежений
+                        режим YouTube або дозволяти тільки те, що в списку.
+                    </p>
+                </article>
+                <article
+                    class="feature"
+                    style="--feature-color: var(--blocked)"
+                >
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path
+                                d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"
+                            ></path>
+                            <path d="m4.9 4.9 14.2 14.2"></path>
+                        </svg>
+                    </div>
+                    <h3>Розумні списки блокування</h3>
+                    <p>
+                        Списки у форматах hosts, Adblock і просто доменів, і для
+                        блокування, і для дозволу, зливаються в один швидкий
+                        пошук. Кожне рішення називає список, правило чи сервіс,
+                        що за ним стоїть.
+                    </p>
+                </article>
+                <article
+                    class="feature"
+                    style="--feature-color: var(--upstream)"
+                >
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path
+                                d="M12 3a6 6 0 0 0-6 6v3H5a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-1V9a6 6 0 0 0-6-6Z"
+                            ></path>
+                            <path d="M8 12V9a4 4 0 0 1 8 0v3"></path>
+                        </svg>
+                    </div>
+                    <h3>Зашифровані upstream-сервери</h3>
+                    <p>
+                        Plain, DoH, DoT і DoQ в одному пулі з перемиканням при
+                        збоях. Запити теж можуть іти через тунель, без підмережі
+                        клієнта і з запитом DNSSEC.
+                    </p>
+                </article>
+                <article class="feature" style="--feature-color: var(--warn)">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M12 3v18"></path>
+                            <path d="M3 12h18"></path>
+                            <path d="M5 5l14 14"></path>
+                            <path d="M19 5 5 19"></path>
+                        </svg>
+                    </div>
+                    <h3>Власні DNS-записи</h3>
+                    <p>
+                        Локальні записи A, AAAA і CNAME, точні й wildcard, тож
+                        внутрішні сервіси отримують зручні імена.
+                    </p>
+                </article>
+                <article class="feature" style="--feature-color: var(--cached)">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path
+                                d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"
+                            ></path>
+                            <path d="M10 19v-3.96 3.15"></path>
+                            <path d="M7 19h5"></path>
+                            <rect
+                                width="6"
+                                height="10"
+                                x="16"
+                                y="12"
+                                rx="2"
+                            ></rect>
+                        </svg>
+                    </div>
+                    <h3>Видно кожен пристрій</h3>
+                    <p>
+                        Що кожен пристрій запитував, що заблоковано і чому, які
+                        сервіси за цим стоять і який профіль діє. За один клік з
+                        живого логу запитів.
+                    </p>
+                </article>
+                <article
+                    class="feature"
+                    style="--feature-color: var(--upstream)"
+                >
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path
+                                d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"
+                            ></path>
+                            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                        </svg>
+                    </div>
+                    <h3>Сповіщення й автоматизація</h3>
+                    <p>
+                        Тунель упав чи в мережі з'явився новий пристрій, і ви
+                        дізнаєтесь про це в ntfy, Telegram чи Discord. Усе інше
+                        доступне через REST API, метрики Prometheus і MCP.
+                    </p>
+                </article>
+                <article class="feature" style="--feature-color: var(--ember)">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <circle cx="6" cy="6" r="2.4"></circle>
+                            <circle cx="6" cy="18" r="2.4"></circle>
+                            <circle cx="18" cy="12" r="2.4"></circle>
+                            <path d="M8.4 6H14a2 2 0 0 1 2 2v1.6"></path>
+                            <path d="M8.4 18H14a2 2 0 0 0 2-2v-1.6"></path>
+                        </svg>
+                    </div>
+                    <h3>Вибіркова маршрутизація</h3>
+                    <p>
+                        Відправте через тунель домен або цілий пристрій,
+                        вибраний за іменем. Решта йде напряму на повній
+                        швидкості.
+                    </p>
+                </article>
+                <article
+                    class="feature"
+                    style="--feature-color: var(--upstream)"
+                >
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path
+                                d="M12 3 4 6v5c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6Z"
+                            ></path>
+                            <path d="m9 12 2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <h3>Вбудовані тунелі</h3>
+                    <p>
+                        WireGuard, SOCKS5 і Tor живуть прямо в резолвері.
+                        WireGuard працює через ядро на повній швидкості лінії
+                        або повністю всередині процесу, де ядро недоступне. Без
+                        TUN-пристрою і без root у будь-якому разі.
+                    </p>
+                </article>
+                <article class="feature" style="--feature-color: var(--warn)">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <circle cx="6" cy="6" r="2.5"></circle>
+                            <circle cx="6" cy="18" r="2.5"></circle>
+                            <path d="M8.1 7.5 20 18"></path>
+                            <path d="M8.1 16.5 20 6"></path>
+                        </svg>
+                    </div>
+                    <h3>Обхід DPI</h3>
+                    <p>
+                        TLS ClientHello розбивається по SNI на кілька
+                        TCP-сегментів, тож обладнання, що фільтрує за іменем
+                        хоста, ніколи не бачить імені повністю.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="band alt" id="panel">
+        <div class="wrap">
+            <div class="section-head">
+                <p class="eyebrow">Панель</p>
+                <h2 class="display">Панель такою, як вона є</h2>
+                <p class="lead">
+                    Справжні екрани, не макети. Стежте за мережею, відкрийте
+                    будь-який пристрій чи домен, щоб побачити, що він робив і
+                    чому, і змініть його правила там само. Українська,
+                    англійська, німецька, іспанська й французька, темна чи
+                    світла тема. Живе демо запускає справжню панель у вашому
+                    браузері на тестових даних.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="/demo/"
+                        >Відкрити живе демо</a
+                    >
+                </div>
+            </div>
+            <div class="gallery">
+                <div
+                    class="gallery-tabs"
+                    role="tablist"
+                    aria-label="Екрани панелі"
+                >
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-dashboard"
+                        aria-controls="shot-dashboard"
+                        aria-selected="true"
+                    >
+                        Дашборд
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-log"
+                        aria-controls="shot-log"
+                        aria-selected="false"
+                    >
+                        Лог запитів
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-devices"
+                        aria-controls="shot-devices"
+                        aria-selected="false"
+                    >
+                        Пристрої
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-device"
+                        aria-controls="shot-device"
+                        aria-selected="false"
+                    >
+                        Один пристрій
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-profile"
+                        aria-controls="shot-profile"
+                        aria-selected="false"
+                    >
+                        Профілі
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-tunnels"
+                        aria-controls="shot-tunnels"
+                        aria-selected="false"
+                    >
+                        Тунелі
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        id="tab-light"
+                        aria-controls="shot-light"
+                        aria-selected="false"
+                    >
+                        Світла тема
+                    </button>
+                </div>
+                <figure
+                    class="shot"
+                    id="shot-dashboard"
+                    role="tabpanel"
+                    aria-labelledby="tab-dashboard"
+                >
+                    <img
+                        src="/shots/dashboard.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Дашборд: кількість запитів з розподілом на заблоковані, з кешу й переслані, графік трафіку за 24 години, картка з пристроями, профілями й тунелями, і найактивніші домени та пристрої"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Підсумки, трафік за добу, на що варто глянути зараз, і
+                        найактивніші домени та пристрої.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-log"
+                    role="tabpanel"
+                    aria-labelledby="tab-log"
+                >
+                    <img
+                        src="/shots/query-log.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Лог запитів: час, домен, тип запису, пристрій за іменем, рішення й затримка кожного запиту"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Кожен запит з іменем пристрою і рішенням. Клікніть
+                        домен, щоб побачити, який список чи правило вирішили.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-devices"
+                    role="tabpanel"
+                    aria-labelledby="tab-devices"
+                >
+                    <img
+                        src="/shots/devices.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Пристрої, згруповані за профілями Kids, School nights та IoT, з часткою заблокованого трафіку"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Пристрої, розкладені за профілями, з тим, що кожен
+                        профіль блокує і коли діє.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-device"
+                    role="tabpanel"
+                    aria-labelledby="tab-device"
+                >
+                    <img
+                        src="/shots/device.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Бокова панель пристрою ipad-mini: профіль Kids, що діє зараз, активність за добу, сервіси, якими він користувався, і домени, які він найчастіше запитував і які найчастіше блокувались"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Один пристрій: його профіль і чи діє він зараз,
+                        активність за добу, сервіси й те, що заблоковано.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-profile"
+                    role="tabpanel"
+                    aria-labelledby="tab-profile"
+                >
+                    <img
+                        src="/shots/profile.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Редагування профілю Kids: пристрої, розклад і заблоковані сервіси за категоріями, з увімкненими TikTok, Snapchat, Roblox і Fortnite"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Профіль: виберіть пристрої, заблокуйте сервіси за
+                        категоріями, додайте розклад і SafeSearch.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-tunnels"
+                    role="tabpanel"
+                    aria-labelledby="tab-tunnels"
+                >
+                    <img
+                        src="/shots/tunnels.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Правила тунелів: netflix.com, bbc.co.uk, chatgpt.com та інші йдуть через два WireGuard-виходи, з перемикачами fail-closed і лічильниками"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Правила маршрутизації: які домени чи сервіси виходять
+                        через який тунель і для яких пристроїв.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-light"
+                    role="tabpanel"
+                    aria-labelledby="tab-light"
+                >
+                    <img
+                        src="/shots/dashboard-light.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Дашборд у світлій темі"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>Та сама панель у світлій темі.</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="band" id="runtime">
+        <div class="wrap runtime">
+            <div>
+                <p class="eyebrow">Шлях запиту</p>
+                <h2 class="display">Найкоротший корисний шлях</h2>
+                <p class="lead">
+                    Спершу Ferrite відповідає локальними записами, потім вирішує
+                    для пристрою, що питає, чи можна резолвити ім'я, відправляє
+                    вибрані через тунель, віддає з кешу і лише тоді пересилає
+                    зашифрованим upstream-серверам. Тому мережа спокійна, а
+                    панель показує правду.
+                </p>
+                <div
+                    class="protocol-grid"
+                    aria-label="Підтримувані протоколи upstream"
+                >
+                    <div class="protocol">
+                        <strong>Plain</strong><span>UDP/TCP, порт 53</span>
+                    </div>
+                    <div class="protocol">
+                        <strong>DoH</strong><span>DNS over HTTPS</span>
+                    </div>
+                    <div class="protocol">
+                        <strong>DoT</strong><span>DNS over TLS</span>
+                    </div>
+                    <div class="protocol">
+                        <strong>DoQ</strong><span>DNS over QUIC</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flow" aria-label="Шлях DNS-запиту">
+                <div class="flow-step">
+                    <span class="num">01</span>
+                    <div>
+                        <strong>Пристрій питає Ferrite</strong>
+                        <span
+                            >Телефони, ноутбуки, телевізори, контейнери й
+                            сервери ходять в один локальний DNS.</span
+                        >
+                    </div>
+                    <code>53/udp</code>
+                </div>
+                <div class="flow-step">
+                    <span class="num">02</span>
+                    <div>
+                        <strong>Першими відповідають локальні записи</strong>
+                        <span
+                            >Внутрішні імена резолвляться ще до того, як щось
+                            вийде за межі мережі.</span
+                        >
+                    </div>
+                    <code>&lt;1ms</code>
+                </div>
+                <div class="flow-step">
+                    <span class="num">03</span>
+                    <div>
+                        <strong>Вирішують правила пристрою</strong>
+                        <span
+                            >Спершу вирішує профіль пристрою (сервіси, розклад,
+                            власні записи), потім загальні списки мережі.
+                            Популярні імена йдуть прямо з кешу.</span
+                        >
+                    </div>
+                    <code>FST</code>
+                </div>
+                <div class="flow-step">
+                    <span class="num">04</span>
+                    <div>
+                        <strong>Решту обробляє пул upstream</strong>
+                        <span
+                            >DoH, DoT, DoQ або звичайні резолвери по черзі, з
+                            перемиканням при збоях.</span
+                        >
+                    </div>
+                    <code>TLS</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band alt" id="privacy">
+        <div class="wrap split">
+            <div class="section-head">
+                <p class="eyebrow">Приватність</p>
+                <h2 class="display">
+                    Усе, що він дізнається, лишається на боксі
+                </h2>
+                <p class="lead">
+                    DNS-сервер бачить кожне ім'я, яке шукають у вашому домі.
+                    Ferrite тримає це при собі й дає вам вирішити, скільки з
+                    цього взагалі зберігати.
+                </p>
+            </div>
+            <div class="points">
+                <div class="point">
+                    <strong>Без телеметрії</strong>
+                    <p>
+                        Ні аналітики, ні звітів додому. Сам він робить лише
+                        щогодинну перевірку нового релізу на GitHub, а решта
+                        запитів — це списки й сповіщення, які ви налаштували.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Назовні тільки зашифровано</strong>
+                    <p>
+                        DoH, DoT або DoQ до резолверів, які ви обрали. Власні
+                        запити резолвера теж можуть іти через тунель, тож
+                        провайдер бачить лише WireGuard.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Нічого зайвого назовні</strong>
+                    <p>
+                        EDNS Client Subnet вирізається, тож резолвер не
+                        дізнається вашу підмережу. DNSSEC запитується для
+                        кожного запиту.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Без перехоплення TLS</strong>
+                    <p>
+                        Для домену, що йде через тунель, він читає SNI чи Host,
+                        щоб вибрати тунель, і ніколи не розшифровує TLS. Браузер
+                        і далі перевіряє справжній сертифікат.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Логи можна вимкнути</strong>
+                    <p>
+                        Лог запитів і статистика мають окремі перемикачі.
+                        Вимкніть обидва, і ferrite фільтруватиме далі, нічого не
+                        записуючи про те, що резолвилось.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Береже SD-картку</strong>
+                    <p>
+                        Зберігайте історію скільки завгодно днів, обмежте її в
+                        мегабайтах або тримайте тільки в RAM, щоб нічого про ваш
+                        трафік не потрапляло на диск.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band" id="moving-in">
+        <div class="wrap">
+            <div class="section-head">
+                <p class="eyebrow">Переїзд</p>
+                <h2 class="display">
+                    Перенесіть налаштування й додайте другий бокс
+                </h2>
+            </div>
+            <div class="trio">
+                <article class="feature">
+                    <h3>З Pi-hole чи AdGuard Home</h3>
+                    <p>
+                        Розділ Налаштування → Система читає експорт Teleporter з
+                        Pi-hole v6 або <code>AdGuardHome.yaml</code>. Ви бачите,
+                        що перенесеться (списки, правила, локальні записи,
+                        групи, налаштування пристроїв, заблоковані сервіси) і що
+                        ні, ще до будь-яких змін.
+                    </p>
+                </article>
+                <article class="feature">
+                    <h3>Два резолвери, одні налаштування</h3>
+                    <p>
+                        Направте другий ferrite на перший, і він кожні кілька
+                        хвилин забиратиме вибрані частини: фільтрацію, записи,
+                        імена пристроїв, налаштування DNS. Дайте пристроям
+                        обидві адреси, і будь-який з боксів відповідатиме
+                        однаково.
+                    </p>
+                </article>
+                <article class="feature">
+                    <h3>Один файл для бекапу</h3>
+                    <p>
+                        Усе, що ви налаштували, живе в <code>config.toml</code>,
+                        і панель уміє його експортувати й відновлювати. У базі
+                        тільки історія, тож навіть втративши її, ви не втратите
+                        налаштувань.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="band alt" id="integrations">
+        <div class="wrap split">
+            <div class="section-head">
+                <p class="eyebrow">Автоматизація</p>
+                <h2 class="display">Дружить з рештою вашого сетапу</h2>
+                <p class="lead">
+                    Усе, що робить панель, іде через задокументований REST API,
+                    тож скрипт зможе те саме.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-ghost" href="/api.html"
+                        >Довідник API</a
+                    >
+                    <a
+                        class="button button-ghost"
+                        href="/ferrite-grafana-dashboard.json"
+                        download
+                        >Дашборд для Grafana</a
+                    >
+                </div>
+            </div>
+            <div class="points">
+                <div class="point">
+                    <strong>Сповіщення</strong>
+                    <p>
+                        Тунель лежить довше хвилини або з'явився пристрій, якого
+                        бокс ще не бачив. Надсилається в ntfy, Telegram,
+                        Discord, Slack, Gotify або як JSON для Home Assistant і
+                        скриптів.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Prometheus</strong>
+                    <p>
+                        Метрики на <code>/api/metrics</code>, їх дешево збирати,
+                        і є готовий дашборд для Grafana.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>AI-асистенти (MCP)</strong>
+                    <p>
+                        Через MCP асистент може спитати, чому сайт заблоковано.
+                        Блокувати, дозволяти чи ставити паузу він може, лише
+                        якщо ви це ввімкнете. За замовчуванням MCP вимкнено.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Docker і Unraid</strong>
+                    <p>
+                        Образ на GHCR і шаблон для Unraid Community Apps, а
+                        також статичні збірки для x86_64 і aarch64.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band" id="install">
+        <div class="wrap install-grid">
+            <div>
+                <p class="eyebrow">Встановлення</p>
+                <h2 class="display">Працює за кілька хвилин</h2>
+                <p class="lead">
+                    Скрипт завантажує сервер і панель, перевіряє їхні контрольні
+                    суми й налаштовує сервіс systemd чи OpenRC. Любите
+                    контейнери? Образ є на GHCR.
+                </p>
+                <div class="commands">
+                    <div class="command">
+                        <div class="command-head">
+                            <span>Скрипт для Linux / macOS</span>
+                            <button
+                                class="copy"
+                                data-copy="curl -fsSL https://raw.githubusercontent.com/syntlyx/ferrite-server/refs/heads/main/install.sh | sudo sh"
+                            >
+                                Копіювати
+                            </button>
+                        </div>
+                        <pre><code>curl -fsSL https://raw.githubusercontent.com/syntlyx/ferrite-server/refs/heads/main/install.sh | sudo sh</code></pre>
+                    </div>
+                    <div class="command">
+                        <div class="command-head">
+                            <span>Docker (ghcr.io)</span>
+                            <button
+                                class="copy"
+                                data-copy="docker run -d --name ferrite \&#10;  --restart unless-stopped \&#10;  --network host \&#10;  --cap-add=NET_BIND_SERVICE \&#10;  -v ferrite-data:/var/lib/ferrite \&#10;  ghcr.io/syntlyx/ferrite-server:latest"
+                            >
+                                Копіювати
+                            </button>
+                        </div>
+                        <pre><code>docker run -d --name ferrite \
+  --restart unless-stopped \
+  --network host \
+  --cap-add=NET_BIND_SERVICE \
+  -v ferrite-data:/var/lib/ferrite \
+  ghcr.io/syntlyx/ferrite-server:latest</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="notes">
+                <div class="note">
+                    <strong>1. Направте на нього мережу</strong>
+                    <p>
+                        У DHCP-налаштуваннях роутера вкажіть адресу боксу з
+                        ferrite як DNS-сервер. Пристрої підхоплять її, коли
+                        наступного разу отримуватимуть адресу.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>2. Відкрийте панель</strong>
+                    <p>
+                        Відкрийте <code>http://fe.te</code> у своїй мережі. Це
+                        вбудований запис, що вказує на бокс.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>3. Задайте пароль</strong>
+                    <p>
+                        Виконайте <code>ferrite passwd</code> на боксі, перш ніж
+                        лишати панель доступною з мережі.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>Чому в Docker мережа host</strong>
+                    <p>
+                        Профілі й правила маршрутизації впізнають пристрій за
+                        адресою. За Docker bridge усі запити приходять від
+                        шлюзу, і всі пристрої виглядають як один.
+                    </p>
+                </div>
+                <p class="lead small">
+                    Збірка з коду, Unraid, оновлення й усі налаштування:
+                    <a class="link" href="/uk/docs.html#install"
+                        >інструкція зі встановлення</a
+                    >.
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="band alt" id="faq">
+        <div class="wrap split">
+            <div class="section-head">
+                <p class="eyebrow">Питання</p>
+                <h2 class="display">Перед встановленням</h2>
+                <p class="lead">
+                    Решта — в
+                    <a class="link" href="/uk/docs.html">документації</a>.
+                </p>
+            </div>
+            <div class="faq">
+                <details>
+                    <summary>Чи треба щось ставити на кожен пристрій?</summary>
+                    <p>
+                        Ні. Вкажіть ferrite як DNS-сервер у DHCP-налаштуваннях
+                        роутера, і його використовуватиме кожен пристрій, що
+                        підключається. Браузери з власним налаштуванням
+                        «безпечного DNS» обходять будь-який мережевий
+                        DNS-фільтр, тож вимкніть його або залиште системний
+                        резолвер.
+                    </p>
+                </details>
+                <details>
+                    <summary>Що буде, якщо бокс ляже?</summary>
+                    <p>
+                        Пристрої не зможуть резолвити імена, поки він не
+                        повернеться. Запустіть другий ferrite, який слідує за
+                        першим, і роздавайте обидві адреси. Не ставте публічний
+                        резолвер другим сервером: пристрої ходитимуть туди й
+                        оминатимуть фільтрацію.
+                    </p>
+                </details>
+                <details>
+                    <summary>Чи запуститься на Raspberry Pi?</summary>
+                    <p>
+                        Так. На ARM-платі, що обслуговує 30 пристроїв зі списком
+                        на 1,8 мільйона доменів, він займає близько 60 МБ
+                        пам'яті. Є статичні збірки для aarch64 і x86_64.
+                    </p>
+                </details>
+                <details>
+                    <summary>Чи потрібен root?</summary>
+                    <p>
+                        Інсталятору потрібен, щоб налаштувати сервіс. Сам
+                        ferrite працює від власного користувача з дозволом
+                        займати порт 53, а також з дозволом на WireGuard у ядрі,
+                        якщо ви ним користуєтесь.
+                    </p>
+                </details>
+                <details>
+                    <summary>Чи бачить він мій HTTPS-трафік?</summary>
+                    <p>
+                        Він відповідає на DNS-запити. Лише для доменів, які ви
+                        відправили в тунель, з'єднання проходить через ferrite,
+                        і тоді він читає ім'я хоста, щоб вибрати тунель, нічого
+                        не розшифровуючи.
+                    </p>
+                </details>
+                <details>
+                    <summary>А IPv6?</summary>
+                    <p>
+                        Інсталятор налаштовує його слухати і IPv4, і IPv6. Якщо
+                        роутер ще й роздає власний IPv6 DNS, направте його теж
+                        на ferrite, інакше пристрої питатимуть роутер.
+                    </p>
+                </details>
+                <details>
+                    <summary>Це безкоштовно?</summary>
+                    <p>
+                        Так. Ліцензія MIT, працює на вашому залізі, акаунт не
+                        потрібен.
+                    </p>
+                </details>
+            </div>
+        </div>
+    </section>
+</main>

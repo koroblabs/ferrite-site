@@ -1,0 +1,164 @@
+<main id="top">
+    <section class="band" id="install">
+        <div class="wrap install-grid">
+            <div>
+                <p class="eyebrow">Встановлення</p>
+                <h1 class="display">Встановити ferrite</h1>
+                <p class="lead">
+                    Скрипт завантажує сервер і панель, перевіряє їхні контрольні
+                    суми й налаштовує сервіс systemd чи OpenRC. Любите
+                    контейнери? Образ є на GHCR. Усі варіанти й наступні кроки
+                    описані в
+                    <a class="link" href="/uk/docs.html#install"
+                        >інструкції зі встановлення</a
+                    >.
+                </p>
+                <div class="commands">
+                    <div class="command">
+                        <div class="command-head">
+                            <span>Скрипт для Linux / macOS</span>
+                            <button
+                                class="copy"
+                                data-copy="curl -fsSL https://raw.githubusercontent.com/syntlyx/ferrite-server/refs/heads/main/install.sh | sudo sh"
+                            >
+                                Копіювати
+                            </button>
+                        </div>
+                        <pre><code>curl -fsSL https://raw.githubusercontent.com/syntlyx/ferrite-server/refs/heads/main/install.sh | sudo sh</code></pre>
+                    </div>
+                    <div class="command">
+                        <div class="command-head">
+                            <span>Docker (ghcr.io)</span>
+                            <button
+                                class="copy"
+                                data-copy="docker run -d --name ferrite \&#10;  --restart unless-stopped \&#10;  --network host \&#10;  --cap-add=NET_BIND_SERVICE \&#10;  -v ferrite-data:/var/lib/ferrite \&#10;  ghcr.io/syntlyx/ferrite-server:latest"
+                            >
+                                Копіювати
+                            </button>
+                        </div>
+                        <pre><code>docker run -d --name ferrite \
+  --restart unless-stopped \
+  --network host \
+  --cap-add=NET_BIND_SERVICE \
+  -v ferrite-data:/var/lib/ferrite \
+  ghcr.io/syntlyx/ferrite-server:latest</code></pre>
+                    </div>
+                    <div class="command">
+                        <div class="command-head">
+                            <span>Збірка з коду</span>
+                            <button
+                                class="copy"
+                                data-copy="cargo build --release&#10;sudo cp target/release/ferrite /usr/local/bin/ferrite"
+                            >
+                                Копіювати
+                            </button>
+                        </div>
+                        <pre><code>cargo build --release
+sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
+                    </div>
+                    <div class="command">
+                        <div class="command-head">
+                            <span>Пароль для панелі</span>
+                            <button class="copy" data-copy="ferrite passwd">
+                                Копіювати
+                            </button>
+                        </div>
+                        <pre><code>ferrite passwd</code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="notes">
+                <div class="note">
+                    <strong>Коротка адреса панелі</strong>
+                    <p>
+                        Ferrite має вбудований запис <code>fe.te</code> з
+                        локальною адресою сервера, тож панель легко знайти в
+                        мережі.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>Образ на GHCR</strong>
+                    <p>
+                        Невеликий образ на Alpine опубліковано в
+                        <code>ghcr.io/syntlyx/ferrite-server</code>. Змонтуйте
+                        <code>/var/lib/ferrite</code> для конфігу, даних і
+                        оновлень, щоб вони переживали перезапуски. Запускайте в
+                        мережі host, щоб кожен пристрій мав власну адресу. Є й
+                        шаблон для Unraid Community Apps.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>Тунелі без root</strong>
+                    <p>
+                        Два бекенди WireGuard, вибираються автоматично. Режим
+                        ядра дає шифрування на всіх ядрах і повну швидкість
+                        лінії, якщо є дозвіл
+                        <code>CAP_NET_ADMIN</code> і модуль ядра. Це все одно не
+                        root, і таблицю маршрутизації хоста він не чіпає. Де
+                        дозволу чи модуля немає, тунель працює в userspace
+                        (boringtun + smoltcp) без TUN-пристрою і без жодних
+                        дозволів. Для привілейованих портів (53/80) потрібен
+                        лише звичайний дозвіл на bind.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>Оновлення на ходу</strong>
+                    <p>
+                        Панель оновлюється через
+                        <code>POST /api/update/web</code>, а сервер сам
+                        оновлюється з релізів на GitHub, коли Ferrite вже
+                        працює.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band alt" id="releases">
+        <div class="wrap split">
+            <div class="section-head">
+                <p class="eyebrow">Останній реліз</p>
+                <h2 class="display">Що нового в 0.2.0</h2>
+                <p class="lead">
+                    Правила для кожного пристрою, а не лише для всієї мережі.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-ghost" href="/uk/changelog.html"
+                        >Усі зміни</a
+                    >
+                </div>
+            </div>
+            <div class="points">
+                <div class="point">
+                    <strong>Сервіси й розклад</strong>
+                    <p>
+                        Блокуйте TikTok, Roblox чи YouTube для одного профілю
+                        одним кліком і вмикайте профіль лише на шкільні вечори.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>SafeSearch</strong>
+                    <p>
+                        Відфільтровані Google, Bing і DuckDuckGo та обмежений
+                        режим YouTube, для всієї мережі чи одного профілю.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Переїзд</strong>
+                    <p>
+                        Імпорт з Pi-hole чи AdGuard Home, а другий ferrite може
+                        слідувати за першим.
+                    </p>
+                </div>
+                <div class="point">
+                    <strong>Перед оновленням</strong>
+                    <p>
+                        База переходить на схему v12. Скопіюйте
+                        <code>ferrite.db</code> заздалегідь, якщо можете
+                        захотіти відкотитися.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

@@ -61,10 +61,13 @@ const T = {
 // Pages of each language sit side by side ("/docs.html", "/uk/docs.html"), so
 // the links below stay relative; the API reference is English only.
 const root = lang === "uk" ? "/uk/" : "/";
+// The Ukrainian front page builds to /uk.html, so it lives at /uk (no slash).
+const home = lang === "uk" ? "/uk" : "/";
+const pathOf = (l: Lang) => (page ? (l === "uk" ? "/uk/" : "/") + page : l === "uk" ? "/uk" : "/");
 const apiHref = lang === "uk" ? "/api.html" : "api.html";
-const otherHref = (lang === "uk" ? "/" : "/uk/") + page;
+const otherHref = pathOf(lang === "uk" ? "en" : "uk");
 const site = Astro.site ?? new URL("https://ferrite.me");
-const canonical = new URL(root + page, site).href;
+const canonical = new URL(pathOf(lang), site).href;
 const ogImage = new URL("/og.png", site).href;
 
 const FAVICON =
@@ -84,8 +87,8 @@ const FAVICON =
         {
             translated && (
                 <>
-                    <link rel="alternate" hreflang="en" href={new URL("/" + page, site).href} />
-                    <link rel="alternate" hreflang="uk" href={new URL("/uk/" + page, site).href} />
+                    <link rel="alternate" hreflang="en" href={new URL(pathOf("en"), site).href} />
+                    <link rel="alternate" hreflang="uk" href={new URL(pathOf("uk"), site).href} />
                 </>
             )
         }
@@ -119,7 +122,7 @@ const FAVICON =
             <div class="nav-inner">
                 <a
                     class="brand display"
-                    href={active === "home" ? "#top" : root}
+                    href={active === "home" ? "#top" : home}
                     aria-label={T.home}
                     aria-current={cur("home")}
                 >
@@ -143,7 +146,7 @@ const FAVICON =
                     <span>ferrite</span>
                 </a>
                 <div class="nav-links" id="site-menu">
-                    <a href={active === "home" ? "#panel" : root + "#panel"}>{T.panel}</a>
+                    <a href={active === "home" ? "#panel" : home + "#panel"}>{T.panel}</a>
                     <a href="/demo/">{T.demo}</a>
                     <a href={root + "docs.html"} aria-current={cur("docs")}>{T.docs}</a>
                     <a href={apiHref} aria-current={cur("api")}>{T.api}</a>
@@ -184,7 +187,7 @@ const FAVICON =
 
         <footer>
             <div class="footer-inner">
-                <a class="brand display" href={root} aria-label={T.home}>
+                <a class="brand display" href={home} aria-label={T.home}>
                     <span class="mark" aria-hidden="true">
                         <svg viewBox="0 0 64 64" aria-hidden="true">
                             <rect width="64" height="64" rx="14" fill="#1c1814"

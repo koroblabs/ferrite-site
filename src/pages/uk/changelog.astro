@@ -1,0 +1,14 @@
+---
+import Base from "../../layouts/Base.astro";
+import content from "../../content/uk/changelog.html?raw";
+---
+
+<Base
+    lang="uk"
+    page="changelog.html"
+    title="Зміни — Ferrite"
+    description="Що змінилось у кожному релізі Ferrite, від найновішого: нові можливості, покращення, виправлення безпеки й примітки до оновлення."
+    active="changelog"
+>
+    <Fragment set:html={content} />
+</Base>

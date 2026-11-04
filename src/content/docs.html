@@ -16,6 +16,7 @@
                     <a href="#block-response">What a blocked name gets</a>
                     <a href="#why">Why was it blocked?</a>
                     <a href="#pause">Pausing and bypass</a>
+                    <a href="#stay-filtered">Keeping devices on the filter</a>
                     <p>Devices</p>
                     <a href="#profiles">Profiles</a>
                     <a href="#schedules">Schedules</a>
@@ -30,6 +31,8 @@
                     <a href="#zones">Local zones</a>
                     <a href="#records">Local records</a>
                     <a href="#cache">Cache</a>
+                    <a href="#encrypted-dns">Encrypted DNS</a>
+                    <a href="#dhcp">DHCP</a>
                     <p>Running it</p>
                     <a href="#access">Password and access</a>
                     <a href="#privacy">Privacy and storage</a>
@@ -340,6 +343,34 @@ youtube_restricted = "moderate"   # off | moderate | strict</code></pre>
             <pre><code>[blocklist]
 client_bypass = ["192.168.1.50", "aa:bb:cc:dd:ee:ff"]</code></pre>
 
+            <h2 id="stay-filtered">Keeping devices on the filter</h2>
+            <p>
+                Some devices and browsers ask somewhere else for names, and the
+                filter never sees them. Settings, then Network, then Resolver,
+                has three switches for that.
+            </p>
+            <ul>
+                <li>
+                    Firefox checks a special name before it turns on its own DNS
+                    over HTTPS. Ferrite answers it so Firefox stays here. On by
+                    default.
+                </li>
+                <li>
+                    iCloud Private Relay sends Safari's lookups past the
+                    network. Turning it off for the network is the owner's
+                    choice, so it is off until you switch it on.
+                </li>
+                <li>
+                    Encrypted Client Hello hides the site's name inside TLS.
+                    Ferrite can leave it out of the answers, so the name stays
+                    readable.
+                </li>
+            </ul>
+            <pre><code>[dns]
+firefox_canary      = true
+block_private_relay = false
+strip_ech           = false</code></pre>
+
             <h2 id="profiles">Profiles</h2>
             <p>
                 A profile is a set of rules for chosen devices, picked by MAC or
@@ -593,6 +624,88 @@ max_ttl       = 3600
 serve_stale   = true
 stale_max_age = 43200   # seconds an expired answer may still be served</code></pre>
 
+            <h2 id="encrypted-dns">Encrypted DNS</h2>
+            <p>
+                Phones and laptops can ask ferrite over an encrypted connection,
+                at home and away from it. Android's Private DNS speaks DNS over
+                TLS. iPhones, Macs and browsers speak DNS over HTTPS. Each
+                device connects under a name of its own, so it shows up under
+                that name in Clients and keeps its profile wherever it is.
+            </p>
+            <h3>What you need</h3>
+            <ul>
+                <li>A domain whose DNS is on Cloudflare.</li>
+                <li>
+                    A name for the box under it, such as
+                    <code>dns.example.com</code>. At home ferrite answers that
+                    name with its own address. To use it away from home, point
+                    the name and <code>*.dns.example.com</code> at your public
+                    address and forward ports 853 and 443 to the box.
+                </li>
+            </ul>
+            <h3>Setting it up</h3>
+            <ol>
+                <li>
+                    In Cloudflare, create an API token from the "Edit zone DNS"
+                    template, limited to your zone.
+                </li>
+                <li>
+                    In Settings, then Network, then Encrypted DNS, switch it on,
+                    enter the name, keep Let's Encrypt and paste the token.
+                    Ferrite proves the name with a TXT record, so no port has to
+                    be open for the certificate. It arrives in a minute or two
+                    and renews by itself.
+                </li>
+                <li>
+                    Add your devices under Devices. On Android, paste the
+                    device's name into Settings, Network, Private DNS. On an
+                    iPhone, iPad or Mac, open the panel on the device and tap
+                    Install profile. A browser takes the DNS over HTTPS address.
+                </li>
+            </ol>
+            <p>
+                DNS over HTTPS shares port 443 with Tunnels: connections for the
+                name are answered here and everything else is routed as before.
+                Away from home, only the devices on the list are answered. The
+                name is public, and the box shouldn't be a resolver for anyone
+                who finds it. Tunnel rules apply at home only; away, names
+                resolve to their real addresses.
+            </p>
+            <pre><code>[secure_dns]
+enabled     = true
+hostname    = "dns.example.com"
+certificate = "letsencrypt"   # or "files", with cert_file and key_file
+devices     = ["pixel", "iphone"]
+
+[secure_dns.acme]
+cloudflare_token = "…"</code></pre>
+
+            <h2 id="dhcp">DHCP</h2>
+            <p>
+                Some routers won't let you change the DNS server they hand out.
+                Ferrite can hand out addresses itself, with itself as the DNS
+                server. A network takes one DHCP server, so switch the router's
+                off when you switch this on. Every device that gets an address
+                shows up under its own name and answers as
+                <code>name.lan</code>. Settings left blank are detected: this
+                box's address, the router and the subnet.
+            </p>
+            <pre><code>[dhcp]
+enabled    = true
+pool_start = "192.168.1.100"
+pool_end   = "192.168.1.199"
+domain     = "lan"
+
+[[dhcp.reservations]]
+mac  = "aa:bb:cc:dd:ee:ff"
+ip   = "192.168.1.20"
+name = "nas"</code></pre>
+            <p>
+                For IPv6, router advertisements can name this box the DNS
+                server, so devices don't go around it. They only announce DNS;
+                ferrite never offers itself as the router.
+            </p>
+
             <h2 id="access">Password and access</h2>
             <p>
                 A browser stays signed in for 7 days after it was last used,
@@ -769,7 +882,17 @@ allow_changes = false</code></pre>
                     </tr>
                     <tr>
                         <td><code>443</code> TCP</td>
-                        <td>routed HTTPS, only when routing is on</td>
+                        <td>
+                            routed HTTPS when routing is on, and DNS over HTTPS
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>853</code> TCP</td>
+                        <td>DNS over TLS, when encrypted DNS is on</td>
+                    </tr>
+                    <tr>
+                        <td><code>67</code> UDP</td>
+                        <td>DHCP, when it is on</td>
                     </tr>
                 </tbody>
             </table>

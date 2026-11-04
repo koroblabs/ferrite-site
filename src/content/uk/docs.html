@@ -16,6 +16,7 @@
                     <a href="#block-response">Що отримує заблоковане ім'я</a>
                     <a href="#why">Чому заблоковано?</a>
                     <a href="#pause">Пауза й винятки</a>
+                    <a href="#stay-filtered">Як утримати пристрої на фільтрі</a>
                     <p>Пристрої</p>
                     <a href="#profiles">Профілі</a>
                     <a href="#schedules">Розклад</a>
@@ -30,6 +31,8 @@
                     <a href="#zones">Локальні зони</a>
                     <a href="#records">Локальні записи</a>
                     <a href="#cache">Кеш</a>
+                    <a href="#encrypted-dns">Шифрований DNS</a>
+                    <a href="#dhcp">DHCP</a>
                     <p>Експлуатація</p>
                     <a href="#access">Пароль і доступ</a>
                     <a href="#privacy">Приватність і зберігання</a>
@@ -344,6 +347,34 @@ youtube_restricted = "moderate"   # off | moderate | strict</code></pre>
             <pre><code>[blocklist]
 client_bypass = ["192.168.1.50", "aa:bb:cc:dd:ee:ff"]</code></pre>
 
+            <h2 id="stay-filtered">Як утримати пристрої на фільтрі</h2>
+            <p>
+                Деякі пристрої й браузери питають імена деінде, і фільтр їх не
+                бачить. У Settings, далі Network, далі Resolver, для цього є три
+                перемикачі.
+            </p>
+            <ul>
+                <li>
+                    Firefox перевіряє спеціальне ім'я, перш ніж увімкнути
+                    власний DNS over HTTPS. Ferrite відповідає на нього так, щоб
+                    Firefox лишався тут. Увімкнено за замовчуванням.
+                </li>
+                <li>
+                    iCloud Private Relay відправляє запити Safari в обхід
+                    мережі. Вимкнути його для мережі вирішує власник, тому цей
+                    перемикач вимкнений, доки ви його не ввімкнете.
+                </li>
+                <li>
+                    Encrypted Client Hello ховає ім'я сайту всередині TLS.
+                    Ferrite може прибирати його з відповідей, щоб ім'я лишалося
+                    видимим.
+                </li>
+            </ul>
+            <pre><code>[dns]
+firefox_canary      = true
+block_private_relay = false
+strip_ech           = false</code></pre>
+
             <h2 id="profiles">Профілі</h2>
             <p>
                 Профіль — це набір правил для вибраних пристроїв, визначених за
@@ -600,6 +631,89 @@ max_ttl       = 3600
 serve_stale   = true
 stale_max_age = 43200   # seconds an expired answer may still be served</code></pre>
 
+            <h2 id="encrypted-dns">Шифрований DNS</h2>
+            <p>
+                Телефони й ноутбуки можуть звертатися до ferrite шифрованим
+                з'єднанням, удома й поза домом. «Приватний DNS» на Android
+                говорить DNS over TLS. iPhone, Mac і браузери говорять DNS over
+                HTTPS. Кожен пристрій підключається під власним іменем, тож
+                показується під ним у Clients і зберігає свій профіль, де б не
+                був.
+            </p>
+            <h3>Що потрібно</h3>
+            <ul>
+                <li>Домен, DNS якого на Cloudflare.</li>
+                <li>
+                    Ім'я для боксу в ньому, наприклад
+                    <code>dns.example.com</code>. Удома ferrite сам відповідає
+                    на це ім'я своєю адресою. Щоб користуватися ним поза домом,
+                    спрямуйте ім'я та <code>*.dns.example.com</code> на вашу
+                    публічну адресу й прокиньте порти 853 і 443 на бокс.
+                </li>
+            </ul>
+            <h3>Налаштування</h3>
+            <ol>
+                <li>
+                    У Cloudflare створіть API-токен із шаблону «Edit zone DNS»,
+                    обмежений вашою зоною.
+                </li>
+                <li>
+                    У Settings, далі Network, далі Encrypted DNS, увімкніть
+                    його, впишіть ім'я, лишіть Let's Encrypt і вставте токен.
+                    Ferrite підтверджує ім'я TXT-записом, тож для сертифіката не
+                    треба відкривати порт. Він з'являється за хвилину-дві й
+                    продовжується сам.
+                </li>
+                <li>
+                    Додайте пристрої в розділі Devices. На Android вставте ім'я
+                    пристрою в Налаштування, Мережа, Приватний DNS. На iPhone,
+                    iPad чи Mac відкрийте панель на самому пристрої й натисніть
+                    Install profile. Браузеру потрібна адреса DNS over HTTPS.
+                </li>
+            </ol>
+            <p>
+                DNS over HTTPS ділить порт 443 з тунелями: з'єднання на це ім'я
+                обслуговуються тут, а все інше маршрутизується як раніше. Поза
+                домом відповідь отримують лише пристрої зі списку. Ім'я
+                публічне, і бокс не має бути резолвером для кожного, хто його
+                знайде. Правила тунелів діють лише вдома; поза домом імена
+                отримують справжні адреси.
+            </p>
+            <pre><code>[secure_dns]
+enabled     = true
+hostname    = "dns.example.com"
+certificate = "letsencrypt"   # or "files", with cert_file and key_file
+devices     = ["pixel", "iphone"]
+
+[secure_dns.acme]
+cloudflare_token = "…"</code></pre>
+
+            <h2 id="dhcp">DHCP</h2>
+            <p>
+                Деякі роутери не дають змінити DNS-сервер, який вони роздають.
+                Ferrite може сам роздавати адреси, вказуючи себе DNS-сервером. У
+                мережі має бути один DHCP-сервер, тож вимкніть його на роутері,
+                коли вмикаєте тут. Кожен пристрій, що отримав адресу,
+                показується під власним іменем і відповідає як
+                <code>name.lan</code>. Порожні налаштування визначаються самі:
+                адреса цього боксу, роутер і підмережа.
+            </p>
+            <pre><code>[dhcp]
+enabled    = true
+pool_start = "192.168.1.100"
+pool_end   = "192.168.1.199"
+domain     = "lan"
+
+[[dhcp.reservations]]
+mac  = "aa:bb:cc:dd:ee:ff"
+ip   = "192.168.1.20"
+name = "nas"</code></pre>
+            <p>
+                Для IPv6 оголошення роутера (RA) можуть називати цей бокс
+                DNS-сервером, щоб пристрої не йшли повз нього. Вони оголошують
+                лише DNS; роутером ferrite себе ніколи не пропонує.
+            </p>
+
             <h2 id="access">Пароль і доступ</h2>
             <p>
                 Вхід у браузері тримається 7 днів від останнього використання,
@@ -781,9 +895,17 @@ allow_changes = false</code></pre>
                     <tr>
                         <td><code>443</code> TCP</td>
                         <td>
-                            HTTPS через тунель, лише коли маршрутизацію
-                            ввімкнено
+                            HTTPS через тунель, коли маршрутизацію ввімкнено, і
+                            DNS over HTTPS
                         </td>
+                    </tr>
+                    <tr>
+                        <td><code>853</code> TCP</td>
+                        <td>DNS over TLS, коли шифрований DNS увімкнено</td>
+                    </tr>
+                    <tr>
+                        <td><code>67</code> UDP</td>
+                        <td>DHCP, коли його ввімкнено</td>
                     </tr>
                 </tbody>
             </table>

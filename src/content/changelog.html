@@ -95,13 +95,35 @@
                             An MCP endpoint, off by default, so an AI assistant
                             can ask why a site is blocked.
                         </li>
+                        <li>
+                            Encrypted DNS for your devices: DNS over TLS for
+                            Android's Private DNS, DNS over HTTPS for iPhones,
+                            Macs and browsers. Each device carries its own name,
+                            so its profile goes with it when it leaves the
+                            house.
+                        </li>
+                        <li>
+                            ferrite gets the certificate from Let's Encrypt and
+                            renews it, given a Cloudflare token. No port has to
+                            be open for that.
+                        </li>
+                        <li>
+                            Away from home only the devices you list are
+                            answered. An iPhone or a Mac sets itself up from a
+                            profile, one tap.
+                        </li>
+                        <li>DNS over HTTPS shares port 443 with Tunnels.</li>
+                        <li>
+                            A DHCP server, off until you turn it on, so devices
+                            show up under their own names.
+                        </li>
                     </ul>
                     <h3 class="tag-dns">Resolver</h3>
                     <ul>
                         <li>
                             Choose what a blocked name gets: NXDOMAIN, an empty
-                            answer, <code>0.0.0.0</code> or a block page of your
-                            own.
+                            answer,
+                            <code>0.0.0.0</code> or a block page of your own.
                         </li>
                         <li>
                             An optimistic cache keeps names resolving through an
@@ -112,6 +134,16 @@
                             address ranges.
                         </li>
                         <li>Manual rules take regular expressions.</li>
+                        <li>
+                            Firefox stays on this resolver instead of switching
+                            itself to DNS over HTTPS. iCloud Private Relay and
+                            Encrypted Client Hello can be turned off for the
+                            network, so devices can't slip past the filter.
+                        </li>
+                        <li>
+                            Upstreams, zones, cache sizes and resolver switches
+                            apply at once, with no restart.
+                        </li>
                     </ul>
                     <h3 class="tag-improved">Panel</h3>
                     <ul>
@@ -128,6 +160,7 @@
                             restarts and updates. Settings lists the signed-in
                             browsers and signs any of them out.
                         </li>
+                        <li>Device names you gave by hand can be edited.</li>
                     </ul>
                     <div class="release-upgrade">
                         <strong>Upgrading</strong>
@@ -135,8 +168,9 @@
                             <li>
                                 The database moves to schema v12 on first start,
                                 and an older ferrite can't open it afterwards.
-                                Copy <code>ferrite.db</code> first if you may
-                                roll back.
+                                Copy
+                                <code>ferrite.db</code> first if you may roll
+                                back.
                             </li>
                             <li>
                                 <code>[proxy] alert_webhook</code> moves to
@@ -292,9 +326,10 @@
                     <ul>
                         <li>
                             Tunnels can run on the kernel backend: ferrite
-                            builds its own <code>wg</code> interface over
-                            netlink and steers only its own traffic through it,
-                            so crypto uses every core.
+                            builds its own
+                            <code>wg</code> interface over netlink and steers
+                            only its own traffic through it, so crypto uses
+                            every core.
                         </li>
                         <li>
                             Proxied bytes move with <code>splice(2)</code> and

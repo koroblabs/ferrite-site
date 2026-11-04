@@ -144,6 +144,11 @@
                             Upstreams, zones, cache sizes and resolver switches
                             apply at once, with no restart.
                         </li>
+                        <li>
+                            An update, a new listen address or settings taken
+                            from a primary restart ferrite in place: the DNS
+                            socket stays open, and not a query is dropped.
+                        </li>
                     </ul>
                     <h3 class="tag-improved">Panel</h3>
                     <ul>

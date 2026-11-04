@@ -70,6 +70,8 @@ PAIRS = [
      "Firefox лишається на цьому резолвері й не перемикається сам на DNS over HTTPS. iCloud Private Relay та Encrypted Client Hello можна вимкнути для мережі, щоб пристрої не оминали фільтр."),
     ("Upstreams, zones, cache sizes and resolver switches apply at once, with no restart.",
      "Апстріми, зони, розміри кешу й перемикачі резолвера застосовуються одразу, без перезапуску."),
+    ("An update, a new listen address or settings taken from a primary restart ferrite in place: the DNS socket stays open, and not a query is dropped.",
+     "Оновлення, нова адреса прослуховування чи налаштування з основного боксу перезапускають ferrite на місці: сокет DNS лишається відкритим, і жоден запит не губиться."),
     ("Device names you gave by hand can be edited.", "Імена пристроїв, задані вручну, тепер можна редагувати."),
     ("A calmer look, a Right now card on the dashboard, and devices grouped by profile.",
      "Спокійніший вигляд, картка «Зараз» на дашборді й пристрої, згруповані за профілями."),

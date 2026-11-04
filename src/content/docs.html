@@ -761,10 +761,11 @@ denied_clients  = ["192.168.1.66"]     # these never do</code></pre>
             <h2 id="updates">Updates</h2>
             <p>
                 The panel shows when a release is out and updates the server and
-                itself in place; the service manager restarts ferrite on the new
-                binary. A panel release is only offered when it fits the running
-                server. In Docker, restarting the container also fetches the
-                latest release, unless you pin one with the variables below.
+                itself in place. Ferrite then restarts on the new binary in
+                place, keeping its DNS and panel sockets open, so not a query is
+                dropped. A panel release is only offered when it fits the
+                running server. In Docker, restarting the container also fetches
+                the latest release, unless you pin one with the variables below.
             </p>
 
             <h2 id="backup">Backup and restore</h2>
@@ -780,9 +781,9 @@ denied_clients  = ["192.168.1.66"]     # these never do</code></pre>
                 A second ferrite can follow the first, so devices given both
                 addresses get the same answers from either. It takes the parts
                 you choose from the primary every few minutes, with the
-                primary's API key, and restarts for about a second when
-                something changed. Edit on the primary: changes made on the
-                follower to those parts are replaced on the next sync.
+                primary's API key, and restarts in place when something changed,
+                without dropping a query. Edit on the primary: changes made on
+                the follower to those parts are replaced on the next sync.
             </p>
             <pre><code>[sync]
 primary  = "http://192.168.1.10"

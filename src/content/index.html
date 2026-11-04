@@ -488,6 +488,15 @@
                     <button
                         type="button"
                         role="tab"
+                        id="tab-encrypted"
+                        aria-controls="shot-encrypted"
+                        aria-selected="false"
+                    >
+                        Encrypted DNS
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
                         id="tab-light"
                         aria-controls="shot-light"
                         aria-selected="false"
@@ -607,6 +616,25 @@
                     <figcaption>
                         Routing rules: which domains or services leave through
                         which tunnel, for which devices.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-encrypted"
+                    role="tabpanel"
+                    aria-labelledby="tab-encrypted"
+                >
+                    <img
+                        src="/shots/encrypted-dns.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Encrypted DNS settings: the name dns.example.net, a Let's Encrypt certificate through a Cloudflare token, DNS over TLS on 853 and DNS over HTTPS sharing 443 with Tunnels"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Encrypted DNS: a certificate ferrite gets by itself, and
+                        phones that keep your filter away from home.
                     </figcaption>
                 </figure>
                 <figure

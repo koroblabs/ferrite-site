@@ -494,6 +494,15 @@
                     <button
                         type="button"
                         role="tab"
+                        id="tab-encrypted"
+                        aria-controls="shot-encrypted"
+                        aria-selected="false"
+                    >
+                        Шифрований DNS
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
                         id="tab-light"
                         aria-controls="shot-light"
                         aria-selected="false"
@@ -612,6 +621,25 @@
                     <figcaption>
                         Правила маршрутизації: які домени чи сервіси виходять
                         через який тунель і для яких пристроїв.
+                    </figcaption>
+                </figure>
+                <figure
+                    class="shot"
+                    id="shot-encrypted"
+                    role="tabpanel"
+                    aria-labelledby="tab-encrypted"
+                >
+                    <img
+                        src="/shots/encrypted-dns.webp"
+                        width="2560"
+                        height="1600"
+                        alt="Налаштування шифрованого DNS: ім'я dns.example.net, сертифікат Let's Encrypt через токен Cloudflare, DNS over TLS на 853 і DNS over HTTPS на спільному з тунелями 443"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <figcaption>
+                        Шифрований DNS: сертифікат, який ferrite отримує сам, і
+                        телефони, що лишаються під вашим фільтром поза домом.
                     </figcaption>
                 </figure>
                 <figure

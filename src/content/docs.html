@@ -688,7 +688,10 @@ cloudflare_token = "…"</code></pre>
                 off when you switch this on. Every device that gets an address
                 shows up under its own name and answers as
                 <code>name.lan</code>. Settings left blank are detected: this
-                box's address, the router and the subnet.
+                box's address, the router and the subnet. Ferrite looks for
+                another DHCP server the way a new device would, before it starts
+                and every half hour, and the DHCP page names any it finds. It
+                never hands out an address another device is using.
             </p>
             <pre><code>[dhcp]
 enabled    = true

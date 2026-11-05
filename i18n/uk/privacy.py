@@ -6,12 +6,11 @@ PAIRS = [
     ("Last updated: 5 November 2026", "Останнє оновлення: 5 листопада 2026"),
 
     ("This website", "Цей сайт"),
-    ("ferrite.me is a static website. It has no accounts, no forms, no cookies, no analytics and no ads, and we keep no record of who visits it. Two other companies take part in showing it to you:",
-     "ferrite.me — статичний сайт. На ньому немає акаунтів, форм, cookie, аналітики й реклами, і ми не ведемо обліку відвідувачів. Показати його вам допомагають дві інші компанії:"),
-    ("hosts the website. Like any host, it handles each request, including your IP address and browser, to deliver the pages and protect them from abuse, under its own privacy policy.",
-     "розміщує сайт. Як і будь-який хостинг, він обробляє кожен запит, зокрема вашу IP-адресу й дані браузера, щоб доставити сторінки й захистити їх від зловживань, за власною політикою конфіденційності."),
-    ("serves the website's fonts, so your browser asks Google for them and Google sees your IP address and browser, under its own privacy policy.",
-     "віддає шрифти сайту, тож ваш браузер запитує їх у Google, і Google бачить вашу IP-адресу та дані браузера, за власною політикою конфіденційності."),
+    ("ferrite.me is a static website. It has no accounts, no forms, no cookies, no analytics and no ads, and we keep no record of who visits it. Its pages, fonts and pictures all come from ferrite.me itself.",
+     "ferrite.me — статичний сайт. На ньому немає акаунтів, форм, cookie, аналітики й реклами, і ми не ведемо обліку відвідувачів. Сторінки, шрифти й картинки надходять із самого ferrite.me."),
+    ("The website is hosted by", "Сайт розміщено на"),
+    (". Like any host, it handles each request, including your IP address and browser, to deliver the pages and protect them from abuse, under its own privacy policy.",
+     ". Як і будь-який хостинг, він обробляє кожен запит, зокрема вашу IP-адресу й дані браузера, щоб доставити сторінки й захистити їх від зловживань, за власною політикою конфіденційності."),
     ("Links to GitHub and other sites lead to services with their own privacy policies.",
      "Посилання на GitHub та інші сайти ведуть до сервісів із власними політиками конфіденційності."),
 

@@ -22,7 +22,8 @@
     --mono:
         "IBM Plex Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
     --sans:
-        "Archivo", "Inter", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+        "Archivo Variable", "Inter Variable", "Avenir Next", "Segoe UI",
+        system-ui, sans-serif;
     --radius: 0.5rem;
     --radius-card: 0.75rem;
     --page-pad: clamp(1rem, 4vw, 3.5rem);
@@ -32,7 +33,8 @@
 /* Archivo has no Cyrillic: Ukrainian pages set everything in Inter rather
    than mixing two faces inside one line. */
 :root:lang(uk) {
-    --sans: "Inter", "Archivo", "Segoe UI", system-ui, sans-serif;
+    --sans:
+        "Inter Variable", "Archivo Variable", "Segoe UI", system-ui, sans-serif;
 }
 
 * {

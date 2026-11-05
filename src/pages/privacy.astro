@@ -1,0 +1,12 @@
+---
+import Base from "../layouts/Base.astro";
+import content from "../content/privacy.html?raw";
+---
+
+<Base
+    page="privacy.html"
+    title="Privacy policy — Ferrite"
+    description="Ferrite collects nothing about you: no accounts, cookies or analytics on the website, and no telemetry in the software."
+>
+    <Fragment set:html={content} />
+</Base>

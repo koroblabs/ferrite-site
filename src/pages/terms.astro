@@ -1,0 +1,12 @@
+---
+import Base from "../layouts/Base.astro";
+import content from "../content/terms.html?raw";
+---
+
+<Base
+    page="terms.html"
+    title="Terms of use — Ferrite"
+    description="The terms for using Ferrite and ferrite.me: free open-source software, provided as is, run on your own hardware at your own risk."
+>
+    <Fragment set:html={content} />
+</Base>

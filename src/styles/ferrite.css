@@ -904,6 +904,14 @@ a.copy {
 .doc-head {
     margin-bottom: 1rem;
 }
+/* Terms and privacy: one column of text, no contents list beside it. */
+.doc.legal {
+    margin: 0 auto;
+}
+.legal-date {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
 .doc h1 {
     font-size: clamp(2.2rem, 4.5vw, 3.2rem);
 }

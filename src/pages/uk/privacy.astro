@@ -1,0 +1,13 @@
+---
+import Base from "../../layouts/Base.astro";
+import content from "../../content/uk/privacy.html?raw";
+---
+
+<Base
+    lang="uk"
+    page="privacy.html"
+    title="Політика конфіденційності — Ferrite"
+    description="Ferrite нічого про вас не збирає: на сайті немає акаунтів, cookie чи аналітики, а в програмі немає телеметрії."
+>
+    <Fragment set:html={content} />
+</Base>

@@ -40,6 +40,8 @@ const T = {
         menu: "Menu",
         serverSource: "Server source",
         panelSource: "Panel source",
+        terms: "Terms",
+        privacy: "Privacy",
         note: "MIT licence · no account, no telemetry",
         other: "Українською",
         otherShort: "УКР",
@@ -55,6 +57,8 @@ const T = {
         menu: "Меню",
         serverSource: "Код сервера",
         panelSource: "Код панелі",
+        terms: "Умови",
+        privacy: "Приватність",
         note: "Ліцензія MIT · без акаунта, без телеметрії",
         other: "In English",
         otherShort: "ENG",
@@ -218,6 +222,8 @@ const FAVICON =
                     <a href={root + "changelog.html"}>{T.changelog}</a>
                     <a href="https://github.com/syntlyx/ferrite-server">{T.serverSource}</a>
                     <a href="https://github.com/syntlyx/ferrite-web">{T.panelSource}</a>
+                    <a href={root + "terms.html"}>{T.terms}</a>
+                    <a href={root + "privacy.html"}>{T.privacy}</a>
                     {switcher && <a href={otherHref} hreflang={lang === "uk" ? "en" : "uk"}>{T.other}</a>}
                 </nav>
                 <span class="footer-note">{T.note}</span>

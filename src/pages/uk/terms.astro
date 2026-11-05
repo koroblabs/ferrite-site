@@ -1,0 +1,13 @@
+---
+import Base from "../../layouts/Base.astro";
+import content from "../../content/uk/terms.html?raw";
+---
+
+<Base
+    lang="uk"
+    page="terms.html"
+    title="Умови використання — Ferrite"
+    description="Умови використання Ferrite і ferrite.me: безкоштовна програма з відкритим кодом, що надається як є і працює на вашому обладнанні на ваш власний ризик."
+>
+    <Fragment set:html={content} />
+</Base>

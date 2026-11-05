@@ -1,0 +1,58 @@
+PAIRS = [
+    ("Legal", "Правова інформація"),
+    ("Terms of use", "Умови використання"),
+    ("Ferrite is free, open-source software that you run on your own hardware. Using it, and this website, is at your own risk.",
+     "Ferrite — безкоштовна програма з відкритим кодом, яку ви запускаєте на власному обладнанні. Користуєтеся нею і цим сайтом ви на власний ризик."),
+    ("Last updated: 5 November 2026", "Останнє оновлення: 5 листопада 2026"),
+
+    ("What these terms cover", "Що охоплюють ці умови"),
+    ("These terms cover the ferrite.me website, its demo, and the Ferrite software published by the Ferrite project. By using any of them you accept these terms. If you don't accept them, don't use them.",
+     "Ці умови стосуються сайту ferrite.me, його демо і програми Ferrite, яку публікує проєкт Ferrite. Користуючись будь-чим із цього, ви приймаєте ці умови. Якщо не приймаєте, не користуйтеся."),
+    ("The software itself is licensed under the MIT licence. These terms don't take away anything the licence gives you; where they differ, the licence decides how you may use, copy and change the code.",
+     "Сама програма поширюється за ліцензією MIT. Ці умови не забирають нічого з того, що дає ліцензія. Там, де вони розходяться, як можна використовувати, копіювати й змінювати код, визначає ліцензія."),
+
+    ("No warranty", "Без гарантій"),
+    ("The software, the website and the demo are provided as is and as available, without any warranty of any kind, express or implied, including warranties of merchantability, fitness for a particular purpose, accuracy, security and non-infringement. Nothing here promises that ferrite will work without interruption, block what you want blocked, let through what you want let through, or keep your network or your data safe.",
+     "Програма, сайт і демо надаються «як є» і «як доступні», без жодних гарантій, явних чи неявних, зокрема гарантій придатності для продажу чи для певної мети, точності, безпеки й непорушення чужих прав. Ніщо тут не обіцяє, що ferrite працюватиме без перебоїв, блокуватиме те, що ви хочете заблокувати, пропускатиме те, що ви хочете пропустити, чи вбереже вашу мережу або дані."),
+
+    ("Your responsibility", "Ваша відповідальність"),
+    ("Ferrite runs on your hardware, under your configuration, on your network. You decide how it is set up and you are responsible for what follows from that, including:",
+     "Ferrite працює на вашому обладнанні, з вашими налаштуваннями, у вашій мережі. Ви вирішуєте, як його налаштувати, і відповідаєте за наслідки, зокрема за:"),
+    ("keeping your network working: a DNS or DHCP server that stops or is set up wrong can leave every device on the network without internet;",
+     "працездатність мережі: DNS- чи DHCP-сервер, який зупинився або налаштований неправильно, може залишити без інтернету всі пристрої в мережі;"),
+    ("backups of your configuration and data;", "резервні копії налаштувань і даних;"),
+    ("the people whose devices use your ferrite: it can see and record the names they look up, so tell them and follow the laws that apply to you;",
+     "людей, чиї пристрої користуються вашим ferrite: він може бачити й записувати імена, які вони запитують, тож повідомте їх і дотримуйтеся законів, що на вас поширюються;"),
+    ("using tunnels, proxies, Tor and routing lawfully and within the terms of your internet provider, your VPN provider and the services you reach through them;",
+     "законне використання тунелів, проксі, Tor і маршрутизації в межах умов вашого інтернет-провайдера, VPN-провайдера і сервісів, до яких ви через них звертаєтеся;"),
+    ("the certificates, domains, tokens and accounts with other services that you connect to ferrite.",
+     "сертифікати, домени, токени й акаунти в інших сервісах, які ви підключаєте до ferrite."),
+    ("Profiles, schedules and SafeSearch help keep children away from some content. They are no guarantee and no substitute for a grown-up paying attention.",
+     "Профілі, розклад і SafeSearch допомагають уберегти дітей від частини вмісту. Це не гарантія і не заміна уваги дорослих."),
+
+    ("Other people's lists and services", "Чужі списки й сервіси"),
+    ("What ferrite blocks comes mostly from blocklists made by other people, and what it answers comes from upstream resolvers you choose. Ferrite can also work with Let's Encrypt, Cloudflare, GitHub, notification services, WireGuard and SOCKS5 providers and Tor. The Ferrite project doesn't control any of them, isn't responsible for them, and their own terms apply when you use them. A list can block a site you need or miss one you don't want.",
+     "Що блокує ferrite, здебільшого визначають списки, складені іншими людьми, а відповіді він бере з upstream-серверів, які обираєте ви. Ferrite також може працювати з Let's Encrypt, Cloudflare, GitHub, сервісами сповіщень, провайдерами WireGuard і SOCKS5 та Tor. Проєкт Ferrite жодного з них не контролює і не відповідає за них, а коли ви ними користуєтеся, діють їхні власні умови. Список може заблокувати потрібний вам сайт або пропустити небажаний."),
+
+    ("Limitation of liability", "Обмеження відповідальності"),
+    ("To the fullest extent the law allows, the authors and contributors of Ferrite are not liable for any damages or losses that come from using, or being unable to use, the software, the website or the demo. This includes direct, indirect, incidental, special and consequential damages, such as lost data, lost profits, downtime, security incidents, content that was blocked or not blocked, and claims made by other people, even if we were told such damage was possible.",
+     "Наскільки це дозволяє закон, автори й учасники проєкту Ferrite не відповідають за жодну шкоду чи збитки, що виникли через використання програми, сайту чи демо або через неможливість ними скористатися. Це стосується прямої, непрямої, випадкової, особливої й опосередкованої шкоди, як-от втрати даних, упущеного прибутку, простою, інцидентів безпеки, заблокованого чи не заблокованого вмісту та претензій інших людей, навіть якщо нас попереджали про можливість такої шкоди."),
+    ("Where the law doesn't allow some of these exclusions, our liability is limited to the smallest amount the law permits.",
+     "Там, де закон не дозволяє якихось із цих винятків, наша відповідальність обмежується найменшим обсягом, який закон допускає."),
+
+    ("Names and trademarks", "Назви й торгові марки"),
+    ("Names of other products and services on this website, such as Pi-hole, AdGuard, Netflix or Cloudflare, belong to their owners. They are used only to say what ferrite works with or can replace, and don't mean that the Ferrite project is connected with or endorsed by them.",
+     "Назви інших продуктів і сервісів на цьому сайті, як-от Pi-hole, AdGuard, Netflix чи Cloudflare, належать їхнім власникам. Вони вживаються лише для того, щоб сказати, з чим ferrite працює або що може замінити, і не означають, що проєкт Ferrite з ними пов'язаний чи має їхнє схвалення."),
+
+    ("The demo", "Демо"),
+    ("The demo is the real panel running in your browser on made-up data. Nothing you change there is saved or sent anywhere.",
+     "Демо — це справжня панель, що працює у вашому браузері на вигаданих даних. Нічого з того, що ви там змінюєте, не зберігається і нікуди не надсилається."),
+
+    ("Changes", "Зміни"),
+    ("These terms may change. The date at the top shows when they last did, and using the website or a newer release after a change means you accept the new version.",
+     "Ці умови можуть змінюватися. Дата вгорі показує, коли це сталося востаннє, а користування сайтом чи новішим релізом після змін означає, що ви приймаєте нову версію."),
+
+    ("Contact", "Контакти"),
+    ("Questions about these terms: open an issue on GitHub at",
+     "Питання щодо цих умов: створіть issue на"),
+]

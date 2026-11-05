@@ -40,6 +40,9 @@ PAIRS = [
     ("Where the law doesn't allow some of these exclusions, our liability is limited to the smallest amount the law permits.",
      "Там, де закон не дозволяє якихось із цих винятків, наша відповідальність обмежується найменшим обсягом, який закон допускає."),
 
+    ("Open-source licences", "Ліцензії відкритого коду"),
+    ("Ferrite is built from open-source libraries and fonts, each under its own licence. Every release carries their notices in THIRD-PARTY-LICENSES.txt, next to the program. The fonts on this website are listed in",
+     "Ferrite зібрано з бібліотек і шрифтів з відкритим кодом, і в кожного з них своя ліцензія. Кожен реліз містить їхні тексти у файлі THIRD-PARTY-LICENSES.txt поруч із програмою. Шрифти цього сайту перелічено в"),
     ("Names and trademarks", "Назви й торгові марки"),
     ("Names of other products and services on this website, such as Pi-hole, AdGuard, Netflix or Cloudflare, belong to their owners. They are used only to say what ferrite works with or can replace, and don't mean that the Ferrite project is connected with or endorsed by them.",
      "Назви інших продуктів і сервісів на цьому сайті, як-от Pi-hole, AdGuard, Netflix чи Cloudflare, належать їхнім власникам. Вони вживаються лише для того, щоб сказати, з чим ferrite працює або що може замінити, і не означають, що проєкт Ferrite з ними пов'язаний чи має їхнє схвалення."),

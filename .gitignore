@@ -6,3 +6,6 @@ dist/
 
 # built from ../web by scripts/build-demo.mjs
 public/demo/
+
+# written by scripts/licenses.mjs at build time
+public/THIRD-PARTY-LICENSES.txt

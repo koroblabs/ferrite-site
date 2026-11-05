@@ -118,6 +118,41 @@
                             itself over encrypted DNS.
                         </li>
                         <li>
+                            A device at home sets itself up from the panel's
+                            setup page, with one tap and no password. You choose
+                            who may: devices you've named, anyone at home, or
+                            nobody. Every device also has a QR code in the
+                            panel.
+                        </li>
+                        <li>
+                            A device on encrypted DNS belongs to the client it
+                            was set up for: one row in Clients, and that
+                            client's profile, pause and tunnel rules go with the
+                            phone onto mobile data.
+                        </li>
+                        <li>
+                            Tunnels away from home: a phone on encrypted DNS
+                            goes through your tunnels outside the house too,
+                            with no VPN app. Only your own devices get in, and
+                            only for routed names.
+                        </li>
+                        <li>
+                            DNS over HTTPS speaks HTTP/3 too, which copes better
+                            with a poor mobile network.
+                        </li>
+                        <li>
+                            Encrypted DNS can sit behind a reverse proxy such as
+                            Nginx Proxy Manager or Caddy. Ferrite takes the
+                            client's address from X-Real-IP or a PROXY protocol
+                            header, from the proxies you name.
+                        </li>
+                        <li>
+                            A tunnel rule shows what else its site pulls in,
+                            such as a CDN or a bot check, tries each name
+                            straight and through the tunnel, and routes the ones
+                            that need it in one click.
+                        </li>
+                        <li>
                             A DHCP server, off until you turn it on, so devices
                             show up under their own names. It warns when another
                             DHCP server answers on the network.

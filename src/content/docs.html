@@ -438,6 +438,14 @@ default_deny = true</code></pre>
                 blocked unless you allow it. Rules, egresses and ports reload
                 without a restart.
             </p>
+            <p>
+                A phone on encrypted DNS can be routed away from home too:
+                switch on Away from home too under Tunnels. Routed names then
+                point at the box's public address, which ferrite reads from the
+                encrypted DNS name's own record, and port 443 there has to reach
+                the box. Only your own devices get in, from the address they
+                just asked from, and only for routed names.
+            </p>
             <p class="callout">
                 Routing needs ports 80 and 443 on the box. The panel shares port
                 80 and is told apart by the Host header.
@@ -535,6 +543,14 @@ AllowedIPs = 0.0.0.0/0
                 its subdomains; <code>*.example.com</code> covers only the
                 subdomains. With fail-closed on, a rule whose egress is down
                 refuses the connection instead of letting it go out directly.
+            </p>
+            <p>
+                A site pulls in more than its own name: a CDN, a bot check,
+                fonts. Left out of the tunnel, they can leave a routed page
+                white. Under a rule, What else the site pulls in lists the names
+                devices asked right after opening it, tries each straight and
+                through the tunnel, and routes the ones that need it in one
+                click.
             </p>
             <pre><code>[[proxy.rules]]
 pattern = "example.com"
@@ -657,25 +673,53 @@ stale_max_age = 43200   # seconds an expired answer may still be served</code></
                     and renews by itself.
                 </li>
                 <li>
-                    Add your devices under Devices. On Android, paste the
-                    device's name into Settings, Network, Private DNS. On an
-                    iPhone, iPad or Mac, open the panel on the device and tap
-                    Install profile. A browser takes the DNS over HTTPS address.
+                    Add your devices under Devices, or let them add themselves
+                    (below). On Android, paste the device's name into Settings,
+                    Network, Private DNS. On an iPhone, iPad or Mac, open the
+                    panel on the device and tap Install profile, or point its
+                    camera at the device's QR code. A browser takes the DNS over
+                    HTTPS address.
                 </li>
             </ol>
             <p>
                 DNS over HTTPS shares port 443 with Tunnels: connections for the
                 name are answered here and everything else is routed as before.
-                Away from home, only the devices on the list are answered. The
-                name is public, and the box shouldn't be a resolver for anyone
-                who finds it. Tunnel rules apply at home only; away, names
-                resolve to their real addresses.
+                It speaks HTTP/3 as well, on UDP 443. Away from home, only the
+                devices on the list are answered. The name is public, and the
+                box shouldn't be a resolver for anyone who finds it.
+            </p>
+            <h3>Devices setting themselves up</h3>
+            <p>
+                A phone at home can open the panel's setup page and set itself
+                up without the password: it gets a device name of its own and
+                its profile, and you get a notification. Under Setting up
+                without the password, choose who may: devices you've named in
+                Clients (the default), anyone at home, or nobody.
+            </p>
+            <p>
+                A device set up this way, or from its panel in Clients, belongs
+                to that client: it is one row in Clients, and the client's
+                profile, pause and tunnel rules apply to it away from home too.
+            </p>
+            <h3>Behind a reverse proxy</h3>
+            <p>
+                If a reverse proxy such as Nginx Proxy Manager, Caddy or nginx
+                passes DNS over HTTPS on to the box, list its address under
+                Reverse proxy. Ferrite then believes the client the proxy names:
+                in X-Real-IP or the last X-Forwarded-For entry, or in a PROXY
+                protocol header when the proxy passes the connection on whole,
+                as nginx's stream module does with proxy_protocol on. Without
+                that every device looks as if it were at home. DNS over TLS on
+                853 has to reach the box directly.
             </p>
             <pre><code>[secure_dns]
 enabled     = true
 hostname    = "dns.example.com"
 certificate = "letsencrypt"   # or "files", with cert_file and key_file
 devices     = ["pixel", "iphone"]
+http3       = true            # DNS over HTTPS over HTTP/3 too, on UDP 443
+self_setup  = "named"         # "off", "named" or "anyone"
+proxies     = []              # reverse proxies whose word on the client counts
 
 [secure_dns.acme]
 cloudflare_token = "…"</code></pre>
@@ -889,6 +933,10 @@ allow_changes = false</code></pre>
                         <td>
                             routed HTTPS when routing is on, and DNS over HTTPS
                         </td>
+                    </tr>
+                    <tr>
+                        <td><code>443</code> UDP</td>
+                        <td>DNS over HTTP/3, when encrypted DNS is on</td>
                     </tr>
                     <tr>
                         <td><code>853</code> TCP</td>

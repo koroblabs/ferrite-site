@@ -389,7 +389,3 @@ PAIRS = [
     ("DNS over TLS, when encrypted DNS is on", "DNS over TLS, коли шифрований DNS увімкнено"),
     ("DHCP, when it is on", "DHCP, коли його ввімкнено"),
 ]
-
-RAW = [
-    ('href="api.html"', 'href="/api.html"'),
-]

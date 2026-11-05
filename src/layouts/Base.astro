@@ -13,6 +13,8 @@ interface Props {
     lang?: Lang;
     /** Pages that exist in one language only leave out the switcher. */
     translated?: boolean;
+    /** Where the switcher leads when the page has no twin (the 404 page). */
+    otherHref?: string;
 }
 
 const {
@@ -22,6 +24,7 @@ const {
     page = "",
     lang = "en",
     translated = true,
+    otherHref: otherOverride,
 } = Astro.props;
 const cur = (key: Props["active"]) => (active === key ? "page" : undefined);
 
@@ -58,14 +61,15 @@ const T = {
     },
 }[lang];
 
-// Pages of each language sit side by side ("/docs.html", "/uk/docs.html"), so
-// the links below stay relative; the API reference is English only.
+// Pages of each language sit side by side ("/docs.html", "/uk/docs.html").
 const root = lang === "uk" ? "/uk/" : "/";
 // The Ukrainian front page builds to /uk.html, so it lives at /uk (no slash).
 const home = lang === "uk" ? "/uk" : "/";
 const pathOf = (l: Lang) => (page ? (l === "uk" ? "/uk/" : "/") + page : l === "uk" ? "/uk" : "/");
-const apiHref = lang === "uk" ? "/api.html" : "api.html";
-const otherHref = pathOf(lang === "uk" ? "en" : "uk");
+const apiHref = root + "api.html";
+const otherHref = otherOverride ?? pathOf(lang === "uk" ? "en" : "uk");
+// A page without a twin can still offer the other language somewhere else.
+const switcher = translated || !!otherOverride;
 const site = Astro.site ?? new URL("https://ferrite.me");
 const canonical = new URL(pathOf(lang), site).href;
 const ogImage = new URL("/og.png", site).href;
@@ -153,7 +157,7 @@ const FAVICON =
                     <a href={root + "changelog.html"} aria-current={cur("changelog")}>{T.changelog}</a>
                     <a href="https://github.com/syntlyx/ferrite-server">GitHub</a>
                     {
-                        translated && (
+                        switcher && (
                             <a class="lang-link" href={otherHref} hreflang={lang === "uk" ? "en" : "uk"} title={T.other}>
                                 {T.otherShort}
                             </a>
@@ -214,7 +218,7 @@ const FAVICON =
                     <a href={root + "changelog.html"}>{T.changelog}</a>
                     <a href="https://github.com/syntlyx/ferrite-server">{T.serverSource}</a>
                     <a href="https://github.com/syntlyx/ferrite-web">{T.panelSource}</a>
-                    {translated && <a href={otherHref} hreflang={lang === "uk" ? "en" : "uk"}>{T.other}</a>}
+                    {switcher && <a href={otherHref} hreflang={lang === "uk" ? "en" : "uk"}>{T.other}</a>}
                 </nav>
                 <span class="footer-note">{T.note}</span>
             </div>

@@ -238,7 +238,7 @@
                         stripped and DNSSEC requested.
                     </p>
                 </article>
-                <article class="feature" style="--feature-color: var(--warn)">
+                <article class="feature" style="--feature-color: var(--cached)">
                     <div class="feature-icon" aria-hidden="true">
                         <svg
                             width="20"
@@ -250,16 +250,22 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                         >
-                            <path d="M12 3v18"></path>
-                            <path d="M3 12h18"></path>
-                            <path d="M5 5l14 14"></path>
-                            <path d="M19 5 5 19"></path>
+                            <rect
+                                width="14"
+                                height="20"
+                                x="5"
+                                y="2"
+                                rx="2"
+                            ></rect>
+                            <path d="M12 18h.01"></path>
                         </svg>
                     </div>
-                    <h3>Custom DNS</h3>
+                    <h3>Encrypted DNS on the go</h3>
                     <p>
-                        Local A, AAAA, and CNAME records support exact and
-                        wildcard domains, so internal services get clean names.
+                        Phones and laptops keep your filter on mobile data: DNS
+                        over TLS for Android, DNS over HTTPS and HTTP/3 for the
+                        rest. A QR code sets a device up, and ferrite gets the
+                        certificate itself.
                     </p>
                 </article>
                 <article class="feature" style="--feature-color: var(--cached)">
@@ -401,6 +407,106 @@
                         Split the TLS ClientHello at the SNI across TCP
                         segments, so middleboxes that match on hostname never
                         see the whole name.
+                    </p>
+                </article>
+                <article class="feature" style="--feature-color: var(--warn)">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M12 3v18"></path>
+                            <path d="M3 12h18"></path>
+                            <path d="M5 5l14 14"></path>
+                            <path d="M19 5 5 19"></path>
+                        </svg>
+                    </div>
+                    <h3>Custom DNS</h3>
+                    <p>
+                        Local A, AAAA, and CNAME records support exact and
+                        wildcard domains, so internal services get clean names.
+                    </p>
+                </article>
+                <article
+                    class="feature"
+                    style="--feature-color: var(--upstream)"
+                >
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <rect
+                                x="16"
+                                y="16"
+                                width="6"
+                                height="6"
+                                rx="1"
+                            ></rect>
+                            <rect
+                                x="2"
+                                y="16"
+                                width="6"
+                                height="6"
+                                rx="1"
+                            ></rect>
+                            <rect
+                                x="9"
+                                y="2"
+                                width="6"
+                                height="6"
+                                rx="1"
+                            ></rect>
+                            <path
+                                d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"
+                            ></path>
+                            <path d="M12 12V8"></path>
+                        </svg>
+                    </div>
+                    <h3>DHCP when the router won't</h3>
+                    <p>
+                        If the router won't let you change its DNS, ferrite
+                        hands out the addresses itself, notices other DHCP
+                        servers on the network, and tells IPv6 devices to ask it
+                        too.
+                    </p>
+                </article>
+                <article class="feature" style="--feature-color: var(--ember)">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path
+                                d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                            ></path>
+                            <path d="M2 12h20"></path>
+                        </svg>
+                    </div>
+                    <h3>Routes that travel</h3>
+                    <p>
+                        A phone away from home still sends the sites you route
+                        through your tunnel. Only your own devices get in, and
+                        only for the names you chose.
                     </p>
                 </article>
             </div>
@@ -943,7 +1049,8 @@
                     <p>
                         In your router's DHCP settings, set the DNS server to
                         the ferrite box's address. Devices pick it up with their
-                        next lease.
+                        next lease. If the router won't allow it, ferrite can
+                        hand out the addresses itself.
                     </p>
                 </div>
                 <div class="note">
@@ -993,7 +1100,9 @@
                         settings and every device that joins uses it. Browsers
                         with their own "secure DNS" setting skip any network DNS
                         filter, so leave that off or set it to the system
-                        resolver.
+                        resolver. Only a device you want filtered away from home
+                        needs setting up once: a Private DNS name on Android, a
+                        profile on an iPhone or a Mac.
                     </p>
                 </details>
                 <details>

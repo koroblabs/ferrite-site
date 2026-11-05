@@ -243,7 +243,7 @@
                         клієнта і з запитом DNSSEC.
                     </p>
                 </article>
-                <article class="feature" style="--feature-color: var(--warn)">
+                <article class="feature" style="--feature-color: var(--cached)">
                     <div class="feature-icon" aria-hidden="true">
                         <svg
                             width="20"
@@ -255,16 +255,22 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                         >
-                            <path d="M12 3v18"></path>
-                            <path d="M3 12h18"></path>
-                            <path d="M5 5l14 14"></path>
-                            <path d="M19 5 5 19"></path>
+                            <rect
+                                width="14"
+                                height="20"
+                                x="5"
+                                y="2"
+                                rx="2"
+                            ></rect>
+                            <path d="M12 18h.01"></path>
                         </svg>
                     </div>
-                    <h3>Власні DNS-записи</h3>
+                    <h3>Шифрований DNS поза домом</h3>
                     <p>
-                        Локальні записи A, AAAA і CNAME, точні й wildcard, тож
-                        внутрішні сервіси отримують зручні імена.
+                        Телефони й ноутбуки лишаються під вашим фільтром і на
+                        мобільному інтернеті: DNS over TLS для Android, DNS over
+                        HTTPS і HTTP/3 для решти. Пристрій налаштовується з
+                        QR-коду, а сертифікат ferrite отримує сам.
                     </p>
                 </article>
                 <article class="feature" style="--feature-color: var(--cached)">
@@ -406,6 +412,105 @@
                         TLS ClientHello розбивається по SNI на кілька
                         TCP-сегментів, тож обладнання, що фільтрує за іменем
                         хоста, ніколи не бачить імені повністю.
+                    </p>
+                </article>
+                <article class="feature" style="--feature-color: var(--warn)">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M12 3v18"></path>
+                            <path d="M3 12h18"></path>
+                            <path d="M5 5l14 14"></path>
+                            <path d="M19 5 5 19"></path>
+                        </svg>
+                    </div>
+                    <h3>Власні DNS-записи</h3>
+                    <p>
+                        Локальні записи A, AAAA і CNAME, точні й wildcard, тож
+                        внутрішні сервіси отримують зручні імена.
+                    </p>
+                </article>
+                <article
+                    class="feature"
+                    style="--feature-color: var(--upstream)"
+                >
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <rect
+                                x="16"
+                                y="16"
+                                width="6"
+                                height="6"
+                                rx="1"
+                            ></rect>
+                            <rect
+                                x="2"
+                                y="16"
+                                width="6"
+                                height="6"
+                                rx="1"
+                            ></rect>
+                            <rect
+                                x="9"
+                                y="2"
+                                width="6"
+                                height="6"
+                                rx="1"
+                            ></rect>
+                            <path
+                                d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"
+                            ></path>
+                            <path d="M12 12V8"></path>
+                        </svg>
+                    </div>
+                    <h3>DHCP, коли роутер не дає</h3>
+                    <p>
+                        Якщо роутер не дає змінити DNS, ferrite сам роздає
+                        адреси, помічає інші DHCP-сервери в мережі й підказує
+                        IPv6-пристроям питати теж його.
+                    </p>
+                </article>
+                <article class="feature" style="--feature-color: var(--ember)">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.1"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path
+                                d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                            ></path>
+                            <path d="M2 12h20"></path>
+                        </svg>
+                    </div>
+                    <h3>Маршрути, що їдуть з вами</h3>
+                    <p>
+                        Телефон поза домом і далі відкриває вибрані сайти через
+                        ваш тунель. Пускає лише ваші пристрої і лише для
+                        вибраних імен.
                     </p>
                 </article>
             </div>
@@ -860,7 +965,7 @@
                     тож скрипт зможе те саме.
                 </p>
                 <div class="hero-actions">
-                    <a class="button button-ghost" href="/api.html"
+                    <a class="button button-ghost" href="/uk/api.html"
                         >Довідник API</a
                     >
                     <a
@@ -955,7 +1060,8 @@
                     <p>
                         У DHCP-налаштуваннях роутера вкажіть адресу боксу з
                         ferrite як DNS-сервер. Пристрої підхоплять її, коли
-                        наступного разу отримуватимуть адресу.
+                        наступного разу отримуватимуть адресу. Якщо роутер цього
+                        не дозволяє, ferrite може роздавати адреси сам.
                     </p>
                 </div>
                 <div class="note">
@@ -1008,7 +1114,9 @@
                         підключається. Браузери з власним налаштуванням
                         «безпечного DNS» обходять будь-який мережевий
                         DNS-фільтр, тож вимкніть його або залиште системний
-                        резолвер.
+                        резолвер. Один раз налаштувати треба лише пристрій, який
+                        має фільтруватися й поза домом: на Android це ім'я в
+                        «Приватному DNS», на iPhone чи Mac профіль.
                     </p>
                 </details>
                 <details>

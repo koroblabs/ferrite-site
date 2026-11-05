@@ -1,0 +1,16 @@
+---
+import Base from "../../layouts/Base.astro";
+import content from "../../content/uk/api.html?raw";
+import script from "../../content/download.script.js?raw";
+---
+
+<Base
+    lang="uk"
+    page="api.html"
+    title="API — Ferrite"
+    description="Довідник REST API Ferrite: статистика, лог запитів, пристрої, списки блокування, власні записи DNS, налаштування, тунелі, інструменти, логи й оновлення. Усе, чим користується панель."
+    active="api"
+>
+    <Fragment set:html={content} />
+    <script is:inline set:html={script} />
+</Base>

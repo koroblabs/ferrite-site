@@ -45,7 +45,3 @@ PAIRS = [
     ("The database moves to schema v12. Copy", "База переходить на схему v12. Скопіюйте"),
     ("first if you may roll back.", "заздалегідь, якщо можете захотіти відкотитися."),
 ]
-
-RAW = [
-    ('href="api.html"', 'href="/api.html"'),
-]

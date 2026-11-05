@@ -38,7 +38,7 @@ def translate(src, pairs, raw):
     for old, new in raw:
         src = src.replace(old, new)
     # Pages under /uk link to each other, not to the English ones.
-    src = re.sub(r'href="(docs|changelog|download|index)\.html', r'href="/uk/\1.html', src)
+    src = re.sub(r'href="(docs|changelog|download|index|api)\.html', r'href="/uk/\1.html', src)
     return src, missing
 
 

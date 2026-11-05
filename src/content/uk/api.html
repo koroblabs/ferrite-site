@@ -1,0 +1,450 @@
+<main id="top">
+    <section class="band">
+        <div class="wrap">
+            <div class="section-head">
+                <p class="eyebrow">REST API</p>
+                <h1 class="display">Той самий API, на якому працює панель</h1>
+                <p class="lead">
+                    Усе в панелі робиться викликами цього API, тож те, що ви
+                    робите руками, зможе зробити й скрипт. На вході JSON, на
+                    виході JSON, за шляхом <code>/api</code> на порту панелі.
+                </p>
+            </div>
+            <div class="notes">
+                <div class="note">
+                    <strong>Авторизація</strong>
+                    <p>
+                        Усі маршрути <code>/api/*</code> вимагають API-ключа
+                        (заголовок <code>X-API-Key</code>) або cookie сесії від
+                        <code>POST /api/auth</code>. Ключ задається в
+                        налаштуваннях. Сам <code>/api/auth</code> відкритий для
+                        всіх.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>Одразу чи після перезапуску</strong>
+                    <p>
+                        Більшість налаштувань діє одразу. Деякі (адреси
+                        прослуховування, розміри кешу, upstream-сервери,
+                        DNSSEC/ECS) потребують перезапуску, і відповідь каже,
+                        які саме.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band alt">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 class="display">Статистика й лог запитів</h2>
+            </div>
+            <div class="notes">
+                <div class="note">
+                    <strong><code>GET</code> /api/stats/summary</strong>
+                    <p>
+                        Поточні лічильники (усього / заблоковано / з кешу /
+                        upstream), прямо з пам'яті.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong><code>GET</code> /api/stats/timeseries</strong>
+                    <p>24 години по 10 хвилин, для графіка.</p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET</code> /api/stats/top-domains · top-blocked ·
+                        top-clients</strong
+                    >
+                    <p>Рейтинги за всю збережену історію.</p>
+                </div>
+                <div class="note">
+                    <strong><code>GET</code> /api/stats/system</strong>
+                    <p>CPU процесу, пам'ять, мережа, диск, навантаження.</p>
+                </div>
+                <div class="note">
+                    <strong><code>GET</code> /api/queries</strong>
+                    <p>
+                        Лог запитів з фільтрами (за пристроєм, статусом,
+                        доменом, часом).
+                    </p>
+                </div>
+                <div class="note">
+                    <strong><code>DELETE</code> /api/queries</strong>
+                    <p>Очистити збережену історію запитів.</p>
+                </div>
+                <div class="note">
+                    <strong><code>GET</code> /api/logs</strong>
+                    <p>
+                        Останні записи лога сервера з пам'яті (курсор для нових
+                        записів + мінімальний рівень).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band">
+        <div class="wrap">
+            <div class="section-head"><h2 class="display">Пристрої</h2></div>
+            <div class="notes">
+                <div class="note">
+                    <strong><code>GET</code> /api/clients</strong>
+                    <p>
+                        Пристрої, згруповані за іменем, з їхніми IP та MAC, які
+                        бокс про них дізнався.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET</code> /api/clients/{device}/stats</strong
+                    >
+                    <p>
+                        Один пристрій детально: лічильники, його найчастіші й
+                        заблоковані домени, сервіси за ними, активність по 10
+                        хвилин.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET · POST</code> /api/clients/aliases</strong
+                    >
+                    <p>Переглянути або задати власне ім'я для IP/MAC.</p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>DELETE</code> /api/clients/aliases/{key}</strong
+                    >
+                    <p>Прибрати власне ім'я.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band alt">
+        <div class="wrap">
+            <div class="section-head"><h2 class="display">Фільтрація</h2></div>
+            <div class="notes">
+                <div class="note">
+                    <strong
+                        ><code>GET · POST</code> /api/blocklist/blacklist ·
+                        whitelist</strong
+                    >
+                    <p>
+                        Переглянути або додати власні записи блокування чи
+                        дозволу.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>DELETE</code> /api/blocklist/blacklist/{domain} ·
+                        whitelist/{domain}</strong
+                    >
+                    <p>Видалити запис.</p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET</code> /api/blocklist/check/{domain}</strong
+                    >
+                    <p>
+                        Чому заблоковано: рішення, список чи правило, що
+                        спрацювало, і запис дозволу, який його звільнив.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong><code>GET · POST</code> /api/lists</strong>
+                    <p>Переглянути або додати підписку (URL + назва).</p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>PATCH · DELETE</code> /api/lists/{name}</strong
+                    >
+                    <p>Увімкнути, вимкнути чи видалити список.</p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>POST</code> /api/lists/refresh ·
+                        /api/lists/{name}/refresh</strong
+                    >
+                    <p>Завантажити наново всі списки або один.</p>
+                </div>
+                <div class="note">
+                    <strong><code>GET · POST</code> /api/allowlists</strong>
+                    <p>
+                        Підписки на списки дозволу: домени з них ніколи не
+                        блокуються. Працює так само, як /api/lists (<code
+                            >PATCH · DELETE</code
+                        >
+                        /{name}, refresh).
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET · PUT</code> /api/blocklist/profiles</strong
+                    >
+                    <p>
+                        Профілі пристроїв: набори списків, власні винятки,
+                        заблоковані сервіси, розклад, SafeSearch, режим «тільки
+                        дозволене», і чи діє кожен просто зараз.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong><code>GET</code> /api/services</strong>
+                    <p>
+                        Каталог сервісів: id, назва, категорія й домени кожного.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET · PUT</code> /api/blocklist/services</strong
+                    >
+                    <p>Сервіси, заблоковані для всієї мережі.</p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET · PUT</code>
+                        /api/blocklist/safe-search</strong
+                    >
+                    <p>
+                        SafeSearch і обмежений режим YouTube для всієї мережі.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET · POST</code> /api/blocking/pause ·
+                        /api/blocking/resume</strong
+                    >
+                    <p>
+                        Пауза фільтрації на кілька хвилин, для всього боксу чи
+                        одного пристрою, і дострокове її завершення.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 class="display">DNS, тунелі й інструменти</h2>
+            </div>
+            <div class="notes">
+                <div class="note">
+                    <strong><code>GET · POST</code> /api/custom-records</strong>
+                    <p>
+                        Переглянути або додати локальний запис A / AAAA / CNAME.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>DELETE</code>
+                        /api/custom-records/{domain}</strong
+                    >
+                    <p>Видалити запис.</p>
+                </div>
+                <div class="note">
+                    <strong><code>GET · PUT</code> /api/proxy</strong>
+                    <p>
+                        Налаштування вибіркової маршрутизації: виходи (тунелі) і
+                        правила. Приватні ключі WireGuard у відповіді на GET
+                        приховані.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET</code>
+                        /api/tools/resolve?name=&amp;type=</strong
+                    >
+                    <p>
+                        nslookup через ваші upstream-сервери (будь-який тип
+                        запису).
+                    </p>
+                </div>
+                <div class="note">
+                    <strong><code>GET</code> /api/tools/whois?query=</strong>
+                    <p>WHOIS, сервер для якого підказує IANA.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band alt">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 class="display">Моніторинг</h2>
+                <p class="lead">
+                    Метрики для Prometheus, якщо у вас уже є моніторинг: ті самі
+                    лічильники, які читає вбудований дашборд, у текстовому
+                    форматі Prometheus. До них є готовий дашборд для Grafana.
+                </p>
+            </div>
+            <div class="install-grid">
+                <div class="commands">
+                    <div class="command">
+                        <div class="command-head">
+                            <span>Швидка перевірка</span>
+                            <button
+                                class="copy"
+                                data-copy="curl -H 'X-Api-Key: YOUR_API_KEY' http://ferrite.lan/api/metrics"
+                            >
+                                Копіювати
+                            </button>
+                        </div>
+                        <pre><code>curl -H 'X-Api-Key: YOUR_API_KEY' http://ferrite.lan/api/metrics</code></pre>
+                    </div>
+                    <div class="command">
+                        <div class="command-head">
+                            <span>prometheus.yml, налаштування збору</span>
+                            <button
+                                class="copy"
+                                data-copy='scrape_configs:&#10;  - job_name: ferrite&#10;    metrics_path: /api/metrics&#10;    authorization:&#10;      credentials: YOUR_API_KEY&#10;    static_configs:&#10;      - targets: ["ferrite.lan:80"]'
+                            >
+                                Копіювати
+                            </button>
+                        </div>
+                        <pre class="noprompt"><code>scrape_configs:
+  - job_name: ferrite
+    metrics_path: /api/metrics
+    authorization:
+      credentials: YOUR_API_KEY
+    static_configs:
+      - targets: ["ferrite.lan:80"]</code></pre>
+                    </div>
+                    <div class="command">
+                        <div class="command-head">
+                            <span>Дашборд для Grafana</span>
+                            <a
+                                class="copy"
+                                href="/ferrite-grafana-dashboard.json"
+                                download
+                                >Завантажити</a
+                            >
+                        </div>
+                        <pre
+                            class="noprompt"
+                        ><code>Dashboards &rarr; New &rarr; Import &rarr; завантажте JSON,
+потім виберіть джерело даних Prometheus. Там швидкість
+запитів, кеш, стан виходів, RTT перевірок, трафік,
+спрацювання правил і пам'ять процесу.</code></pre>
+                    </div>
+                </div>
+                <div class="notes">
+                    <div class="note">
+                        <strong><code>GET</code> /api/metrics</strong>
+                        <p>
+                            Текстовий формат Prometheus (версія 0.0.4).
+                            Авторизація та сама, що й для решти API: API-ключ
+                            передається як
+                            <code>Authorization: Bearer</code> (у Prometheus це
+                            <code>authorization.credentials</code>) або як
+                            <code>X-Api-Key</code> у заголовку.
+                        </p>
+                    </div>
+                    <div class="note">
+                        <strong>Що експортується</strong>
+                        <p>
+                            Лічильники запитів за результатом, показники кешу й
+                            списків блокування, пам'ять і файлові дескриптори
+                            процесу, а для кожного виходу стан, RTT перевірок,
+                            трафік і збої, плюс лічильники спрацювань кожного
+                            правила. Таблиці по доменах навмисно не
+                            експортуються: кількість значень міток у них нічим
+                            не обмежена. Id виходів і шаблони правил обмежені
+                            конфігом, тож вони є.
+                        </p>
+                    </div>
+                    <div class="note">
+                        <strong>Збирати дешево</strong>
+                        <p>
+                            Кожне значення береться з лічильників, які сервер і
+                            так веде. Збір не блокує гарячі шляхи DNS чи проксі,
+                            тож короткі інтервали підходять.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="band">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 class="display">Налаштування, авторизація й оновлення</h2>
+            </div>
+            <div class="notes">
+                <div class="note">
+                    <strong><code>GET · PATCH</code> /api/settings</strong>
+                    <p>
+                        Прочитати конфіг або змінити його частину (секрети
+                        приховані). Поля, які потребують перезапуску, позначені
+                        у відповіді.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong><code>GET</code> /api/storage/locations</strong>
+                    <p>
+                        Точки монтування, де можуть лежати база чи кеш списків
+                        блокування, з вільним місцем і позначкою, чи це RAM.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong><code>GET · POST · DELETE</code> /api/auth</strong>
+                    <p>Перевірити сесію · увійти (пароль) · вийти.</p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET · DELETE</code>
+                        /api/auth/sessions[/{id}]</strong
+                    >
+                    <p>
+                        Браузери, в яких виконано вхід: звідки й коли кожен
+                        увійшов. Можна вийти з одного або з усіх, крім вашого.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET · PUT</code> /api/notifications ·
+                        <code>POST</code> /notifications/test</strong
+                    >
+                    <p>
+                        Адреса вебхука й формат (ntfy, Telegram, Discord, Slack,
+                        Gotify, JSON), які події туди йдуть, і тестове
+                        надсилання.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>GET</code> /api/config/export ·
+                        <code>POST</code> /api/config/import</strong
+                    >
+                    <p>Зберегти або відновити всю конфігурацію одним файлом.</p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>POST</code> /api/mcp ·
+                        <code>GET · PUT</code> /api/settings/mcp</strong
+                    >
+                    <p>
+                        Model Context Protocol для AI-асистентів, а також чи він
+                        увімкнений і чи може щось змінювати. За замовчуванням
+                        вимкнений.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong><code>GET</code> /api/update/check</strong>
+                    <p>
+                        Перевірка нових релізів сервера й панелі (результат
+                        кешується).
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>POST</code> /api/update/server ·
+                        /api/update/web</strong
+                    >
+                    <p>Завантажити й застосувати реліз на ходу.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

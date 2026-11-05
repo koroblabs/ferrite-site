@@ -50,6 +50,7 @@ PAIRS = [
      "Якщо ця політика зміниться, нову версію буде опубліковано тут із новою датою вгорі."),
 
     ("Contact", "Контакти"),
-    ("Questions about privacy: open an issue on GitHub at",
-     "Питання щодо приватності: створіть issue на"),
+    ("Questions about privacy: write to", "Питання щодо приватності: пишіть на"),
+    (". If the question can be public, you can also open an issue on GitHub at",
+     ". Якщо питання може бути публічним, можна також створити issue на"),
 ]

@@ -1,11 +1,11 @@
 # ferrite-site
 
-The website for [ferrite](https://github.com/syntlyx/ferrite-server) —
+The website for [ferrite](https://github.com/koroblabs/ferrite-server) —
 self-hosted DNS that blocks ads & trackers and routes any device through a
 tunnel. Landing page, docs, API reference, and download instructions.
 
-Related repos: [ferrite-server](https://github.com/syntlyx/ferrite-server)
-(the server) · [ferrite-web](https://github.com/syntlyx/ferrite-web)
+Related repos: [ferrite-server](https://github.com/koroblabs/ferrite-server)
+(the server) · [ferrite-web](https://github.com/koroblabs/ferrite-web)
 (the web panel).
 
 ## Stack

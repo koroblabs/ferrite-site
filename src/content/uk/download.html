@@ -19,19 +19,19 @@
                             <span>Скрипт для Linux / macOS</span>
                             <button
                                 class="copy"
-                                data-copy="curl -fsSL https://raw.githubusercontent.com/syntlyx/ferrite-server/refs/heads/main/install.sh | sudo sh"
+                                data-copy="curl -fsSL https://raw.githubusercontent.com/koroblabs/ferrite-server/refs/heads/main/install.sh | sudo sh"
                             >
                                 Копіювати
                             </button>
                         </div>
-                        <pre><code>curl -fsSL https://raw.githubusercontent.com/syntlyx/ferrite-server/refs/heads/main/install.sh | sudo sh</code></pre>
+                        <pre><code>curl -fsSL https://raw.githubusercontent.com/koroblabs/ferrite-server/refs/heads/main/install.sh | sudo sh</code></pre>
                     </div>
                     <div class="command">
                         <div class="command-head">
                             <span>Docker (ghcr.io)</span>
                             <button
                                 class="copy"
-                                data-copy="docker run -d --name ferrite \&#10;  --restart unless-stopped \&#10;  --network host \&#10;  --cap-add=NET_BIND_SERVICE \&#10;  -v ferrite-data:/var/lib/ferrite \&#10;  ghcr.io/syntlyx/ferrite-server:latest"
+                                data-copy="docker run -d --name ferrite \&#10;  --restart unless-stopped \&#10;  --network host \&#10;  --cap-add=NET_BIND_SERVICE \&#10;  -v ferrite-data:/var/lib/ferrite \&#10;  ghcr.io/koroblabs/ferrite-server:latest"
                             >
                                 Копіювати
                             </button>
@@ -41,7 +41,7 @@
   --network host \
   --cap-add=NET_BIND_SERVICE \
   -v ferrite-data:/var/lib/ferrite \
-  ghcr.io/syntlyx/ferrite-server:latest</code></pre>
+  ghcr.io/koroblabs/ferrite-server:latest</code></pre>
                     </div>
                     <div class="command">
                         <div class="command-head">
@@ -80,7 +80,7 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
                     <strong>Образ на GHCR</strong>
                     <p>
                         Невеликий образ на Alpine опубліковано в
-                        <code>ghcr.io/syntlyx/ferrite-server</code>. Змонтуйте
+                        <code>ghcr.io/koroblabs/ferrite-server</code>. Змонтуйте
                         <code>/var/lib/ferrite</code> для конфігу, даних і
                         оновлень, щоб вони переживали перезапуски. Запускайте в
                         мережі host, щоб кожен пристрій мав власну адресу. Є й

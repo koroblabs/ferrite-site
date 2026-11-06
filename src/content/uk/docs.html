@@ -76,7 +76,7 @@
                 також вимикає stub listener у systemd-resolved, який інакше
                 займає порт 53. Можете спершу прочитати скрипт:
             </p>
-            <pre><code>curl -fsSLO https://raw.githubusercontent.com/syntlyx/ferrite-server/main/install.sh
+            <pre><code>curl -fsSLO https://raw.githubusercontent.com/koroblabs/ferrite-server/main/install.sh
 less install.sh
 sudo sh install.sh</code></pre>
             <p>
@@ -92,7 +92,7 @@ sudo sh install.sh</code></pre>
             </p>
             <pre><code>services:
   ferrite:
-    image: ghcr.io/syntlyx/ferrite-server:latest
+    image: ghcr.io/koroblabs/ferrite-server:latest
     container_name: ferrite
     restart: unless-stopped
     network_mode: host
@@ -117,7 +117,7 @@ volumes:
                 <code>aarch64</code>, кожна з <code>.sha256</code> поруч:
             </p>
             <pre><code>VER=v0.2.0; ARCH=$(uname -m)-unknown-linux-musl
-BASE=https://github.com/syntlyx/ferrite-server/releases/download/$VER
+BASE=https://github.com/koroblabs/ferrite-server/releases/download/$VER
 curl -fsSLO $BASE/ferrite-$VER-$ARCH.tar.gz
 curl -fsSL  $BASE/ferrite-$VER-$ARCH.tar.gz.sha256 | sha256sum -c -
 tar -xzf ferrite-$VER-$ARCH.tar.gz &amp;&amp; sudo install -m755 ferrite /usr/local/bin/ferrite</code></pre>
@@ -919,7 +919,7 @@ allow_changes = false</code></pre>
                 <code>127.0.0.1:8080</code>. Кожен ключ описано в
                 <a
                     class="link"
-                    href="https://github.com/syntlyx/ferrite-server/blob/main/config.toml.example"
+                    href="https://github.com/koroblabs/ferrite-server/blob/main/config.toml.example"
                     >config.toml.example</a
                 >.
             </p>

@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const out = join(here, "..", "public", "demo");
-const REPO = "https://github.com/syntlyx/ferrite-web.git";
+const REPO = "https://github.com/koroblabs/ferrite-web.git";
 
 let web = process.env.WEB_DIR ?? join(here, "..", "..", "web");
 let fetched = null;

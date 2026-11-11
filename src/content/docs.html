@@ -55,7 +55,7 @@
         <article class="doc">
             <header class="doc-head">
                 <p class="eyebrow">Documentation</p>
-                <h1 class="display">Running ferrite</h1>
+                <h1 class="display">Running Ferrite</h1>
                 <p class="lead">
                     From the first install to a second box. The panel does
                     almost everything here; the config snippets show what it
@@ -138,16 +138,16 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
             <ol>
                 <li>
                     Open your router's DHCP settings and set the DNS server to
-                    the ferrite box's address.
+                    the Ferrite box's address.
                 </li>
                 <li>
-                    Leave the second DNS field empty, or put a second ferrite
+                    Leave the second DNS field empty, or put a second Ferrite
                     there. A public resolver as the second server means devices
                     sometimes use it and skip filtering.
                 </li>
                 <li>
                     If the router hands out an IPv6 DNS server too, point that
-                    at ferrite or turn it off. Otherwise IPv6-capable devices
+                    at Ferrite or turn it off. Otherwise IPv6-capable devices
                     keep asking the router.
                 </li>
                 <li>
@@ -161,21 +161,21 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
             </p>
             <p>
                 You can also set the DNS server by hand on a single device,
-                which is a good way to try ferrite before switching the whole
+                which is a good way to try Ferrite before switching the whole
                 network.
             </p>
 
             <h2 id="first-run">Open the panel</h2>
             <p>
                 Go to <code>http://fe.te</code> from any device that uses
-                ferrite. It is a built-in record pointing at the box. From a
+                Ferrite. It is a built-in record pointing at the box. From a
                 device that doesn't, use the box's address instead.
             </p>
             <p>Set a password on the box before anything else:</p>
             <pre><code>ferrite passwd</code></pre>
             <p>
                 Without a password or an API key the panel is open to anyone who
-                can reach it, and ferrite warns about that in its log. A fresh
+                can reach it, and Ferrite warns about that in its log. A fresh
                 binary with no config listens on
                 <code>127.0.0.1:8080</code> only; the install script and the
                 Docker image put the panel on port 80 of the network.
@@ -432,9 +432,9 @@ default_deny = true</code></pre>
 
             <h2 id="routing">How routing works</h2>
             <p>
-                When a domain matches a routing rule, ferrite answers the DNS
+                When a domain matches a routing rule, Ferrite answers the DNS
                 query with its own LAN address, so the device connects to
-                ferrite. Ferrite reads the hostname from the TLS SNI (port 443)
+                Ferrite. Ferrite reads the hostname from the TLS SNI (port 443)
                 or the HTTP Host header (port 80), checks the rule again against
                 it, and passes the connection through the rule's egress. It
                 never terminates TLS: the device still checks the site's real
@@ -449,7 +449,7 @@ default_deny = true</code></pre>
             <p>
                 A phone on encrypted DNS can be routed away from home too:
                 switch on Away from home too under Tunnels. Routed names then
-                point at the box's public address, which ferrite reads from the
+                point at the box's public address, which Ferrite reads from the
                 encrypted DNS name's own record, and port 443 there has to reach
                 the box. Only your own devices get in, from the address they
                 just asked from, and only for routed names.
@@ -471,7 +471,7 @@ default_deny = true</code></pre>
                     <tr>
                         <td><code>direct</code></td>
                         <td>
-                            connects straight out, resolving through ferrite's
+                            connects straight out, resolving through Ferrite's
                             own upstreams
                         </td>
                     </tr>
@@ -594,7 +594,7 @@ address  = "94.140.14.14"
 port     = 853
 tls_name = "dns.adguard-dns.com"</code></pre>
             <p>
-                DoH needs <code>bootstrap_ip</code> when ferrite is the box's
+                DoH needs <code>bootstrap_ip</code> when Ferrite is the box's
                 own resolver, since it can't look up the DoH host through
                 itself. A plain or DoT upstream can go through a tunnel with
                 <code>egress = "&lt;id&gt;"</code>, falling back to direct while
@@ -650,7 +650,7 @@ stale_max_age = 43200   # seconds an expired answer may still be served</code></
 
             <h2 id="encrypted-dns">Encrypted DNS</h2>
             <p>
-                Phones and laptops can ask ferrite over an encrypted connection,
+                Phones and laptops can ask Ferrite over an encrypted connection,
                 at home and away from it. Android's Private DNS speaks DNS over
                 TLS. iPhones, Macs and browsers speak DNS over HTTPS, and apps
                 such as AdGuard can use DNS over QUIC. Each device connects
@@ -662,7 +662,7 @@ stale_max_age = 43200   # seconds an expired answer may still be served</code></
                 <li>A domain whose DNS is on Cloudflare.</li>
                 <li>
                     A name for the box under it, such as
-                    <code>dns.example.com</code>. At home ferrite answers that
+                    <code>dns.example.com</code>. At home Ferrite answers that
                     name with its own address. To use it away from home, point
                     the name and <code>*.dns.example.com</code> at your public
                     address and forward ports 853 and 443, TCP and UDP, to the
@@ -763,7 +763,7 @@ name = "nas"</code></pre>
             <p>
                 For IPv6, router advertisements can name this box the DNS
                 server, so devices don't go around it. They only announce DNS;
-                ferrite never offers itself as the router.
+                Ferrite never offers itself as the router.
             </p>
 
             <h2 id="access">Password and access</h2>
@@ -788,7 +788,7 @@ denied_clients  = ["192.168.1.66"]     # these never do</code></pre>
             <h2 id="privacy">Privacy and storage</h2>
             <p>
                 Everything you set lives in <code>config.toml</code>. The
-                database only holds what ferrite observed: the query log, its
+                database only holds what Ferrite observed: the query log, its
                 rollups, the device inventory and the panel's sessions.
             </p>
             <ul>
@@ -805,7 +805,7 @@ denied_clients  = ["192.168.1.66"]     # these never do</code></pre>
                 </li>
                 <li>
                     <strong>Switches:</strong> the query log and the statistics
-                    can each be turned off. With both off ferrite keeps
+                    can each be turned off. With both off Ferrite keeps
                     filtering and records nothing about what was resolved.
                 </li>
                 <li>
@@ -814,7 +814,7 @@ denied_clients  = ["192.168.1.66"]     # these never do</code></pre>
                 </li>
             </ul>
             <p>
-                The only call ferrite makes on its own is an hourly check for a
+                The only call Ferrite makes on its own is an hourly check for a
                 new release on GitHub.
             </p>
 
@@ -838,7 +838,7 @@ denied_clients  = ["192.168.1.66"]     # these never do</code></pre>
 
             <h2 id="second-box">A second box</h2>
             <p>
-                A second ferrite can follow the first, so devices given both
+                A second Ferrite can follow the first, so devices given both
                 addresses get the same answers from either. It takes the parts
                 you choose from the primary every few minutes, with the
                 primary's API key, and restarts in place when something changed,
@@ -926,7 +926,7 @@ allow_changes = false</code></pre>
                 <code>/etc/ferrite/config.toml</code> system-wide. The panel is
                 the main editor and writes the file itself; hand edits are fine,
                 but comments inside the sections the panel manages don't survive
-                a save. Without a file ferrite starts with plain upstreams and
+                a save. Without a file Ferrite starts with plain upstreams and
                 the panel on <code>127.0.0.1:8080</code>. Every key is described
                 in
                 <a
@@ -1067,7 +1067,7 @@ allow_changes = false</code></pre>
             <p>
                 Ferrite sees all queries coming from the same address: it is
                 behind a Docker bridge, or the router forwards DNS itself. Run
-                Docker on the host network, and hand ferrite's address out over
+                Docker on the host network, and hand Ferrite's address out over
                 DHCP rather than setting it as the router's upstream.
             </p>
             <h3>Devices show as IP addresses</h3>
@@ -1078,7 +1078,7 @@ allow_changes = false</code></pre>
             </p>
             <h3><code>fe.te</code> doesn't open</h3>
             <p>
-                The device isn't using ferrite for DNS yet, or ferrite runs in a
+                The device isn't using Ferrite for DNS yet, or Ferrite runs in a
                 Docker bridge without <code>FERRITE_PANEL_IP</code>. Use the
                 box's address meanwhile.
             </p>
@@ -1087,15 +1087,15 @@ allow_changes = false</code></pre>
                 Find it in the query log, click the blocked name to see what
                 matched, and allow it. Right now on the dashboard may already
                 name it, with an Allow button, and an assistant connected over
-                MCP can work it out for you. To rule ferrite out quickly, pause
+                MCP can work it out for you. To rule Ferrite out quickly, pause
                 filtering for that one device.
             </p>
             <h3>Tunnels are slow on a small board</h3>
             <p>
                 Check the startup log for the WireGuard backend. If it says
-                userspace, give ferrite <code>CAP_NET_ADMIN</code> and load the
+                userspace, give Ferrite <code>CAP_NET_ADMIN</code> and load the
                 <code>wireguard</code> module. With the kernel backend the limit
-                is the CPU's encryption speed, not ferrite.
+                is the CPU's encryption speed, not Ferrite.
             </p>
         </article>
     </div>

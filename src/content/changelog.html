@@ -75,7 +75,7 @@
                         <li>
                             SQLite 3.54.1 (RUSTSEC-2026-0459): a database opened
                             together with a crafted write-ahead log could return
-                            stale memory. The risk to ferrite was small: it
+                            stale memory. The risk to Ferrite was small: it
                             opens its own database, and a Pi-hole import without
                             its log.
                         </li>
@@ -83,14 +83,14 @@
                     <h3 class="tag-improved">Fixes</h3>
                     <ul>
                         <li>
-                            Only one ferrite runs per config. A second one,
+                            Only one Ferrite runs per config. A second one,
                             started by mistake, used to take down the first
                             one's WireGuard tunnels before giving up.
                         </li>
                         <li>
                             <code>ferrite version</code> prints the version and
                             <code>ferrite help</code> the commands; a command
-                            ferrite doesn't know is an error instead of starting
+                            Ferrite doesn't know is an error instead of starting
                             a server.
                         </li>
                         <li>
@@ -111,7 +111,7 @@
                                 v12.
                             </li>
                             <li>
-                                With encrypted DNS on, ferrite now also listens
+                                With encrypted DNS on, Ferrite now also listens
                                 on UDP 853. Forward it to the box for DNS over
                                 QUIC away from home.
                             </li>
@@ -181,7 +181,7 @@
                             what comes over and what can't.
                         </li>
                         <li>
-                            A second ferrite can follow the first and answer the
+                            A second Ferrite can follow the first and answer the
                             same way, so you edit in one place.
                         </li>
                         <li>
@@ -196,7 +196,7 @@
                             house.
                         </li>
                         <li>
-                            ferrite gets the certificate from Let's Encrypt and
+                            Ferrite gets the certificate from Let's Encrypt and
                             renews it, given a Cloudflare token. No port has to
                             be open for that.
                         </li>
@@ -279,7 +279,7 @@
                         </li>
                         <li>
                             An update, a new listen address or settings taken
-                            from a primary restart ferrite in place: the DNS
+                            from a primary restart Ferrite in place: the DNS
                             socket stays open, and not a query is dropped.
                         </li>
                     </ul>
@@ -305,7 +305,7 @@
                         <ul>
                             <li>
                                 The database moves to schema v12 on first start,
-                                and an older ferrite can't open it afterwards.
+                                and an older Ferrite can't open it afterwards.
                                 Copy
                                 <code>ferrite.db</code> first if you may roll
                                 back.
@@ -345,7 +345,7 @@
                         </li>
                         <li>
                             quinn-proto 0.11.19 fixes five ways a DoQ peer could
-                            crash ferrite or grow its memory without bound.
+                            crash Ferrite or grow its memory without bound.
                         </li>
                         <li>
                             The distrusted emSign intermediates are no longer
@@ -428,7 +428,7 @@
                     <h3 class="tag-privacy">Storage and privacy</h3>
                     <ul>
                         <li>
-                            The database holds only what ferrite observed.
+                            The database holds only what Ferrite observed.
                             Everything you configure lives in
                             <code>config.toml</code>.
                         </li>
@@ -463,7 +463,7 @@
                     <p class="release-summary">WireGuard in the kernel.</p>
                     <ul>
                         <li>
-                            Tunnels can run on the kernel backend: ferrite
+                            Tunnels can run on the kernel backend: Ferrite
                             builds its own
                             <code>wg</code> interface over netlink and steers
                             only its own traffic through it, so crypto uses

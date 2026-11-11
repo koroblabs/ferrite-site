@@ -265,7 +265,7 @@
                         Phones and laptops keep your filter on mobile data: DNS
                         over TLS for Android, DNS over HTTPS and HTTP/3 for the
                         rest, DNS over QUIC for apps that speak it. A QR code
-                        sets a device up, and ferrite gets the certificate
+                        sets a device up, and Ferrite gets the certificate
                         itself.
                     </p>
                 </article>
@@ -479,7 +479,7 @@
                     </div>
                     <h3>DHCP when the router won't</h3>
                     <p>
-                        If the router won't let you change its DNS, ferrite
+                        If the router won't let you change its DNS, Ferrite
                         hands out the addresses itself, notices other DHCP
                         servers on the network, and tells IPv6 devices to ask it
                         too.
@@ -741,7 +741,7 @@
                         decoding="async"
                     />
                     <figcaption>
-                        Encrypted DNS: a certificate ferrite gets by itself, and
+                        Encrypted DNS: a certificate Ferrite gets by itself, and
                         phones that keep your filter away from home.
                     </figcaption>
                 </figure>
@@ -893,7 +893,7 @@
                     <strong>Logging you can switch off</strong>
                     <p>
                         The query log and the statistics each have a switch.
-                        Turn both off and ferrite keeps filtering while
+                        Turn both off and Ferrite keeps filtering while
                         recording nothing about what was resolved.
                     </p>
                 </div>
@@ -929,7 +929,7 @@
                 <article class="feature">
                     <h3>Two resolvers, one setup</h3>
                     <p>
-                        Point a second ferrite at the first and it takes the
+                        Point a second Ferrite at the first and it takes the
                         parts you choose every few minutes: filtering, records,
                         device names, DNS settings. Give your devices both and
                         either one answers the same way.
@@ -1050,8 +1050,8 @@
                     <strong>1. Point your network at it</strong>
                     <p>
                         In your router's DHCP settings, set the DNS server to
-                        the ferrite box's address. Devices pick it up with their
-                        next lease. If the router won't allow it, ferrite can
+                        the Ferrite box's address. Devices pick it up with their
+                        next lease. If the router won't allow it, Ferrite can
                         hand out the addresses itself.
                     </p>
                 </div>
@@ -1098,7 +1098,7 @@
                 <details>
                     <summary>Do I install anything on each device?</summary>
                     <p>
-                        No. Set ferrite as the DNS server in your router's DHCP
+                        No. Set Ferrite as the DNS server in your router's DHCP
                         settings and every device that joins uses it. Browsers
                         with their own "secure DNS" setting skip any network DNS
                         filter, so leave that off or set it to the system
@@ -1111,7 +1111,7 @@
                     <summary>What happens if the box goes down?</summary>
                     <p>
                         Devices stop resolving names until it is back. Run a
-                        second ferrite that follows the first and hand out both
+                        second Ferrite that follows the first and hand out both
                         addresses. Don't add a public resolver as the second
                         server: devices would use it and skip filtering.
                     </p>
@@ -1137,7 +1137,7 @@
                     <summary>Does it see my HTTPS traffic?</summary>
                     <p>
                         It answers DNS. Only for a domain you route through a
-                        tunnel does the connection pass through ferrite, and
+                        tunnel does the connection pass through Ferrite, and
                         then it reads the hostname to pick the tunnel without
                         decrypting anything.
                     </p>
@@ -1147,7 +1147,7 @@
                     <p>
                         The installer has it listen on IPv4 and IPv6. If your
                         router also advertises its own IPv6 DNS server, point
-                        that at ferrite too, or devices will ask the router
+                        that at Ferrite too, or devices will ask the router
                         instead.
                     </p>
                 </details>

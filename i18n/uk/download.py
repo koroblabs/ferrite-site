@@ -1,6 +1,6 @@
 PAIRS = [
     ("Install", "Встановлення"),
-    ("Install ferrite", "Встановити ferrite"),
+    ("Install Ferrite", "Встановити Ferrite"),
     ("The script downloads the server and the panel, checks their checksums, and sets up a systemd or OpenRC service. Prefer containers? The image is on GHCR. Every option and the steps after it are in the",
      "Скрипт завантажує сервер і панель, перевіряє їхні контрольні суми й налаштовує сервіс systemd чи OpenRC. Любите контейнери? Образ є на GHCR. Усі варіанти й наступні кроки описані в"),
     ("install guide", "інструкції зі встановлення"),

@@ -118,9 +118,10 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
         <div class="wrap split">
             <div class="section-head">
                 <p class="eyebrow">Останній реліз</p>
-                <h2 class="display">Що нового в 0.2.0</h2>
+                <h2 class="display">Що нового в 0.2.1</h2>
                 <p class="lead">
-                    Правила для кожного пристрою, а не лише для всієї мережі.
+                    Як з'ясувати, чому не працює застосунок: з панелі або через
+                    AI-асистента.
                 </p>
                 <div class="hero-actions">
                     <a class="button button-ghost" href="/uk/changelog.html"
@@ -130,40 +131,34 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
             </div>
             <div class="points">
                 <div class="point">
-                    <strong>Сервіси й розклад</strong>
+                    <strong>Що зламав блок</strong>
                     <p>
-                        Блокуйте TikTok, Roblox чи YouTube для одного профілю
-                        одним кліком і вмикайте профіль лише на шкільні вечори.
+                        Коли пристрій раз у раз питає ім'я, яке блокує список,
+                        панель каже, який застосунок може не працювати, і
+                        пропонує дозволити це ім'я.
                     </p>
                 </div>
                 <div class="point">
-                    <strong>SafeSearch</strong>
+                    <strong>Спитайте асистента</strong>
                     <p>
-                        Відфільтровані Google, Bing і DuckDuckGo та обмежений
-                        режим YouTube, для всієї мережі чи одного профілю.
+                        Claude чи інший MCP-асистент читає, що запитував
+                        пристрій, знаходить блок, який заважає, і пропонує, як
+                        виправити.
                     </p>
                 </div>
                 <div class="point">
-                    <strong>Шифрований DNS</strong>
+                    <strong>DNS over QUIC</strong>
                     <p>
-                        Телефони й ноутбуки лишаються під вашим фільтром і поза
-                        домом, кожен під власним іменем, а сертифікат ferrite
-                        отримує сам.
-                    </p>
-                </div>
-                <div class="point">
-                    <strong>Переїзд</strong>
-                    <p>
-                        Імпорт з Pi-hole чи AdGuard Home, а другий ferrite може
-                        слідувати за першим.
+                        Для застосунків, що його вміють, як-от AdGuard, під тими
+                        самими іменами пристроїв, що й DNS over TLS.
                     </p>
                 </div>
                 <div class="point">
                     <strong>Перед оновленням</strong>
                     <p>
-                        База переходить на схему v12. Скопіюйте
-                        <code>ferrite.db</code> заздалегідь, якщо можете
-                        захотіти відкотитися.
+                        Нічого переносити не треба. Якщо шифрований DNS
+                        увімкнено, прокиньте ще й UDP 853, щоб DNS over QUIC
+                        працював поза домом.
                     </p>
                 </div>
             </div>

@@ -117,7 +117,7 @@ volumes:
                 <code>aarch64</code>, each with a <code>.sha256</code> next to
                 it:
             </p>
-            <pre><code>VER=v0.2.0; ARCH=$(uname -m)-unknown-linux-musl
+            <pre><code>VER=v0.2.1; ARCH=$(uname -m)-unknown-linux-musl
 BASE=https://github.com/koroblabs/ferrite-server/releases/download/$VER
 curl -fsSLO $BASE/ferrite-$VER-$ARCH.tar.gz
 curl -fsSL  $BASE/ferrite-$VER-$ARCH.tar.gz.sha256 | sha256sum -c -
@@ -331,6 +331,14 @@ youtube_restricted = "moderate"   # off | moderate | strict</code></pre>
                 Tools has the same check for a name you type, along with a DNS
                 lookup through your own upstreams, a DNSSEC check, WHOIS, and
                 certificate and reachability probes.
+            </p>
+            <p>
+                Ferrite also notices when a block seems to break an app. If a
+                device keeps asking for a name a list blocks while it uses the
+                site that name belongs to, Right now on the dashboard says which
+                app may not work on which device. Allow puts the name on the
+                allowlist; Keep blocked stops suggesting it. Your own entries
+                and blocked services are never suggested, since you chose them.
             </p>
 
             <h2 id="pause">Pausing and bypass</h2>
@@ -644,9 +652,10 @@ stale_max_age = 43200   # seconds an expired answer may still be served</code></
             <p>
                 Phones and laptops can ask ferrite over an encrypted connection,
                 at home and away from it. Android's Private DNS speaks DNS over
-                TLS. iPhones, Macs and browsers speak DNS over HTTPS. Each
-                device connects under a name of its own, so it shows up under
-                that name in Clients and keeps its profile wherever it is.
+                TLS. iPhones, Macs and browsers speak DNS over HTTPS, and apps
+                such as AdGuard can use DNS over QUIC. Each device connects
+                under a name of its own, so it shows up under that name in
+                Clients and keeps its profile wherever it is.
             </p>
             <h3>What you need</h3>
             <ul>
@@ -656,7 +665,8 @@ stale_max_age = 43200   # seconds an expired answer may still be served</code></
                     <code>dns.example.com</code>. At home ferrite answers that
                     name with its own address. To use it away from home, point
                     the name and <code>*.dns.example.com</code> at your public
-                    address and forward ports 853 and 443 to the box.
+                    address and forward ports 853 and 443, TCP and UDP, to the
+                    box.
                 </li>
             </ul>
             <h3>Setting it up</h3>
@@ -678,15 +688,17 @@ stale_max_age = 43200   # seconds an expired answer may still be served</code></
                     Network, Private DNS. On an iPhone, iPad or Mac, open the
                     panel on the device and tap Install profile, or point its
                     camera at the device's QR code. A browser takes the DNS over
-                    HTTPS address.
+                    HTTPS address, and an app that speaks DNS over QUIC the
+                    <code>quic://</code> one.
                 </li>
             </ol>
             <p>
                 DNS over HTTPS shares port 443 with Tunnels: connections for the
                 name are answered here and everything else is routed as before.
-                It speaks HTTP/3 as well, on UDP 443. Away from home, only the
-                devices on the list are answered. The name is public, and the
-                box shouldn't be a resolver for anyone who finds it.
+                It speaks HTTP/3 as well, on UDP 443, and DNS over QUIC is on
+                UDP 853. Away from home, only the devices on the list are
+                answered. The name is public, and the box shouldn't be a
+                resolver for anyone who finds it.
             </p>
             <h3>Devices setting themselves up</h3>
             <p>
@@ -709,8 +721,8 @@ stale_max_age = 43200   # seconds an expired answer may still be served</code></
                 in X-Real-IP or the last X-Forwarded-For entry, or in a PROXY
                 protocol header when the proxy passes the connection on whole,
                 as nginx's stream module does with proxy_protocol on. Without
-                that every device looks as if it were at home. DNS over TLS on
-                853 has to reach the box directly.
+                that every device looks as if it were at home. DNS over TLS and
+                DNS over QUIC on 853 have to reach the box directly.
             </p>
             <pre><code>[secure_dns]
 enabled     = true
@@ -718,6 +730,7 @@ hostname    = "dns.example.com"
 certificate = "letsencrypt"   # or "files", with cert_file and key_file
 devices     = ["pixel", "iphone"]
 http3       = true            # DNS over HTTPS over HTTP/3 too, on UDP 443
+doq         = true            # DNS over QUIC too, on UDP 853
 self_setup  = "named"         # "off", "named" or "anyone"
 proxies     = []              # reverse proxies whose word on the client counts
 
@@ -886,10 +899,22 @@ new_device    = true
             <h2 id="mcp">AI assistants</h2>
             <p>
                 <code>/api/mcp</code> lets an assistant that speaks the Model
-                Context Protocol, such as Claude Code, read what ferrite is
-                doing: why a site is blocked, what a device did. It uses the API
-                key and is off by default. Changes (block, allow, pause) need a
-                second switch.
+                Context Protocol, such as Claude Code, look into your network.
+                Ask it why Instagram doesn't work on the kids' tablet: it reads
+                what the tablet asked lately, finds the list, entry, service or
+                profile in the way, or a tunnel that's down, and tells you what
+                would fix it. It also knows the devices and what they did, what
+                seems broken by a block, and how the tunnels and encrypted DNS
+                are doing.
+            </p>
+            <p>
+                It uses the API key and is off by default. A second switch lets
+                it make changes too: block and allow names, pause filtering,
+                block services, move a device into a profile, route a name
+                through a tunnel. It is asked to explain a change and wait for
+                your yes. Two ready-made prompts come with it: why something
+                doesn't work, and a report on the network. Settings, then Access
+                control, has the command that connects Claude Code.
             </p>
             <pre><code>[mcp]
 enabled       = true
@@ -941,6 +966,10 @@ allow_changes = false</code></pre>
                     <tr>
                         <td><code>853</code> TCP</td>
                         <td>DNS over TLS, when encrypted DNS is on</td>
+                    </tr>
+                    <tr>
+                        <td><code>853</code> UDP</td>
+                        <td>DNS over QUIC, when encrypted DNS is on</td>
                     </tr>
                     <tr>
                         <td><code>67</code> UDP</td>
@@ -995,7 +1024,7 @@ allow_changes = false</code></pre>
                     <tr>
                         <td><code>FERRITE_SERVER_VERSION</code></td>
                         <td>
-                            pins the server release, e.g. <code>0.2.0</code>
+                            pins the server release, e.g. <code>0.2.1</code>
                         </td>
                     </tr>
                     <tr>
@@ -1056,7 +1085,9 @@ allow_changes = false</code></pre>
             <h3>A site or app stopped working</h3>
             <p>
                 Find it in the query log, click the blocked name to see what
-                matched, and allow it. To rule ferrite out quickly, pause
+                matched, and allow it. Right now on the dashboard may already
+                name it, with an Allow button, and an assistant connected over
+                MCP can work it out for you. To rule ferrite out quickly, pause
                 filtering for that one device.
             </p>
             <h3>Tunnels are slow on a small board</h3>

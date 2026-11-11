@@ -152,6 +152,25 @@
                     </p>
                 </div>
                 <div class="note">
+                    <strong><code>GET</code> /api/breakage</strong>
+                    <p>
+                        Імена, які блокує список і які пристрій раз у раз питає,
+                        користуючись їхнім сайтом: схоже, блок їх зламав. Разом
+                        з іменами, відкладеними вбік.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>POST</code> /api/breakage/ignore ·
+                        <code>DELETE</code>
+                        /api/breakage/ignore/{domain}</strong
+                    >
+                    <p>
+                        Лишити ім'я заблокованим, не пропонуючи його, або
+                        скасувати це.
+                    </p>
+                </div>
+                <div class="note">
                     <strong><code>GET · POST</code> /api/lists</strong>
                     <p>Переглянути або додати підписку (URL + назва).</p>
                 </div>
@@ -425,9 +444,10 @@
                         <code>GET · PUT</code> /api/settings/mcp</strong
                     >
                     <p>
-                        Model Context Protocol для AI-асистентів, а також чи він
-                        увімкнений і чи може щось змінювати. За замовчуванням
-                        вимкнений.
+                        Model Context Protocol для AI-асистентів (з'ясувати,
+                        чому сайт не працює, пристрої, тунелі, а якщо дозволено,
+                        то й зміни), а також чи він увімкнений і чи може щось
+                        змінювати. За замовчуванням вимкнений.
                     </p>
                 </div>
                 <div class="note">

@@ -145,6 +145,24 @@
                     </p>
                 </div>
                 <div class="note">
+                    <strong><code>GET</code> /api/breakage</strong>
+                    <p>
+                        Names a list blocks that a device keeps asking for while
+                        it uses their site: likely broken by the block. With the
+                        names set aside.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong
+                        ><code>POST</code> /api/breakage/ignore ·
+                        <code>DELETE</code>
+                        /api/breakage/ignore/{domain}</strong
+                    >
+                    <p>
+                        Keep a name blocked without suggesting it, or undo that.
+                    </p>
+                </div>
+                <div class="note">
                     <strong><code>GET · POST</code> /api/lists</strong>
                     <p>List or add a subscription (URL + name).</p>
                 </div>
@@ -413,9 +431,10 @@ rule hits, and process memory.</code></pre>
                         <code>GET · PUT</code> /api/settings/mcp</strong
                     >
                     <p>
-                        The Model Context Protocol endpoint for AI assistants,
-                        and whether it is on and may change things. Off by
-                        default.
+                        The Model Context Protocol endpoint for AI assistants
+                        (diagnose why a site doesn't work, devices, tunnels, and
+                        changes when allowed), and whether it is on and may
+                        change things. Off by default.
                     </p>
                 </div>
                 <div class="note">

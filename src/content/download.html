@@ -116,9 +116,10 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
         <div class="wrap split">
             <div class="section-head">
                 <p class="eyebrow">Latest release</p>
-                <h2 class="display">What's new in 0.2.0</h2>
+                <h2 class="display">What's new in 0.2.1</h2>
                 <p class="lead">
-                    Rules for each device, not only for the network.
+                    Finding out why an app doesn't work, from the dashboard or
+                    from an AI assistant.
                 </p>
                 <div class="hero-actions">
                     <a class="button button-ghost" href="changelog.html"
@@ -128,39 +129,32 @@ sudo cp target/release/ferrite /usr/local/bin/ferrite</code></pre>
             </div>
             <div class="points">
                 <div class="point">
-                    <strong>Services and schedules</strong>
+                    <strong>What a block broke</strong>
                     <p>
-                        Block TikTok, Roblox or YouTube for one profile with a
-                        click, and turn the profile on for school nights only.
+                        When a device keeps asking for a name a list blocks, the
+                        dashboard says which app may not work and offers to
+                        allow it.
                     </p>
                 </div>
                 <div class="point">
-                    <strong>SafeSearch</strong>
+                    <strong>Ask an assistant</strong>
                     <p>
-                        Google, Bing and DuckDuckGo filtered, and YouTube
-                        Restricted Mode, for the whole network or one profile.
+                        Claude or another MCP assistant reads what a device
+                        asked, finds the block in the way and offers the fix.
                     </p>
                 </div>
                 <div class="point">
-                    <strong>Encrypted DNS</strong>
+                    <strong>DNS over QUIC</strong>
                     <p>
-                        Phones and laptops keep your filter away from home, each
-                        under its own name, with a certificate ferrite gets by
-                        itself.
+                        For apps that speak it, such as AdGuard, under the same
+                        device names as DNS over TLS.
                     </p>
                 </div>
                 <div class="point">
-                    <strong>Moving in</strong>
+                    <strong>Upgrading</strong>
                     <p>
-                        Import from Pi-hole or AdGuard Home, and let a second
-                        ferrite follow the first.
-                    </p>
-                </div>
-                <div class="point">
-                    <strong>Before you upgrade</strong>
-                    <p>
-                        The database moves to schema v12. Copy
-                        <code>ferrite.db</code> first if you may roll back.
+                        Nothing to move. With encrypted DNS on, forward UDP 853
+                        too for DNS over QUIC away from home.
                     </p>
                 </div>
             </div>

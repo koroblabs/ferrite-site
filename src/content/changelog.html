@@ -18,6 +18,7 @@
                 >.
             </p>
             <nav class="release-jump" aria-label="Releases">
+                <a href="#v0.2.1">0.2.1</a>
                 <a href="#v0.2.0">0.2.0</a>
                 <a href="#v0.1.10">0.1.10</a>
                 <a href="#v0.1.9">0.1.9</a>
@@ -31,11 +32,103 @@
         </header>
 
         <div class="changelog">
+            <article class="release" id="v0.2.1">
+                <div class="release-meta">
+                    <h2 class="release-version">0.2.1</h2>
+                    <span class="release-badge">Latest</span>
+                    <time datetime="2026-11">November 2026</time>
+                </div>
+                <div class="release-body">
+                    <p class="release-summary">
+                        Finding out why an app doesn't work, from the dashboard
+                        or from an AI assistant.
+                    </p>
+                    <h3 class="tag-new">New</h3>
+                    <ul>
+                        <li>
+                            When a device keeps asking for a name a list blocks
+                            while it uses the site that name belongs to, Right
+                            now on the dashboard says which app may not work on
+                            which device. Allow puts the name on the allowlist;
+                            Keep blocked stops suggesting it. Your own entries
+                            and blocked services are never suggested.
+                        </li>
+                        <li>
+                            Ask an AI assistant why a site doesn't work on a
+                            device: over MCP it reads what the device asked,
+                            finds the list, entry, service, profile or tunnel in
+                            the way and offers the fix.
+                        </li>
+                        <li>
+                            With changes allowed, an assistant can also move a
+                            device into a profile and route a name through a
+                            tunnel. It explains a change and waits for your yes.
+                        </li>
+                        <li>
+                            DNS over QUIC for apps that speak it, such as
+                            AdGuard, on UDP 853 under the same device names as
+                            DNS over TLS.
+                        </li>
+                    </ul>
+                    <h3 class="tag-security">Security</h3>
+                    <ul>
+                        <li>
+                            SQLite 3.54.1 (RUSTSEC-2026-0459): a database opened
+                            together with a crafted write-ahead log could return
+                            stale memory. The risk to ferrite was small: it
+                            opens its own database, and a Pi-hole import without
+                            its log.
+                        </li>
+                    </ul>
+                    <h3 class="tag-improved">Fixes</h3>
+                    <ul>
+                        <li>
+                            Only one ferrite runs per config. A second one,
+                            started by mistake, used to take down the first
+                            one's WireGuard tunnels before giving up.
+                        </li>
+                        <li>
+                            <code>ferrite version</code> prints the version and
+                            <code>ferrite help</code> the commands; a command
+                            ferrite doesn't know is an error instead of starting
+                            a server.
+                        </li>
+                        <li>
+                            A database call that fails badly fails alone; it
+                            used to stop the query log until a restart.
+                        </li>
+                        <li>
+                            The sidebar's update badge keeps clear of the label
+                            in every language, and the panel address card is
+                            translated into Ukrainian.
+                        </li>
+                    </ul>
+                    <div class="release-upgrade">
+                        <strong>Upgrading</strong>
+                        <ul>
+                            <li>
+                                Nothing to move: the database stays at schema
+                                v12.
+                            </li>
+                            <li>
+                                With encrypted DNS on, ferrite now also listens
+                                on UDP 853. Forward it to the box for DNS over
+                                QUIC away from home.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+
             <article class="release" id="v0.2.0">
                 <div class="release-meta">
                     <h2 class="release-version">0.2.0</h2>
-                    <span class="release-badge">Latest</span>
-                    <time datetime="2026-11">November 2026</time>
+                    <time datetime="2026-11-05">5 November 2026</time>
+                    <a
+                        class="link"
+                        href="https://github.com/koroblabs/ferrite-server/releases/tag/v0.2.0"
+                        >On GitHub</a
+                    >
                 </div>
                 <div class="release-body">
                     <p class="release-summary">
